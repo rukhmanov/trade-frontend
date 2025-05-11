@@ -1,0 +1,6 @@
+<ion-icon color="primary" (click)="presentPopover($event)" name="information-circle-outline"></ion-icon>
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content class="ion-padding">{{text}}</ion-content>
+  </ng-template>
+</ion-popover>

@@ -1,0 +1,17 @@
+<div class="map">
+  <div class="map_title">
+    Местопроведения события<app-tooltip-popover
+      text="Эта информация будет видна только участникам события"></app-tooltip-popover>:
+  </div>
+  <div class="map_geodecoder">
+    <app-geodecoder (onCoordinate)="onCoordinate($event)"></app-geodecoder>
+  </div>
+  <div class="map_title">
+    {{mapService.coordinatesTitle$.value}}
+  </div>
+  <div>
+    <app-map (onCoordinate)="onCoordinate($event)"></app-map>
+  </div>
+  <ion-textarea formControlName="mapNote" label="Примечание к месту проведения события:" labelPlacement="floating"
+    placeholder="Вход с торца здания"></ion-textarea>
+</div>

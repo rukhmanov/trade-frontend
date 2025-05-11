@@ -1,0 +1,35 @@
+<div class="container">
+  @if (!(userState.me$ | async)) {
+  <h3>Войдите с</h3>
+  <div class="btn-wrap">
+    <ion-button fill="outline" (click)="loginYandex()">
+      <ion-icon class="login-icon" src="assets/icons/ya.svg"></ion-icon>
+      <ion-text>Яндекс</ion-text></ion-button
+    >
+  </div>
+  <div class="btn-wrap">
+    <ion-button fill="outline" (click)="loginGoogle()">
+      <ion-icon class="login-icon" src="assets/icons/google.svg"></ion-icon>
+      <ion-text>Google</ion-text></ion-button
+    >
+  </div>
+  }@else {
+  <ion-chip class="login__container">
+    <ion-avatar>
+      <img
+        alt="avatar"
+        [src]="`https://avatars.yandex.net/get-yapic/${(userState.me$ | async)?.avatarId}/islands-200`"
+      />
+    </ion-avatar>
+    <ion-label class="login__name">{{
+      (userState.me$ | async)?.fullName
+    }}</ion-label>
+    <div class="btn-wrap">
+      <ion-button fill="outline" (click)="authService.logout()">
+        <ion-text>Выйти</ion-text>
+        <ion-icon name="log-out-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-chip>
+  }
+</div>

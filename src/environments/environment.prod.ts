@@ -1,0 +1,15 @@
+export const environment = {
+  production: true,
+  // base: 'http://localhost:3000/',
+  base: 'https://rukhman-ionic-zufall-backand-9c9d.twc1.net/',
+  yandexClientId: '14e2cce0ee3743fe8f1e0da062f95200',
+  firebase: {
+    apiKey: 'AIzaSyAuFPfS2wD0tKQIJW7LIp902EqZ5uRaLfE',
+    authDomain: 'parsifal-4d5d9.firebaseapp.com',
+    projectId: 'parsifal-4d5d9',
+    storageBucket: 'parsifal-4d5d9.firebasestorage.app',
+    messagingSenderId: '699766283404',
+    appId: '1:699766283404:web:59b7dc4a721cd9653bafa9',
+    measurementId: 'G-X5Y2J5SMEF',
+  },
+};

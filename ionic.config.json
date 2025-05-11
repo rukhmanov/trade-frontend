@@ -1,0 +1,7 @@
+{
+  "name": "parsifal",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

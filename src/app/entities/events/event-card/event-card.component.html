@@ -1,0 +1,10 @@
+<ion-card (click)="navigate()">
+  <ion-card-header>
+    <ion-card-title> {{ event?.city }}</ion-card-title>
+    <ion-card-subtitle> {{ event?.name }}</ion-card-subtitle>
+  </ion-card-header>
+
+  <ion-card-content>
+    {{ event?.description }}
+  </ion-card-content>
+</ion-card>

@@ -1,0 +1,23 @@
+<ion-tabs>
+  <ion-progress-bar
+    *ngIf="commonStateService.pending$ | async"
+    type="indeterminate"
+  ></ion-progress-bar>
+
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="all-events" href="/tabs/all-events">
+      <ion-icon aria-hidden="true" name="file-tray-stacked-outline"></ion-icon>
+      <ion-label>Все события</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="my-events" href="/tabs/my-events">
+      <ion-icon aria-hidden="true" name="file-tray-full-outline"></ion-icon>
+      <ion-label>Мои события</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings" href="/tabs/settings">
+      <ion-icon aria-hidden="true" name="cog-outline"></ion-icon>
+      <ion-label>Настройки</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

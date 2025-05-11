@@ -1,0 +1,99 @@
+ion-item {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  ion-toggle {
+    margin-left: auto !important;
+  }
+}
+
+.button_group {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+ion-toolbar {
+  display: flex;
+  ion-toggle {
+    margin-left: auto;
+  }
+}
+
+.additional_options {
+  width: 100%;
+}
+
+.age_item {
+  ion-input {
+    width: 30%;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}
+
+.date_item {
+  div {
+    div {
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.add_things {
+  display: flex;
+  margin-top: 10px;
+}
+
+.every-checkbox {
+  width: 113px;
+  margin-right: 10px;
+  // transform: translateY(5px);
+}
+
+.place {
+  padding: 1vh 2vw;
+  .map_title {
+    margin: 10px 0;
+  }
+}
+
+.event-block {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  & > * {
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+}
+
+.image-preview {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.load_photo-button {
+  width: 100%;
+  ion-button {
+    width: 100%;
+    ion-label {
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+  }
+}
+
+.map {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 100%;
+  .map_geodecoder {
+    margin-bottom: 10px;
+  }
+  & > * {
+    margin-bottom: 10px;
+  }
+}
+
+.additional {
+  margin-bottom: 30px;
+}
