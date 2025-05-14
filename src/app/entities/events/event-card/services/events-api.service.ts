@@ -14,20 +14,16 @@ export class EventsApiService {
     private eventStateService: EventStateService
   ) {}
 
-  getAllEvents(): Observable<any> {
+  getAll(): Observable<any> {
     return this.http
-      .get<any>(environment.base + 'events')
-      .pipe(
-        tap((allEvents) => this.eventStateService.allEvents$.next(allEvents))
-      );
+      .get<any>(environment.base + 'products/')
+      .pipe(tap((all) => this.eventStateService.all$.next(all)));
   }
 
   getMyEvents(): Observable<any> {
     return this.http
       .get<any>(this.baseUrl + 'events/my')
-      .pipe(
-        tap((allEvents) => this.eventStateService.myEvents$.next(allEvents))
-      );
+      .pipe(tap((all) => this.eventStateService.myEvents$.next(all)));
   }
 
   getEventById(id: number | string): Observable<any> {
@@ -37,8 +33,6 @@ export class EventsApiService {
   getEventsWithMe(): Observable<any> {
     return this.http
       .get<any>(this.baseUrl + 'events/withMe')
-      .pipe(
-        tap((allEvents) => this.eventStateService.eventsWithMe$.next(allEvents))
-      );
+      .pipe(tap((all) => this.eventStateService.eventsWithMe$.next(all)));
   }
 }

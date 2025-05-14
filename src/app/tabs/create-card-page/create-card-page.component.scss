@@ -1,0 +1,7 @@
+.button-container {
+  display: flex; // Используем flexbox
+  z-index: 1000;
+  padding: 30px;
+  justify-content: space-between; // Кнопки на одном уровне, разделены равным пространством
+  max-width: 350px;
+}

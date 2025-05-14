@@ -1,0 +1,25 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="ion-title-small">
+      <ion-title><span class="title">Товары </span> </ion-title>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        <div class="ion-title">
+          <span class="title">
+            Товары
+          </span>
+        </div>
+      </ion-title>
+
+    </ion-toolbar>
+  </ion-header>
+  <div *ngFor="let event of eventStateService.all$ | async">
+    <app-event-card [event]="event"></app-event-card>
+  </div>
+</ion-content>

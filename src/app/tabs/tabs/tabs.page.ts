@@ -13,9 +13,10 @@ import {
   triangle,
   ellipse,
   square,
-  fileTrayStackedOutline,
-  fileTrayFullOutline,
+  cart,
+  search,
   cogOutline,
+  addCircle,
   logOutOutline,
 } from 'ionicons/icons';
 import { CommonStateService } from 'src/app/state/common-state.service';
@@ -43,8 +44,9 @@ export class TabsPage {
       logOutOutline,
       ellipse,
       square,
-      fileTrayStackedOutline,
-      fileTrayFullOutline,
+      cart,
+      addCircle,
+      search,
       cogOutline,
     });
   }

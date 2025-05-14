@@ -86,7 +86,7 @@ export class AuthService {
         tap(({ jwt }) => {
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
-          this.router.navigate(['tabs', 'all-events']);
+          this.router.navigate(['tabs', 'all']);
         })
       )
       .subscribe();

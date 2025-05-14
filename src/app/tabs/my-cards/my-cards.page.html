@@ -1,0 +1,30 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      <div class="ion-title-small">
+        <span class="title">Мои товары и услуги</span>
+      </div>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">
+        <div class="ion-title">
+          <span class="title">Мои товары и услуги</span>
+        </div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="create-block">
+    <ion-select class="select-product" value="product" placeholder="Выберете">
+      <ion-select-option [value]="'product'">Товар</ion-select-option>
+    </ion-select>
+    <ion-button (click)="create()">
+      <ion-text>Создать</ion-text>
+    </ion-button>
+  </div>
+</ion-content>

@@ -26,7 +26,7 @@ export class RemoteLoginTargetComponent {
         .subscribe((data: IUser | any) => {
           userState.token$.next(data.data);
           userState.me$.next(jwtDecode(data.data));
-          this.router.navigate(['tabs', 'all-events']);
+          this.router.navigate(['tabs', 'all']);
         });
     }
   }

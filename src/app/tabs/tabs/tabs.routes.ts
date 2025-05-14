@@ -9,41 +9,43 @@ export const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'all-events',
+        path: 'all',
         children: [
           {
             path: '',
             loadComponent: () =>
-              import('../all-events/all-events.page').then(
-                (m) => m.AllEventsPage
-              ),
+              import('../all/all.page').then((m) => m.AllPage),
           },
           {
             path: ':id',
             loadComponent: () =>
-              import('../../pages/event-page/event-page.component').then(
-                (c) => c.EventPageComponent
+              import('../../pages/card-page/card-page.component').then(
+                (c) => c.CardPageComponent
               ),
           },
         ],
       },
-
       {
-        path: 'my-events',
+        path: 'cart',
         children: [
           {
             path: '',
             loadComponent: () =>
-              import('../my-events/my-events.page').then((c) => c.MyEventsPage),
+              import('../cart/cart.page').then((c) => c.CartPage),
           },
           {
             path: ':id',
             loadComponent: () =>
-              import('../../pages/event-page/event-page.component').then(
-                (c) => c.EventPageComponent
+              import('../../pages/card-page/card-page.component').then(
+                (c) => c.CardPageComponent
               ),
           },
         ],
+      },
+      {
+        path: 'my-cards',
+        loadComponent: () =>
+          import('../my-cards/my-cards.page').then((c) => c.MyCardsPage),
       },
       {
         path: 'settings',
@@ -52,14 +54,14 @@ export const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/all-events',
+        redirectTo: '/tabs/all',
         pathMatch: 'full',
       },
     ],
   },
   {
     path: '',
-    redirectTo: tokenFromStorageExists ? '/tabs/all-events' : '/tabs/settings',
+    redirectTo: tokenFromStorageExists ? '/tabs/all' : '/tabs/settings',
     pathMatch: 'full',
   },
 ];

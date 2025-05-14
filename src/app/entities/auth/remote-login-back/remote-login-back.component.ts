@@ -39,7 +39,7 @@ export class RemoteLoginBackComponent {
         }
         localStorage.removeItem('platform');
         localStorage.removeItem('service');
-        this.router.navigate(['tabs', 'all-events']);
+        this.router.navigate(['tabs', 'all']);
       });
   }
 }

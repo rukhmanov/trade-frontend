@@ -1,18 +1,20 @@
 <ion-tabs>
-  <ion-progress-bar
-    *ngIf="commonStateService.pending$ | async"
-    type="indeterminate"
-  ></ion-progress-bar>
+  <ion-progress-bar *ngIf="commonStateService.pending$ | async" type="indeterminate"></ion-progress-bar>
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="all-events" href="/tabs/all-events">
-      <ion-icon aria-hidden="true" name="file-tray-stacked-outline"></ion-icon>
-      <ion-label>Все события</ion-label>
+    <ion-tab-button tab="all" href="/tabs/all">
+      <ion-icon aria-hidden="true" name="search"></ion-icon>
+      <ion-label>Товары</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="my-events" href="/tabs/my-events">
-      <ion-icon aria-hidden="true" name="file-tray-full-outline"></ion-icon>
-      <ion-label>Мои события</ion-label>
+    <ion-tab-button tab="my-cards" href="/my-cards">
+      <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
+      <ion-label>Создать</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="cart" href="/tabs/cart">
+      <ion-icon aria-hidden="true" name="cart"></ion-icon>
+      <ion-label>Корзина</ion-label>
     </ion-tab-button>
 
     <ion-tab-button tab="settings" href="/tabs/settings">

@@ -38,8 +38,6 @@ import {
   tap,
 } from 'rxjs';
 import { Gender } from 'src/app/entities/auth/types';
-import { GeodecoderComponent } from 'src/app/entities/custom-map/geodecoder/geodecoder.component';
-import { MapComponent } from 'src/app/entities/custom-map/map/map.component';
 // import { YandexMapComponent } from 'src/app/entities/yandex-map/yandex-map.component';
 import { addIcons } from 'ionicons';
 import { close, pin, informationCircleOutline } from 'ionicons/icons';
@@ -47,13 +45,12 @@ import { ImageGalleryComponent } from 'src/app/entities/image-preview/image-gall
 import { MoneyFormatDirective } from '../../directives/money.directive';
 import { TooltipPopoverComponent } from '../../entities/popup/popup.component';
 import { ErrorTextPipe } from '../../pipes/error-text.pipe';
-import { EventViewComponent } from 'src/app/entities/event-view/event-view.component';
 import { CustomMapComponent } from 'src/app/entities/custom-map/custom-map.component';
 
 @Component({
-  selector: 'app-create-event-page',
-  templateUrl: './create-event-page.component.html',
-  styleUrls: ['./create-event-page.component.scss'],
+  selector: 'app-create-card-page',
+  templateUrl: './create-card-page.component.html',
+  styleUrls: ['./create-card-page.component.scss'],
   imports: [
     IonRange,
     IonCheckbox,
@@ -81,13 +78,11 @@ import { CustomMapComponent } from 'src/app/entities/custom-map/custom-map.compo
     MoneyFormatDirective,
     TooltipPopoverComponent,
     ErrorTextPipe,
-    MapComponent,
-    EventViewComponent,
     CustomMapComponent,
     // YandexMapComponent,
   ],
 })
-export class CreateEventPageComponent implements OnInit, OnDestroy {
+export class CreateCardPageComponent implements OnInit, OnDestroy {
   gender = Gender;
   destroy$ = new Subject();
   today = new Date().toJSON().split('T')[0];

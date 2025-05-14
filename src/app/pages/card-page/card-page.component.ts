@@ -10,18 +10,15 @@ import {
   IonCardContent,
   IonToolbar,
   IonHeader,
-  IonTitle,
-  IonButton,
   IonContent,
 } from '@ionic/angular/standalone';
-import { of } from 'rxjs';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { EventsApiService } from 'src/app/entities/events/event-card/services/events-api.service';
 
 @Component({
-  selector: 'app-event-page',
-  templateUrl: './event-page.component.html',
-  styleUrls: ['./event-page.component.scss'],
+  selector: 'app-card-page',
+  templateUrl: './card-page.component.html',
+  styleUrls: ['./card-page.component.scss'],
   imports: [
     IonContent,
     IonHeader,
@@ -35,7 +32,7 @@ import { EventsApiService } from 'src/app/entities/events/event-card/services/ev
     BackButtonComponent,
   ],
 })
-export class EventPageComponent implements OnInit {
+export class CardPageComponent implements OnInit {
   event: any = null;
   constructor(
     private route: ActivatedRoute,

@@ -1,0 +1,18 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Подтверждение</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <p>{{ message }}</p>
+  <p *ngIf="productName">Название товара: <strong>{{ productName }}</strong></p>
+  <ion-row>
+    <ion-col>
+      <ion-button expand="full" (click)="confirm()">Да</ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button expand="full" (click)="cancel()">Нет</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

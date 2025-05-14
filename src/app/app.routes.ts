@@ -3,12 +3,11 @@ import { AuthComponent } from './entities/auth/auth.component';
 import { RemoteLoginComponent } from './entities/auth/remote-login/remote-login.component';
 import { RemoteLoginBackComponent } from './entities/auth/remote-login-back/remote-login-back.component';
 import { RemoteLoginTargetComponent } from './entities/auth/remote-login-target/remote-login-target.component';
-import { CreateEventPageComponent } from './pages/create-event-page/create-event-page.component';
+import { CreateCardPageComponent } from './tabs/create-card-page/create-card-page.component';
 
 export const routes: Routes = [
   {
     path: '',
-    // pathMatch: 'full',
     loadChildren: () => import('./tabs/tabs/tabs.routes').then((m) => m.routes),
   },
   {
@@ -32,8 +31,8 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'create-event',
-    component: CreateEventPageComponent,
+    path: 'create-card',
+    component: CreateCardPageComponent,
     pathMatch: 'full',
   },
   {

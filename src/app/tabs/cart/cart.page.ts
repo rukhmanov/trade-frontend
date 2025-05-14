@@ -5,15 +5,16 @@ import {
   IonTitle,
   IonContent,
 } from '@ionic/angular/standalone';
+
 import { EventCardComponent } from '../../entities/events/event-card/event-card.component';
 import { EventsApiService } from '../../entities/events/event-card/services/events-api.service';
-import { CommonModule } from '@angular/common';
 import { EventStateService } from '../../state/event-state.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-all-events',
-  templateUrl: 'all-events.page.html',
-  styleUrls: ['all-events.page.scss'],
+  selector: 'app-cart',
+  templateUrl: 'cart.page.html',
+  styleUrls: ['cart.page.scss'],
   imports: [
     IonHeader,
     IonToolbar,
@@ -23,15 +24,18 @@ import { EventStateService } from '../../state/event-state.service';
     CommonModule,
   ],
 })
-export class AllEventsPage implements OnInit {
+export class CartPage implements OnInit {
   constructor(
     private eventsApiService: EventsApiService,
     public eventStateService: EventStateService
   ) {}
 
   ngOnInit(): void {
-    if (!this.eventStateService.allEvents$.value) {
-      this.eventsApiService.getAllEvents().subscribe();
+    if (!this.eventStateService.myEvents$.value) {
+      this.eventsApiService.getMyEvents().subscribe();
+    }
+    if (!this.eventStateService.eventsWithMe$.value) {
+      this.eventsApiService.getEventsWithMe().subscribe();
     }
   }
 }

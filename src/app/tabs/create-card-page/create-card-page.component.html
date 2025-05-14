@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Новая карточка</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <form [formGroup]="productForm">
+    <ion-item>
+      <ion-label position="stacked">Название товара</ion-label>
+      <ion-input formControlName="name" type="text" placeholder="Введите название товара"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Описание товара</ion-label>
+      <ion-textarea formControlName="description" placeholder="Введите описание товара"></ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Валюта</ion-label>
+      <ion-select formControlName="currency" placeholder="Выберите валюту" required>
+        <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+          {{ currency }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Цена</ion-label>
+      <ion-input appMoneyFormat formControlName="price" placeholder="Введите цену"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Количество</ion-label>
+      <ion-input formControlName="quantity" type="number" placeholder="Введите количество"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">Вес одной штуки (кг)</ion-label>
+      <ion-input formControlName="weight" type="number" placeholder="Введите вес"></ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <div>
+        <ion-label position="stacked">Изображения</ion-label>
+        <div class="load_photo-button">
+          <div class="image-preview">
+            <app-image-gallery [images]="images"></app-image-gallery>
+          </div>
+          <ion-button (click)="fileInput.click()">
+            <ion-label>Загрузить фото</ion-label>
+          </ion-button>
+          <input formControlName="photos" class="ion-hide" (change)="changePhotos($event)" #fileInput type="file"
+            id="file-input" accept="image/png, image/jpeg">
+        </div>
+      </div>
+
+    </ion-item>
+
+    <div class="button-container"> <!-- Новый контейнер для кнопок -->
+      <ion-button id="open-action-sheet-save" type="submit" [disabled]="productForm.invalid">Сохранить</ion-button>
+      <ion-button (click)="setOpenCancel(true)" id="open-action-sheet-cancel">Отмена</ion-button>
+    </div>
+  </form>
+</ion-content>
+
+<ion-action-sheet [isOpen]="isActionSheetCancelOpen" (didDismiss)="setOpenCancel(false)"
+  (ionActionSheetDidDismiss)="action($event)" header="Отменить изменения?"
+  [buttons]="actionSheetButtonsCancel"></ion-action-sheet>
+
+<ion-action-sheet (ionActionSheetDidDismiss)="action($event)" [isOpen]="isActionSheetSaveOpen"
+  trigger="open-action-sheet-save" header="Сохранить?" [buttons]="actionSheetButtonsSave"></ion-action-sheet>

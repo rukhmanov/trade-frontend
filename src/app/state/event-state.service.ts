@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root',
 })
 export class EventStateService {
-  allEvents$ = new BehaviorSubject(null);
+  all$ = new BehaviorSubject(null);
   myEvents$ = new BehaviorSubject(null);
   eventsWithMe$ = new BehaviorSubject(null);
   constructor() {}
