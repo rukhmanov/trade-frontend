@@ -4,9 +4,12 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonGrid,
+  IonCol,
+  IonRow,
 } from '@ionic/angular/standalone';
-import { EventCardComponent } from '../../entities/events/event-card/event-card.component';
-import { EventsApiService } from '../../entities/events/event-card/services/events-api.service';
+import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
+import { ProductsApiService } from '../../entities/cards/compact-card/services/cards-api.service';
 import { CommonModule } from '@angular/common';
 import { EventStateService } from '../../state/event-state.service';
 import { Router } from '@angular/router';
@@ -16,24 +19,27 @@ import { Router } from '@angular/router';
   templateUrl: 'all.page.html',
   styleUrls: ['all.page.scss'],
   imports: [
+    IonRow,
+    IonCol,
+    IonGrid,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    EventCardComponent,
+    CompactCardComponent,
     CommonModule,
   ],
 })
 export class AllPage implements OnInit {
   constructor(
-    private eventsApiService: EventsApiService,
-    public eventStateService: EventStateService,
+    private productsApiService: ProductsApiService,
+    public dataStateService: EventStateService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if (!this.eventStateService.all$.value) {
-      this.eventsApiService.getAll().subscribe();
+    if (!this.dataStateService.all$.value) {
+      this.productsApiService.getAll().subscribe();
     }
   }
 

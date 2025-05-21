@@ -25,6 +25,9 @@ import { ImageGalleryComponent } from 'src/app/entities/image-preview/image-gall
 import { Router } from '@angular/router';
 import { MoneyFormatDirective } from 'src/app/directives/money.directive';
 import { CreateCardPageApiService } from './services/create-card-page.service';
+import { BehaviorSubject, concatMap, mergeMap, of } from 'rxjs';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { CommonStateService } from 'src/app/state/common-state.service';
 
 @Component({
   selector: 'app-create-card-page',
@@ -37,8 +40,8 @@ import { CreateCardPageApiService } from './services/create-card-page.service';
     IonInput,
     IonContent,
     IonLabel,
-    IonTitle,
     IonItem,
+    IonTitle,
     IonHeader,
     IonToolbar,
     IonSelectOption,
@@ -53,7 +56,7 @@ import { CreateCardPageApiService } from './services/create-card-page.service';
 export class CreateCardPageComponent implements OnInit {
   productForm!: FormGroup; // Формуляр продукта
   currencies: string[] = ['Рубль', 'Риал', 'Доллар', 'Евро']; // Возможные валюты
-  images: any[] = [];
+  imageFiles$ = new BehaviorSubject<File[] | any>([]);
   isActionSheetCancelOpen = false;
   isActionSheetSaveOpen = false;
 
@@ -90,7 +93,9 @@ export class CreateCardPageComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private createCardPageApiService: CreateCardPageApiService
+    private createCardPageApiService: CreateCardPageApiService,
+    private productsApiService: ProductsApiService,
+    public commonStateService: CommonStateService
   ) {}
 
   ngOnInit(): void {
@@ -104,20 +109,11 @@ export class CreateCardPageComponent implements OnInit {
       currency: ['', Validators.required], // Валюта
       photos: null,
     });
-    this,
-      this.productForm.controls['photos'].valueChanges.subscribe((value) => {
-        console.log(value);
-        console.log(this.images);
-      });
   }
 
-  changePhotos(value: any) {
-    const file = value.target.files[0];
-    const reader = new FileReader();
-    reader.onloadend = (e) => {
-      this.images.push(reader.result);
-    };
-    reader.readAsDataURL(file);
+  changePhotos(event: any) {
+    const file: File = event.target.files[0];
+    this.imageFiles$.next([...this.imageFiles$.value, file]);
   }
 
   setOpenCancel(isOpen: boolean) {
@@ -136,18 +132,35 @@ export class CreateCardPageComponent implements OnInit {
         this.router.navigate(['tabs', 'my-cards']);
         break;
       case 'save':
-        this.createCardPageApiService
-          .loadImages(this.productForm.getRawValue().photos)
-          .subscribe();
-        // return;
-        // this.createCardPageApiService
-        //   .createProduct({
-        //     ...this.productForm.getRawValue(),
-        //     photos: this.images,
-        //   })
-        //   .subscribe(() => {
-        //     this.router.navigate(['tabs', 'my-cards']);
-        //   });
+        this.commonStateService.pending$.next(true);
+        this.productForm.disable();
+        let upload$ = of([]);
+        if (this.imageFiles$.value.length) {
+          upload$ = this.createCardPageApiService.loadImages(
+            this.imageFiles$.value
+          );
+        }
+        upload$
+          .pipe(
+            mergeMap((images: any[] = []) => {
+              const photos = images.map((image) => image.key);
+              return this.createCardPageApiService.createProduct({
+                ...this.productForm.getRawValue(),
+                photos,
+              });
+            }),
+            concatMap(() => this.productsApiService.getAll())
+          )
+          .subscribe(
+            () => {
+              this.router.navigate(['tabs', 'my-cards']);
+            },
+            () => {},
+            () => {
+              this.commonStateService.pending$.next(false);
+              this.productForm.enable();
+            }
+          );
         break;
     }
   }

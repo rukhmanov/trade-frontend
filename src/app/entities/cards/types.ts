@@ -5,5 +5,6 @@ export interface IEvent {
   city: string;
   createDate: string;
   updateDate: string;
+  price: string;
   photos: string[];
 }

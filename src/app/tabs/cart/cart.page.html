@@ -17,7 +17,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <div *ngFor="let event of eventStateService.myEvents$ | async">
-    <app-event-card [event]="event"></app-event-card>
+  <div *ngFor="let data of eventStateService.myEvents$ | async">
+    <app-compact-card [data]="data"></app-compact-card>
   </div>
 </ion-content>

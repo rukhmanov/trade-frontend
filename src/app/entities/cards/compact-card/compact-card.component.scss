@@ -1,4 +1,4 @@
-.card {
+.compact-card {
   display: flex;
   margin: 0px;
   flex-direction: column; // Make sure content stacks vertically
@@ -26,23 +26,30 @@
     padding: 8px; // Adjust padding as needed
   }
 
+  .description {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 1; // Show a max of 2 lines
+    text-overflow: ellipsis;
+    margin-top: 4px;
+    // min-height: 33px;
+  }
+
+  .name {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
   .price {
     font-weight: bold; // Make price stand out
     color: rgb(255, 0, 119);
-    padding: 25px 20px 5px 15px;
   }
 
   .buy-button {
     margin-top: auto; // Push the button to the bottom of the card
     border-radius: 8px;
-  }
-
-  .name {
-    margin-top: 0;
-  }
-
-  .description {
-    color: #f2f2f2;
   }
 
   ion-card-title {

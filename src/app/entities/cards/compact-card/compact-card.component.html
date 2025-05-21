@@ -1,0 +1,26 @@
+<ion-card class="compact-card" (click)="navigate()">
+  <div class="heart-button">
+    <ion-button size="small" (click)="like($event)" fill="clear" color="primary">
+      <ion-icon class="heart-icon" [class.liked]="false" name="heart"></ion-icon>
+    </ion-button>
+  </div>
+  <img class="image" [src]="data?.photos?.length ? s3 + data?.photos?.[0] : 'assets/images/card-image.png'"
+    alt="Image" />
+  <ion-card-header>
+    <div class="price" color="danger">{{ data?.price }}₽</div>
+  </ion-card-header>
+  <ion-card-content class="content">
+    <ion-card-title>
+      <div class="name">{{ data?.name }}</div>
+    </ion-card-title>
+    <ion-card-subtitle class="city">{{ data?.city }}</ion-card-subtitle>
+
+    <div class="description">{{ data?.description }}</div>
+  </ion-card-content>
+
+  <div class="buy-button">
+    <ion-button (click)="buy($event)" expand="full" color="warning">
+      <ion-icon name="cart"></ion-icon> Купить
+    </ion-button>
+  </div>
+</ion-card>

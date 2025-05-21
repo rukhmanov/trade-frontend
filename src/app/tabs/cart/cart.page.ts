@@ -6,8 +6,7 @@ import {
   IonContent,
 } from '@ionic/angular/standalone';
 
-import { EventCardComponent } from '../../entities/events/event-card/event-card.component';
-import { EventsApiService } from '../../entities/events/event-card/services/events-api.service';
+import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { EventStateService } from '../../state/event-state.service';
 import { CommonModule } from '@angular/common';
 
@@ -20,22 +19,19 @@ import { CommonModule } from '@angular/common';
     IonToolbar,
     IonTitle,
     IonContent,
-    EventCardComponent,
+    CompactCardComponent,
     CommonModule,
   ],
 })
 export class CartPage implements OnInit {
-  constructor(
-    private eventsApiService: EventsApiService,
-    public eventStateService: EventStateService
-  ) {}
+  constructor(public eventStateService: EventStateService) {}
 
   ngOnInit(): void {
-    if (!this.eventStateService.myEvents$.value) {
-      this.eventsApiService.getMyEvents().subscribe();
-    }
-    if (!this.eventStateService.eventsWithMe$.value) {
-      this.eventsApiService.getEventsWithMe().subscribe();
-    }
+    // if (!this.eventStateService.myEvents$.value) {
+    //   this.eventsApiService.getMyEvents().subscribe();
+    // }
+    // if (!this.eventStateService.eventsWithMe$.value) {
+    //   this.eventsApiService.getEventsWithMe().subscribe();
+    // }
   }
 }

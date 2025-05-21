@@ -1,5 +1,5 @@
 import { Injectable, signal, WritableSignal } from '@angular/core';
-import { IEvent } from '../entities/events/types';
+import { IEvent } from '../entities/cards/types';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({

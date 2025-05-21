@@ -46,7 +46,7 @@
         <ion-label position="stacked">Изображения</ion-label>
         <div class="load_photo-button">
           <div class="image-preview">
-            <app-image-gallery [images]="images"></app-image-gallery>
+            <app-image-gallery [imageFiles]="imageFiles$ | async"></app-image-gallery>
           </div>
           <ion-button (click)="fileInput.click()">
             <ion-label>Загрузить фото</ion-label>

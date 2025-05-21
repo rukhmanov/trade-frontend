@@ -3,17 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import {
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonCardSubtitle,
-  IonCardContent,
   IonToolbar,
   IonHeader,
+  IonButton,
+  IonIcon,
   IonContent,
 } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
-import { EventsApiService } from 'src/app/entities/events/event-card/services/events-api.service';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { ImageGalleryComponent } from 'src/app/entities/image-preview/image-gallery.component';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-card-page',
@@ -21,32 +20,46 @@ import { EventsApiService } from 'src/app/entities/events/event-card/services/ev
   styleUrls: ['./card-page.component.scss'],
   imports: [
     IonContent,
+    IonIcon,
+    IonButton,
     IonHeader,
     IonToolbar,
     CommonModule,
-    IonCardContent,
-    IonCardSubtitle,
-    IonCardTitle,
-    IonCardHeader,
-    IonCard,
     BackButtonComponent,
+    ImageGalleryComponent,
   ],
 })
 export class CardPageComponent implements OnInit {
-  event: any = null;
+  data: any = null;
+  images = ['assets/images/card-image.png'];
+  s3 = environment.s3;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private eventsApiService: EventsApiService
+    private productsApiService: ProductsApiService
   ) {}
 
   ngOnInit() {
     const id = this.route.snapshot?.paramMap?.get('id');
     if (id) {
-      this.eventsApiService.getEventById(id).subscribe({
-        next: (event) => (this.event = event),
+      this.productsApiService.getCardById(id).subscribe({
+        next: (data) => {
+          console.log('event ==> ', data);
+          this.data = data;
+        },
         error: (error) => this.router.navigate(['/']),
       });
     }
+  }
+
+  like(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+
+  buy(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
   }
 }

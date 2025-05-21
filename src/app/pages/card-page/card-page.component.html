@@ -3,17 +3,28 @@
     <app-back-button></app-back-button>
   </ion-toolbar>
 </ion-header>
+<div class="card">
+  <div class="heart-button">
+    <ion-button size="small" (click)="like($event)" fill="clear" color="primary">
+      <ion-icon class="heart-icon" [class.liked]="false" name="heart"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- <app-image-gallery [imageFiles]="images"></app-image-gallery> -->
+  <!-- <img class="image" [src]="data?.photos?.length ? s3 + data?.photos?.[0] : 'assets/images/card-image.png'"
+    alt="Image" /> -->
+  <div class="price" color="danger">{{ data?.price }}₽</div>
+  <ion-content class="ion-padding">
+    <!-- <ion-title> -->
+    <h4 class="name">{{ data?.name }}</h4>
+    <!-- </ion-title> -->
+    <p class="description">{{ data?.description }}{{ data?.description }}{{ data?.description }}{{ data?.description
+      }}{{
+      data?.description }}{{ data?.description }}{{ data?.description }}</p>
+  </ion-content>
 
-<ion-content class="ion-padding" [fullscreen]="true">
-  <ion-card *ngIf="event">
-    <img alt="Image" src="assets/images/card-image.png" />
-    <ion-card-header>
-      <ion-card-title>{{ event?.city }}</ion-card-title>
-      <ion-card-subtitle>{{ event?.name }}</ion-card-subtitle>
-    </ion-card-header>
-
-    <ion-card-content>
-      {{ event?.description }}
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+  <div class="buy-button">
+    <ion-button (click)="buy($event)" expand="full" color="warning">
+      <ion-icon name="cart"></ion-icon> Купить
+    </ion-button>
+  </div>
+</div>

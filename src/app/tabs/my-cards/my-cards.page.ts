@@ -8,13 +8,12 @@ import {
   IonSelectOption,
   IonButton,
   IonText,
-  IonIcon,
 } from '@ionic/angular/standalone';
 
-import { EventsApiService } from '../../entities/events/event-card/services/events-api.service';
 import { EventStateService } from '../../state/event-state.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 
 @Component({
   selector: 'app-my-cards',
@@ -34,17 +33,17 @@ import { Router } from '@angular/router';
 })
 export class MyCardsPage implements OnInit {
   constructor(
-    private eventsApiService: EventsApiService,
+    private productsApiService: ProductsApiService,
     private eventStateService: EventStateService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     if (!this.eventStateService.myEvents$.value) {
-      this.eventsApiService.getMyEvents().subscribe();
+      this.productsApiService.getMyEvents().subscribe();
     }
     if (!this.eventStateService.eventsWithMe$.value) {
-      this.eventsApiService.getEventsWithMe().subscribe();
+      this.productsApiService.getEventsWithMe().subscribe();
     }
   }
 

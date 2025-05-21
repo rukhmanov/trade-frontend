@@ -15,7 +15,12 @@ import {
   imports: [IonIcon, IonContent, IonModal, CommonModule],
 })
 export class ImageGalleryComponent {
-  @Input() images: string[] = [];
+  images: string[] = [];
+  @Input() set imageFiles(files: File[]) {
+    if (!files?.length) return;
+    this.changePhotos(structuredClone(files));
+  }
+
   isModalOpen = false;
   currentIndex = 0;
 
@@ -44,5 +49,18 @@ export class ImageGalleryComponent {
   swipeRight(): void {
     this.currentIndex =
       (this.currentIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  changePhotos(files: File[]) {
+    this.images = [];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      this.images.push(reader.result as string);
+      files.shift();
+      if (files.length) {
+        reader.readAsDataURL(files[0]);
+      }
+    };
+    reader.readAsDataURL(files[0]);
   }
 }

@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class EventsApiService {
+export class ProductsApiService {
   baseUrl = environment.base;
   constructor(
     private http: HttpClient,
@@ -26,8 +26,8 @@ export class EventsApiService {
       .pipe(tap((all) => this.eventStateService.myEvents$.next(all)));
   }
 
-  getEventById(id: number | string): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'events/' + id);
+  getCardById(id: number | string): Observable<any> {
+    return this.http.get<any>(this.baseUrl + 'products/' + id);
   }
 
   getEventsWithMe(): Observable<any> {
