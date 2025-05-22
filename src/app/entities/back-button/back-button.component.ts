@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { IonButton, IonIcon } from '@ionic/angular/standalone';
 import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { CommonStateService } from 'src/app/state/common-state.service';
 
 @Component({
   selector: 'app-back-button',
@@ -9,11 +11,22 @@ import { Location } from '@angular/common';
   imports: [IonIcon, IonButton],
 })
 export class BackButtonComponent implements OnInit {
-  constructor(private location: Location) {}
+  @Input() backToMain = true;
+
+  constructor(
+    private location: Location,
+    private router: Router,
+    private commonStateService: CommonStateService
+  ) {}
 
   ngOnInit() {}
 
   back() {
-    this.location.back();
+    if (this.backToMain) {
+      this.router.navigate(['tabs', 'all']);
+      this.commonStateService.pendingByTime();
+    } else {
+      this.location.back();
+    }
   }
 }

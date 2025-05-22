@@ -13,11 +13,13 @@ export const routes: Routes = [
         children: [
           {
             path: '',
+            pathMatch: 'full',
             loadComponent: () =>
               import('../all/all.page').then((m) => m.AllPage),
           },
           {
             path: ':id',
+            pathMatch: 'full',
             loadComponent: () =>
               import('../../pages/card-page/card-page.component').then(
                 (c) => c.CardPageComponent

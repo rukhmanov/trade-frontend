@@ -11,6 +11,7 @@ export class UserStateService {
   me$ = new BehaviorSubject<IUser | null>(null);
   myAvatar$ = new BehaviorSubject<Blob | null>(null);
   token$ = new BehaviorSubject<string | null>('');
+
   constructor(private http: HttpClient) {
     this.token$.subscribe((token) => {
       if (token) {

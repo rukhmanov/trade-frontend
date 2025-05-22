@@ -8,18 +8,25 @@ import {
   IonSelectOption,
   IonButton,
   IonText,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from '@ionic/angular/standalone';
 
-import { EventStateService } from '../../state/event-state.service';
+import { DataStateService } from '../../state/data-state.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
 
 @Component({
   selector: 'app-my-cards',
   templateUrl: 'my-cards.page.html',
   styleUrls: ['my-cards.page.scss'],
   imports: [
+    IonCol,
+    IonRow,
+    IonGrid,
     IonText,
     IonButton,
     IonHeader,
@@ -29,21 +36,19 @@ import { ProductsApiService } from 'src/app/entities/cards/compact-card/services
     CommonModule,
     IonSelect,
     IonSelectOption,
+    CompactCardComponent,
   ],
 })
 export class MyCardsPage implements OnInit {
   constructor(
     private productsApiService: ProductsApiService,
-    private eventStateService: EventStateService,
+    public dataStateService: DataStateService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    if (!this.eventStateService.myEvents$.value) {
-      this.productsApiService.getMyEvents().subscribe();
-    }
-    if (!this.eventStateService.eventsWithMe$.value) {
-      this.productsApiService.getEventsWithMe().subscribe();
+    if (!this.dataStateService.myCards$.value) {
+      this.productsApiService.getMyProducts().subscribe();
     }
   }
 

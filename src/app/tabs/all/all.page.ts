@@ -11,7 +11,7 @@ import {
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { ProductsApiService } from '../../entities/cards/compact-card/services/cards-api.service';
 import { CommonModule } from '@angular/common';
-import { EventStateService } from '../../state/event-state.service';
+import { DataStateService } from '../../state/data-state.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,7 +33,7 @@ import { Router } from '@angular/router';
 export class AllPage implements OnInit {
   constructor(
     private productsApiService: ProductsApiService,
-    public dataStateService: EventStateService,
+    public dataStateService: DataStateService,
     private router: Router
   ) {}
 

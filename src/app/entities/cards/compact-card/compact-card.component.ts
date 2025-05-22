@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input } from '@angular/core';
 import {
   IonCard,
   IonCardContent,
@@ -9,10 +9,12 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { heart } from 'ionicons/icons';
-import { IEvent } from '../types';
-import { ActivatedRoute, Router } from '@angular/router';
+import { IProduct } from '../types';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
+import { CommonStateService } from 'src/app/state/common-state.service';
+import { ProductsApiService } from './services/cards-api.service';
 @Component({
   selector: 'app-compact-card',
   templateUrl: './compact-card.component.html',
@@ -27,30 +29,34 @@ import { addIcons } from 'ionicons';
     IonCardTitle,
   ],
 })
-export class CompactCardComponent implements OnInit {
+export class CompactCardComponent {
   s3 = environment.s3;
 
-  @Input() data: IEvent | null = null;
-  constructor(private router: Router, private route: ActivatedRoute) {
+  @Input() data: IProduct | null = null;
+  constructor(
+    private router: Router,
+    private commonStateService: CommonStateService,
+    private productsApiService: ProductsApiService
+  ) {
     addIcons({
       heart,
     });
   }
 
-  ngOnInit() {}
   navigate() {
-    this.router.navigate([this.data?.id], {
-      relativeTo: this.route,
-    });
+    this.commonStateService.pendingByTime();
+    this.router.navigate(['tabs', 'all', this.data?.id]);
   }
 
   like(event: Event) {
     event.preventDefault();
     event.stopPropagation();
+    if (this.data) this.productsApiService.like(this.data.id).subscribe();
   }
 
   buy(event: Event) {
     event.preventDefault();
     event.stopPropagation();
+    if (this.data) this.productsApiService.buy(this.data.id).subscribe();
   }
 }

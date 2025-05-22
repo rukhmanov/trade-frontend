@@ -7,8 +7,9 @@ import {
 } from '@ionic/angular/standalone';
 
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
-import { EventStateService } from '../../state/event-state.service';
 import { CommonModule } from '@angular/common';
+import { DataStateService } from 'src/app/state/data-state.service';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 
 @Component({
   selector: 'app-cart',
@@ -24,14 +25,14 @@ import { CommonModule } from '@angular/common';
   ],
 })
 export class CartPage implements OnInit {
-  constructor(public eventStateService: EventStateService) {}
+  constructor(
+    public dataStateService: DataStateService,
+    public productsApiService: ProductsApiService
+  ) {}
 
   ngOnInit(): void {
-    // if (!this.eventStateService.myEvents$.value) {
-    //   this.eventsApiService.getMyEvents().subscribe();
-    // }
-    // if (!this.eventStateService.eventsWithMe$.value) {
-    //   this.eventsApiService.getEventsWithMe().subscribe();
-    // }
+    if (!this.dataStateService.cardsInMyCart$.value) {
+      this.productsApiService.getProductsInCart().subscribe();
+    }
   }
 }

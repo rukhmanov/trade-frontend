@@ -1,0 +1,6 @@
+<img *ngIf="!images?.length" class="image" [src]="'assets/images/card-image.png'" alt="Image" />
+<swiper-container [centeredSlidesBounds]="true" [pagination]="true" *ngIf="images?.length" [modules]="swiperModules">
+  <swiper-slide *ngFor="let key of images">
+    <img class="image" [src]="s3 + key" alt="Image" />
+  </swiper-slide>
+</swiper-container>

@@ -3,6 +3,8 @@
   margin: 0px;
   flex-direction: column; // Make sure content stacks vertically
   height: 100%; // Ensure all cards have the same height
+  // display: block;
+  min-height: 250px;
 
   // Upper part for the image and heart button
   .heart-button {

@@ -6,19 +6,6 @@
       </div>
     </ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content class="ion-padding" [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        <div class="ion-title">
-          <span class="title">Мои товары и услуги</span>
-        </div>
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <div class="create-block">
     <ion-select class="select-product" value="product" placeholder="Выберете">
       <ion-select-option [value]="'product'">Товар</ion-select-option>
@@ -27,4 +14,16 @@
       <ion-text>Создать</ion-text>
     </ion-button>
   </div>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngFor="let data of dataStateService.myCards$ | async">
+        <ion-col size="6" size-md="4" size-lg="3">
+          <app-compact-card [data]="data"></app-compact-card>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
 </ion-content>

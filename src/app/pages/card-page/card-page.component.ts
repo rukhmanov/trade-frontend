@@ -11,8 +11,7 @@ import {
 } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
-import { ImageGalleryComponent } from 'src/app/entities/image-preview/image-gallery.component';
-import { environment } from 'src/environments/environment';
+import { ImageSliderComponent } from 'src/app/entities/image-slider/image-slider.component';
 
 @Component({
   selector: 'app-card-page',
@@ -26,13 +25,12 @@ import { environment } from 'src/environments/environment';
     IonToolbar,
     CommonModule,
     BackButtonComponent,
-    ImageGalleryComponent,
+    ImageSliderComponent,
   ],
 })
 export class CardPageComponent implements OnInit {
   data: any = null;
-  images = ['assets/images/card-image.png'];
-  s3 = environment.s3;
+  images = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -43,7 +41,7 @@ export class CardPageComponent implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot?.paramMap?.get('id');
     if (id) {
-      this.productsApiService.getCardById(id).subscribe({
+      this.productsApiService.getProductById(id).subscribe({
         next: (data) => {
           console.log('event ==> ', data);
           this.data = data;

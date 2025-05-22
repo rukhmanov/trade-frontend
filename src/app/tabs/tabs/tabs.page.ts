@@ -6,7 +6,6 @@ import {
   IonTabButton,
   IonIcon,
   IonLabel,
-  IonProgressBar,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import {
@@ -25,15 +24,7 @@ import { CommonStateService } from 'src/app/state/common-state.service';
   selector: 'app-tabs',
   templateUrl: 'tabs.page.html',
   styleUrls: ['tabs.page.scss'],
-  imports: [
-    CommonModule,
-    IonProgressBar,
-    IonTabs,
-    IonTabBar,
-    IonTabButton,
-    IonIcon,
-    IonLabel,
-  ],
+  imports: [CommonModule, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel],
 })
 export class TabsPage {
   public environmentInjector = inject(EnvironmentInjector);

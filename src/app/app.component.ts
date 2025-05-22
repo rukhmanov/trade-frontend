@@ -2,6 +2,8 @@ import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { register } from 'swiper/element/bundle';
+register();
 
 @Component({
   selector: 'app-root',

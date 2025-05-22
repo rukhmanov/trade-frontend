@@ -31,8 +31,17 @@ export class CommonStateService {
   async showLoading() {
     this.loading = await this.loadingCtrl.create({
       message: 'Подождите...',
+      cssClass: 'custom-loading',
+      animated: true,
     });
 
     this.loading.present();
+  }
+
+  pendingByTime(ms: number = 700) {
+    this.pending$.next(true);
+    setTimeout(() => {
+      this.pending$.next(false);
+    }, ms);
   }
 }

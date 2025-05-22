@@ -149,7 +149,7 @@ export class CreateCardPageComponent implements OnInit {
                 photos,
               });
             }),
-            concatMap(() => this.productsApiService.getAll())
+            concatMap(() => this.productsApiService.getMyProducts())
           )
           .subscribe(
             () => {
