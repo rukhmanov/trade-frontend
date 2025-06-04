@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <app-back-button [backToMain]="false"></app-back-button>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="ion-padding">
+    <ion-label position="floating">Вам на почту отправили код</ion-label>
+    <ion-input ngDefaultControl placeholder="Введите код" [formControl]="code"></ion-input>
+    <div *ngIf="(code?.dirty || code?.touched)" class="errors">
+      <ion-text color="danger" *ngIf="true">
+        Код неверный
+      </ion-text>
+    </div>
+
+    <ion-button color="primary" (click)="emailService.sendCode()" expand="block" type="submit"
+      [disabled]="emailService.timer !== 0">Отправить еще
+      код на
+      почту
+      <span *ngIf="emailService.timer !== 0">({{emailService.timer}})</span></ion-button>
+    <ion-button color="primary" expand="block" type="submit" [disabled]="!code.value">Отправить</ion-button>
+  </div>
+</ion-content>

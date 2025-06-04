@@ -16,6 +16,7 @@ import {
   getAuth,
   UserCredential,
   User,
+  signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 import { InAppBrowser } from '@capacitor/inappbrowser';
@@ -90,5 +91,15 @@ export class AuthService {
         })
       )
       .subscribe();
+  }
+
+  async signInWithEmail(email: string, password: string): Promise<void> {
+    return signInWithEmailAndPassword(this.auth, email, password).then(
+      (userCredential) => {
+        // You can handle user information here if needed
+        const user = userCredential.user;
+        console.log('User logged in:', user);
+      }
+    );
   }
 }

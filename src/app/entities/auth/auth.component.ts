@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
 import { UserStateService } from 'src/app/state/user-state.service';
 import {
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { Capacitor } from '@capacitor/core';
 import { Platform, Service } from './types';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-auth',
@@ -25,11 +26,16 @@ import { Router } from '@angular/router';
     IonText,
     IonButton,
     CommonModule,
+    FormsModule,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
+  email: string = '';
+  password: string = '';
+  errorMessage: string | null = null;
+
   constructor(
     public authService: AuthService,
     public router: Router,
@@ -55,5 +61,19 @@ export class AuthComponent {
   loginGoogle(): void {
     window.open('http://localhost:4200/remote-login/123');
     // this.authService.signInWithGoogle();
+  }
+
+  async loginWithEmail() {
+    this.errorMessage = null; // Reset error message
+    try {
+      await this.authService.signInWithEmail(this.email, this.password);
+      this.router.navigate(['tabs', 'all']); // Redirect on success
+    } catch (error: any) {
+      this.errorMessage = error.message; // Set error message on failure
+    }
+  }
+
+  emailLoginPage(): void {
+    this.router.navigate(['email-login']);
   }
 }

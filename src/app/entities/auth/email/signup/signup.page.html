@@ -1,0 +1,92 @@
+<ion-header>
+  <ion-toolbar>
+    <app-back-button [backToMain]="false"></app-back-button>
+    <ion-title>Регистрация</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="signup-container">
+    <form [formGroup]="credentials" (ngSubmit)="onSubmit()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="email?.hasError('required')">
+          Email обязателен
+        </ion-text>
+        <ion-text color="danger" *ngIf="email?.hasError('email')">
+          Email не валидный
+        </ion-text>
+        <ion-text color="danger" *ngIf="email?.hasError('isEmailExists')">
+          Email уже существует
+        </ion-text>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Имя</ion-label>
+        <ion-input type="text" formControlName="firstName"></ion-input>
+      </ion-item>
+      <div *ngIf="firstName?.invalid && (firstName?.dirty || firstName?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="firstName?.hasError('required')">
+          Имя обязательно
+        </ion-text>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Фамилия</ion-label>
+        <ion-input type="text" formControlName="secondName"></ion-input>
+      </ion-item>
+      <div *ngIf="secondName?.invalid && (secondName?.dirty || secondName?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="secondName?.hasError('required')">
+          Фамилия обязательна
+        </ion-text>
+      </div>
+
+      <ion-item>
+        <app-phone-input formControlName="phone"></app-phone-input>
+      </ion-item>
+      <div *ngIf="phone?.invalid && (phone?.dirty || phone?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="phone?.hasError('required')">
+          Телефон обязательна
+        </ion-text>
+        <ion-text color="danger" *ngIf="phone?.hasError('phoneLength')">
+          Телефон не валидный
+        </ion-text>
+      </div>
+
+
+      <ion-item>
+        <ion-label position="floating">Пароль</ion-label>
+        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="password"></ion-input>
+        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
+          (click)="showPassword = !showPassword"></ion-icon>
+      </ion-item>
+      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="password?.hasError('minLength')">
+          Минимум 6 символов
+        </ion-text>
+      </div>
+
+      <ion-item>
+        <ion-label position="floating">Повторите пароль</ion-label>
+        <ion-input type="{{ showPassword ? 'text' : 'password' }}" formControlName="confirmPassword"></ion-input>
+        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
+          (click)="showPassword = !showPassword"></ion-icon>
+      </ion-item>
+      <ion-text color="danger" *ngIf="passwordMismatch">
+        Пароли не совпадают
+      </ion-text>
+
+
+
+      <ion-button color="primary" expand="block" type="submit"
+        [disabled]="credentials.invalid || passwordMismatch">Зарегистрироваться</ion-button>
+    </form>
+
+    <ion-button fill="clear" expand="block" routerLink="/email-login" routerDirection="back">Уже есть
+      зарегистрировались?
+      Войдите!</ion-button>
+  </div>
+</ion-content>

@@ -1,0 +1,14 @@
+<div class="phone_title">Телефон</div>
+<ion-item>
+  <ion-select interface="popover" [value]="selectedCountry"
+    (ionChange)="selectedCountry = $event.detail.value; onCountryChange()">
+    <ion-select-option *ngFor="let country of countries" [value]="country">
+      {{ country.name }} ({{ country.dialCode }})
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-input inputmode="numeric" [value]="localNumber" maxlength="14" placeholder="(123) 456 7890"
+    (ionInput)="onPhoneInput($event)"></ion-input>
+</ion-item>

@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+    <app-back-button [backToMain]="false"></app-back-button>
+    <ion-title>Войти</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="login-container">
+    <form [formGroup]="credentials" (ngSubmit)="login()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email"></ion-input>
+      </ion-item>
+      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="email?.hasError('required')">
+          Email обязателен
+        </ion-text>
+        <ion-text color="danger" *ngIf="email?.hasError('email')">
+          Email не валидный
+        </ion-text>
+      </div>
+      <ion-item>
+        <ion-label position="floating">Пароль</ion-label>
+        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password"></ion-input>
+        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end"
+          (click)="showPassword = !showPassword"></ion-icon>
+      </ion-item>
+      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="password?.hasError('required')">
+          Пароль обязателен
+        </ion-text>
+        <ion-text color="danger" *ngIf="password?.hasError('minlength')">
+          Пароль должен содержать минимум 6 символов
+        </ion-text>
+      </div>
+      <ion-button expand="block" type="submit" [disabled]="!credentials.valid">Login</ion-button>
+    </form>
+    <ion-button expand="block" fill="clear" (click)="navigateToSignUp()">Еще не зарегистрировались?
+      Регистрация!</ion-button>
+  </div>
+</ion-content>

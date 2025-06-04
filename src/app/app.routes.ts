@@ -4,6 +4,9 @@ import { RemoteLoginComponent } from './entities/auth/remote-login/remote-login.
 import { RemoteLoginBackComponent } from './entities/auth/remote-login-back/remote-login-back.component';
 import { RemoteLoginTargetComponent } from './entities/auth/remote-login-target/remote-login-target.component';
 import { CreateCardPageComponent } from './tabs/create-card-page/create-card-page.component';
+import { LoginPage } from './entities/auth/email/login/login.page';
+import { SignupPage } from './entities/auth/email/signup/signup.page';
+import { ConfirmEmailComponent } from './entities/auth/email/confirm-email/confirm-email.component';
 
 export const routes: Routes = [
   {
@@ -33,6 +36,21 @@ export const routes: Routes = [
   {
     path: 'create-card',
     component: CreateCardPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'email-login',
+    component: LoginPage,
+    pathMatch: 'full',
+  },
+  {
+    path: 'email-signup',
+    component: SignupPage,
+    pathMatch: 'full',
+  },
+  {
+    path: 'email-confirm',
+    component: ConfirmEmailComponent,
     pathMatch: 'full',
   },
   {
