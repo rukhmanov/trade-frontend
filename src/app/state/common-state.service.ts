@@ -13,7 +13,6 @@ export class CommonStateService {
     this.pending$
       .pipe(
         tap((resp) => {
-          console.log(resp);
           if (resp) {
             this.showLoading();
           } else {

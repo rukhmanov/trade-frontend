@@ -419,7 +419,6 @@ export class CreateCardPageComponent implements OnInit, OnDestroy {
   showEventPreview() {}
 
   onMapChange(event: any) {
-    console.log(event);
     this.mapData = event;
   }
 }

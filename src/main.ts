@@ -20,6 +20,7 @@ import {
 } from '@angular/common/http';
 import { TokenInterceptorService } from './app/interceptors/token-interceptor.service';
 import { cacheInterceptor } from './app/interceptors/cache.interceptor';
+import { errorInterceptor } from './app/interceptors/error.interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -33,5 +34,6 @@ bootstrapApplication(AppComponent, {
       useClass: TokenInterceptorService,
       multi: true,
     },
+    provideHttpClient(withInterceptors([errorInterceptor])),
   ],
 });

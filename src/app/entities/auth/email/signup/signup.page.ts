@@ -61,7 +61,7 @@ export class SignupPage implements OnInit {
         email: this.fb.control('', {
           validators: [Validators.required, Validators.email],
           asyncValidators: [this.isEmailExists()],
-          updateOn: 'blur', // 👈 запускать валидацию только при потере фокуса
+          // updateOn: 'blur', // 👈 запускать валидацию только при потере фокуса
         }),
         firstName: ['', [Validators.required]],
         secondName: ['', [Validators.required]],
@@ -88,7 +88,7 @@ export class SignupPage implements OnInit {
         await loading.dismiss();
         const alert = await this.alertController.create({
           header: 'Signup failed',
-          message: res.error.error,
+          message: res,
           buttons: ['OK'],
         });
 
