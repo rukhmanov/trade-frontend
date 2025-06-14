@@ -59,8 +59,8 @@ export class AuthComponent {
   }
 
   loginGoogle(): void {
-    window.open('http://localhost:4200/remote-login/123');
-    // this.authService.signInWithGoogle();
+    // window.open('http://localhost:4200/remote-login/123');
+    this.authService.signInWithGoogle();
   }
 
   async loginWithEmail() {

@@ -1,20 +1,39 @@
+<!-- ios -->
+
+ionic cap copy ios
+ionic cap add ios
+ionic cap add ios
+npx cap run ios
+ionic cap open ios
+ionic build ios
+npx cap open ios
+ionic capacitor sync ios
+
+<!--  -->
+<!-- androd -->
+
+ionic cap copy android
+ionic cap add android
+ionic cap open android
+npx cap open android
+ionic capacitor sync android
+
 keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android
 keytool -list -v -alias androiddebugkey -keystore ~/.android/debug.keystore
 android
 
-ionic cap copy android
-ionic cap copy ios
-ionic cap add android
-ionic cap add ios
+<!--  -->
+
+<!-- все -->
+
 ionic build
-npx cap run ios
-ionic cap open ios
-ionic cap open android
-ionic build ios
 ionic serve
 npx cap update
-npx cap open ios
-npx cap open android
-ionic capacitor sync android
-ionic capacitor sync ios
+
+<!--  -->
+<!-- версия -->
+
 npx cap --version
+ionic -v
+
+<!--  -->

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { mergeMap, Observable, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { IYandexResponse } from './types';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/state/user-state.service';

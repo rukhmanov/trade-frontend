@@ -21,6 +21,9 @@ import {
 import { TokenInterceptorService } from './app/interceptors/token-interceptor.service';
 import { cacheInterceptor } from './app/interceptors/cache.interceptor';
 import { errorInterceptor } from './app/interceptors/error.interceptor';
+import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { environment } from './environments/environment';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -35,5 +38,7 @@ bootstrapApplication(AppComponent, {
       multi: true,
     },
     provideHttpClient(withInterceptors([errorInterceptor])),
+    provideFirebaseApp(() => initializeApp({ ...environment.firebase })),
+    provideAuth(() => getAuth()),
   ],
 });
