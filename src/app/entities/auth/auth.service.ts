@@ -19,7 +19,6 @@ import {
   signInWithEmailAndPassword,
 } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
-import { InAppBrowser } from '@capacitor/inappbrowser';
 
 @Injectable({
   providedIn: 'root',
