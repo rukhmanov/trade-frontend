@@ -2,7 +2,6 @@
 
 ionic cap copy ios
 ionic cap add ios
-ionic cap add ios
 npx cap run ios
 ionic cap open ios
 ionic build ios
