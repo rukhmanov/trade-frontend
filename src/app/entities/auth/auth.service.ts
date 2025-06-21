@@ -2,21 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { IYandexResponse } from './types';
+import { Platform } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
+import { GoogleAuth, User } from '@codetrix-studio/capacitor-google-auth';
+import { isPlatform } from '@ionic/angular/standalone';
 
 import { initializeApp } from 'firebase/app';
 import {
   Auth,
-  signInWithPopup,
-  GoogleAuthProvider,
+  //   signInWithPopup,
+  //   GoogleAuthProvider,
   getAuth,
-  UserCredential,
-  User,
+  //   UserCredential,
+  //   User,
   signInWithEmailAndPassword,
+  //   signInWithRedirect,
 } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 
@@ -26,8 +30,6 @@ import { jwtDecode } from 'jwt-decode';
 export class AuthService {
   googleUser: any | null = null;
   baseUrl = environment.base;
-  verifier = '';
-  challenge = '';
   user: any | null = null;
   firebaseApp = initializeApp(environment.firebase);
   private auth: Auth = getAuth(this.firebaseApp);
@@ -35,9 +37,11 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public userState: UserStateService,
-    public router: Router
+    public router: Router,
+    private platform: Platform
   ) {
     initializeApp(environment.firebase);
+    this.initializeGoogleAuth();
   }
 
   async yandexLogin() {
@@ -72,12 +76,42 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
-  async signInWithGoogle() {
-    const provider = new GoogleAuthProvider();
-    const result: UserCredential = await signInWithPopup(this.auth, provider);
-    const googleUser: User | any = (result as any)['_tokenResponse'];
-    const googleAccessToken = googleUser['oauthAccessToken'];
+  // async signInWithGoogle() {
+  //   const provider = new GoogleAuthProvider();
+  //   const result: UserCredential = await signInWithRedirect(
+  //     this.auth,
+  //     provider
+  //   );
+  //   const googleUser: User | any = (result as any)['_tokenResponse'];
+  //   const googleAccessToken = googleUser['oauthAccessToken'];
 
+  //   return this.http
+  //     .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
+  //       accessToken: googleAccessToken,
+  //     })
+  //     .pipe(
+  //       tap(({ jwt }) => {
+  //         this.userState.token$.next(jwt);
+  //         this.userState.me$.next(jwtDecode(jwt));
+  //         this.router.navigate(['tabs', 'all']);
+  //       })
+  //     )
+  //     .subscribe();
+  // }
+
+  initializeGoogleAuth() {
+    if (!isPlatform('capacitor')) {
+      GoogleAuth.initialize();
+    }
+    this.platform.ready().then(() => {
+      console.log('platform ==> ');
+      GoogleAuth.initialize();
+    });
+  }
+
+  async googleSignIn() {
+    const googleUser = await GoogleAuth.signIn();
+    const googleAccessToken = googleUser?.authentication?.accessToken;
     return this.http
       .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
         accessToken: googleAccessToken,
@@ -86,7 +120,7 @@ export class AuthService {
         tap(({ jwt }) => {
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
-          this.router.navigate(['tabs', 'all']);
+          this.router.navigate(['tabs', 'tab1']);
         })
       )
       .subscribe();
