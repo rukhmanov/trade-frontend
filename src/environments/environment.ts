@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   // base: 'http://localhost:3000/',
-  base: 'https://rukhman-ionic-zufall-backand-9c9d.twc1.net/',
+  base: 'https://rukhmanov-parsifal-backend-990f.twc1.net/',
   yandexClientId: '14e2cce0ee3743fe8f1e0da062f95200',
   s3: 'https://1f48199c-files.s3.twcstorage.ru/',
   firebase: {
