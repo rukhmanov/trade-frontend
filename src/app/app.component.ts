@@ -29,6 +29,7 @@ export class AppComponent {
 
   initializeApp() {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
+      console.log('event ==> ', event);
       this.zone.run(() => {
         const domain = 'parsifal.com';
 
