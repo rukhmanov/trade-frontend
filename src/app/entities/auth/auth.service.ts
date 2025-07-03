@@ -45,6 +45,7 @@ export class AuthService {
   }
 
   async yandexLogin() {
+    console.log('yandexLogin ==> ', Capacitor.isNativePlatform());
     if (Capacitor.isNativePlatform()) {
       Browser.open({
         url:

@@ -11,7 +11,8 @@ import { CommonStateService } from 'src/app/state/common-state.service';
   imports: [IonIcon, IonButton],
 })
 export class BackButtonComponent implements OnInit {
-  @Input() backToMain = true;
+  @Input() tab: 'all' | 'cart' | 'settings' | null = null;
+  backToMain = true;
 
   constructor(
     private location: Location,
@@ -22,8 +23,8 @@ export class BackButtonComponent implements OnInit {
   ngOnInit() {}
 
   back() {
-    if (this.backToMain) {
-      this.router.navigate(['tabs', 'all']);
+    if (this.tab) {
+      this.router.navigate(['tabs', this.tab]);
       this.commonStateService.pendingByTime();
     } else {
       this.location.back();

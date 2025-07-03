@@ -2,11 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Platform, Service } from '../types';
 import { AuthService } from '../auth.service';
+import { BackButtonComponent } from '../../back-button/back-button.component';
+import { IonHeader, IonToolbar, IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-remote-login',
   templateUrl: './remote-login.component.html',
   styleUrls: ['./remote-login.component.scss'],
+  imports: [IonContent, IonToolbar, IonHeader, BackButtonComponent],
 })
 export class RemoteLoginComponent implements OnInit {
   constructor(
@@ -29,6 +32,7 @@ export class RemoteLoginComponent implements OnInit {
           }
           break;
         case Platform.ios:
+          this.authService.yandexLogin();
           break;
         case Platform.android:
           break;

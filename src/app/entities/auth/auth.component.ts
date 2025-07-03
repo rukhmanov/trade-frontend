@@ -51,6 +51,9 @@ export class AuthComponent {
         });
         break;
       case Platform.ios:
+        this.router.navigate(['remote-login'], {
+          queryParams: { platform: Platform.web, service: Service.yandex },
+        });
         break;
       case Platform.android:
         break;
