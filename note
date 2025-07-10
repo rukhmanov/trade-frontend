@@ -36,3 +36,5 @@ npx cap --version
 ionic -v
 
 <!--  -->
+ng build --base-href /
+npx angular-cli-ghpages --dir=www
