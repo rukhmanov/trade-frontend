@@ -14,8 +14,6 @@ import { BackButtonComponent } from '../../back-button/back-button.component';
   imports: [IonContent, IonToolbar, IonHeader, BackButtonComponent],
 })
 export class RemoteLoginBackComponent {
-  access_token: string | null = null;
-
   constructor(
     private route: ActivatedRoute,
     public authService: AuthService,
@@ -30,24 +28,25 @@ export class RemoteLoginBackComponent {
         return acc;
       }, {});
 
-    this.access_token = fragment.access_token;
-    this.authService
-      .getAndSaveUserData(fragment.access_token)
-      .subscribe((data: IUser | any) => {
-        const platform = localStorage.getItem('platform');
-        userState.token$.next(data.data);
-        userState.me$.next(jwtDecode(data.data));
-        localStorage.removeItem('platform');
-        localStorage.removeItem('service');
-        switch (platform) {
-          case Platform.web:
-            this.router.navigate(['tabs', 'all']);
-            break;
-          case Platform.ios:
-            break;
-          case Platform.android:
-            break;
-        }
-      });
+    const platform = localStorage.getItem('platform');
+    const host = localStorage.getItem('host');
+    const service = localStorage.getItem('service');
+    localStorage.removeItem('platform');
+    localStorage.removeItem('host');
+    localStorage.removeItem('service');
+    switch (platform) {
+      case Platform.web:
+        window.open(
+          host +
+            '/remote-login-target/' +
+            `?service=${service}&access_token=${fragment.access_token}`,
+          '_self'
+        );
+        break;
+      case Platform.ios:
+        break;
+      case Platform.android:
+        break;
+    }
   }
 }

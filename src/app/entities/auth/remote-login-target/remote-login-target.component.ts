@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IUser } from '../types';
+import { IUser, IYandexResponse, Platform } from '../types';
 import { jwtDecode } from 'jwt-decode';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../auth.service';
@@ -17,17 +17,19 @@ export class RemoteLoginTargetComponent {
     public userState: UserStateService,
     public router: Router
   ) {
-    const token = this.route.snapshot.paramMap.get('token');
-    if (!token) {
-      this.router.navigate(['tabs', 'settings']);
-    } else {
-      this.authService
-        .getAndSaveUserData(token)
-        .subscribe((data: IUser | any) => {
-          userState.token$.next(data.data);
-          userState.me$.next(jwtDecode(data.data));
-          this.router.navigate(['tabs', 'all']);
-        });
-    }
+    const fragment = this.route.snapshot.fragment
+      ?.split('&')
+      .reduce((acc: any, cur: string) => {
+        const item = cur.split('=');
+        acc[item[0]] = item[1];
+        return acc;
+      }, {});
+
+    this.authService
+      .getAndSaveUserData(fragment.access_token)
+      .subscribe((data: IUser | any) => {
+        userState.token$.next(data.data);
+        userState.me$.next(jwtDecode(data.data));
+      });
   }
 }

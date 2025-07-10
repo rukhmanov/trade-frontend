@@ -29,7 +29,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: 'remote-login-target/:token',
+    path: 'remote-login-target',
     component: RemoteLoginTargetComponent,
     pathMatch: 'full',
   },

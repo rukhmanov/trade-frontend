@@ -36,5 +36,6 @@ npx cap --version
 ionic -v
 
 <!--  -->
-ng build --base-href /
+
+ng build --base-href /trade-frontend/
 npx angular-cli-ghpages --dir=www

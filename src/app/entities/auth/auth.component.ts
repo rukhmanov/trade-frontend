@@ -14,6 +14,7 @@ import { Capacitor } from '@capacitor/core';
 import { Platform, Service } from './types';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -46,9 +47,14 @@ export class AuthComponent {
     const platform: Platform = Capacitor.getPlatform() as Platform;
     switch (platform) {
       case Platform.web:
-        this.router.navigate(['remote-login'], {
-          queryParams: { platform: Platform.web, service: Service.yandex },
-        });
+        const host = window.location.origin;
+        window.open(
+          environment.frondProdHost +
+            // host +
+            '/remote-login' +
+            `?platform=${Platform.web}&service=${Service.yandex}&host=${host}`,
+          '_self'
+        );
         break;
       case Platform.ios:
         this.router.navigate(['remote-login'], {

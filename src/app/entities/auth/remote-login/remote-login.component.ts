@@ -5,6 +5,9 @@ import { AuthService } from '../auth.service';
 import { BackButtonComponent } from '../../back-button/back-button.component';
 import { IonHeader, IonToolbar, IonContent } from '@ionic/angular/standalone';
 
+/**
+ * с этой страницы начинается авторизация
+ */
 @Component({
   selector: 'app-remote-login',
   templateUrl: './remote-login.component.html',
@@ -20,10 +23,11 @@ export class RemoteLoginComponent implements OnInit {
 
   ngOnInit() {
     const params = this.route.snapshot?.queryParams;
-    const { platform, service } = params;
+    const { platform, service, host } = params;
     if (platform in Platform && service in Service) {
       localStorage.setItem('platform', platform);
       localStorage.setItem('service', service);
+      localStorage.setItem('host', host);
       switch (platform) {
         case Platform.web:
           if (service === Service.yandex) {
