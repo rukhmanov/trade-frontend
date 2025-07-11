@@ -39,3 +39,6 @@ ionic -v
 
 ng build --base-href /trade-frontend/
 npx angular-cli-ghpages --dir=www
+
+ionic build
+netlify deploy --prod --dir=www
