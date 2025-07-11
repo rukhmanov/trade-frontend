@@ -27,7 +27,7 @@ export class RemoteLoginComponent implements OnInit {
     if (platform in Platform && service in Service) {
       localStorage.setItem('platform', platform);
       localStorage.setItem('service', service);
-      localStorage.setItem('host', host);
+      localStorage.setItem('host', decodeURIComponent(host));
       switch (platform) {
         case Platform.web:
           if (service === Service.yandex) {

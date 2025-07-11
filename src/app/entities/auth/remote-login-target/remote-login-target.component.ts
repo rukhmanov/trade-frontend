@@ -17,19 +17,12 @@ export class RemoteLoginTargetComponent {
     public userState: UserStateService,
     public router: Router
   ) {
-    const fragment = this.route.snapshot.fragment
-      ?.split('&')
-      .reduce((acc: any, cur: string) => {
-        const item = cur.split('=');
-        acc[item[0]] = item[1];
-        return acc;
-      }, {});
-
     this.authService
-      .getAndSaveUserData(fragment.access_token)
+      .getAndSaveUserData(this.route.snapshot.queryParams['access_token'])
       .subscribe((data: IUser | any) => {
         userState.token$.next(data.data);
         userState.me$.next(jwtDecode(data.data));
+        this.router.navigate(['tabs', 'settings']);
       });
   }
 }

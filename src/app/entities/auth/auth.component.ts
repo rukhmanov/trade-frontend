@@ -52,7 +52,9 @@ export class AuthComponent {
           environment.frondProdHost +
             // host +
             '/remote-login' +
-            `?platform=${Platform.web}&service=${Service.yandex}&host=${host}`,
+            `?platform=${Platform.web}&service=${
+              Service.yandex
+            }&host=${encodeURIComponent(host)}`,
           '_self'
         );
         break;

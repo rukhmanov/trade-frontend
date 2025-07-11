@@ -20,6 +20,7 @@ export class RemoteLoginBackComponent {
     public userState: UserStateService,
     public router: Router
   ) {
+    console.log('this.route.snapshot ==> ', this.route.snapshot);
     const fragment: IYandexResponse = this.route.snapshot.fragment
       ?.split('&')
       .reduce((acc: any, cur: string) => {
