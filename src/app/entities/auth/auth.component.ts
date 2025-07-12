@@ -10,11 +10,8 @@ import {
   IonLabel,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
-import { Capacitor } from '@capacitor/core';
-import { Platform, Service } from './types';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -44,27 +41,28 @@ export class AuthComponent {
   ) {}
 
   loginYandex(): void {
-    const platform: Platform = Capacitor.getPlatform() as Platform;
-    switch (platform) {
-      case Platform.web:
-        const host = window.location.origin;
-        window.open(
-          environment.frondProdHost +
-            '/remote-login' +
-            `?platform=${Platform.web}&service=${
-              Service.yandex
-            }&host=${encodeURIComponent(host)}`,
-          '_self'
-        );
-        break;
-      case Platform.ios:
-        this.router.navigate(['remote-login'], {
-          queryParams: { platform: Platform.web, service: Service.yandex },
-        });
-        break;
-      case Platform.android:
-        break;
-    }
+    this.authService.yandexSignIn();
+    // const platform: Platform = Capacitor.getPlatform() as Platform;
+    // switch (platform) {
+    //   case Platform.web:
+    //     const host = window.location.origin;
+    //     window.open(
+    //       environment.frondProdHost +
+    //         '/remote-login' +
+    //         `?platform=${Platform.web}&service=${
+    //           Service.yandex
+    //         }&host=${encodeURIComponent(host)}`,
+    //       '_self'
+    //     );
+    //     break;
+    //   case Platform.ios:
+    //     this.router.navigate(['remote-login'], {
+    //       queryParams: { platform: Platform.web, service: Service.yandex },
+    //     });
+    //     break;
+    //   case Platform.android:
+    //     break;
+    // }
     // this.authService.yandexLogin();
   }
 

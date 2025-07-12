@@ -10,6 +10,7 @@ import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
 import { GoogleAuth, User } from '@codetrix-studio/capacitor-google-auth';
 import { isPlatform } from '@ionic/angular/standalone';
+import { registerPlugin } from '@capacitor/core';
 
 import { initializeApp } from 'firebase/app';
 import {
@@ -33,6 +34,7 @@ export class AuthService {
   user: any | null = null;
   firebaseApp = initializeApp(environment.firebase);
   private auth: Auth = getAuth(this.firebaseApp);
+  YandexLogin: any = registerPlugin('YandexLoginPlugin');
 
   constructor(
     private http: HttpClient,
@@ -77,29 +79,6 @@ export class AuthService {
     localStorage.removeItem('token');
   }
 
-  // async signInWithGoogle() {
-  //   const provider = new GoogleAuthProvider();
-  //   const result: UserCredential = await signInWithRedirect(
-  //     this.auth,
-  //     provider
-  //   );
-  //   const googleUser: User | any = (result as any)['_tokenResponse'];
-  //   const googleAccessToken = googleUser['oauthAccessToken'];
-
-  //   return this.http
-  //     .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
-  //       accessToken: googleAccessToken,
-  //     })
-  //     .pipe(
-  //       tap(({ jwt }) => {
-  //         this.userState.token$.next(jwt);
-  //         this.userState.me$.next(jwtDecode(jwt));
-  //         this.router.navigate(['tabs', 'all']);
-  //       })
-  //     )
-  //     .subscribe();
-  // }
-
   initializeGoogleAuth() {
     if (!isPlatform('capacitor')) {
       GoogleAuth.initialize();
@@ -125,6 +104,28 @@ export class AuthService {
         })
       )
       .subscribe();
+  }
+
+  async yandexSignIn() {
+    try {
+      const result = await this.YandexLogin.login();
+      const yandexAccessToken = result.accessToken;
+      return this.http
+        .post<{ jwt: string }>(environment.base + 'users/auth/', {
+          accessToken: yandexAccessToken,
+        })
+        .pipe(
+          tap(({ jwt }) => {
+            this.userState.token$.next(jwt);
+            this.userState.me$.next(jwtDecode(jwt));
+            this.router.navigate(['tabs', 'tab1']);
+          })
+        )
+        .subscribe();
+    } catch (e) {
+      console.error('Yandex login error', e);
+      return null;
+    }
   }
 
   async signInWithEmail(email: string, password: string): Promise<void> {
