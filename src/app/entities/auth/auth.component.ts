@@ -50,7 +50,7 @@ export class AuthComponent {
         const host = window.location.origin;
         window.open(
           environment.frondProdHost +
-            '/remote-login' +
+            'remote-login' +
             `?platform=${Platform.web}&service=${
               Service.yandex
             }&host=${encodeURIComponent(host)}`,
