@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { AuthService } from '../auth.service';
-import { IUser, IYandexResponse, Platform } from '../types';
+import { IYandexResponse, Platform } from '../types';
 import { IonHeader, IonToolbar, IonContent } from '@ionic/angular/standalone';
 import { BackButtonComponent } from '../../back-button/back-button.component';
+import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-remote-login-back',
@@ -19,8 +19,9 @@ export class RemoteLoginBackComponent {
     public authService: AuthService,
     public userState: UserStateService,
     public router: Router
-  ) {
-    console.log('this.route.snapshot ==> ', this.route.snapshot);
+  ) {}
+
+  async ngOnInit() {
     const fragment: IYandexResponse = this.route.snapshot.fragment
       ?.split('&')
       .reduce((acc: any, cur: string) => {
@@ -29,12 +30,12 @@ export class RemoteLoginBackComponent {
         return acc;
       }, {});
 
-    const platform = localStorage.getItem('platform');
-    const host = localStorage.getItem('host');
-    const service = localStorage.getItem('service');
-    localStorage.removeItem('platform');
-    localStorage.removeItem('host');
-    localStorage.removeItem('service');
+    const { value: platform } = await Preferences.get({ key: 'platform' });
+    const { value: host } = await Preferences.get({ key: 'host' });
+    const { value: service } = await Preferences.get({ key: 'service' });
+    await Preferences.remove({ key: 'platform' });
+    await Preferences.remove({ key: 'host' });
+    await Preferences.remove({ key: 'service' });
     switch (platform) {
       case Platform.web:
         window.open(

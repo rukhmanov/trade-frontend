@@ -4,6 +4,7 @@ import { Platform, Service } from '../types';
 import { AuthService } from '../auth.service';
 import { BackButtonComponent } from '../../back-button/back-button.component';
 import { IonHeader, IonToolbar, IonContent } from '@ionic/angular/standalone';
+import { Preferences } from '@capacitor/preferences';
 
 /**
  * с этой страницы начинается авторизация
@@ -21,13 +22,13 @@ export class RemoteLoginComponent implements OnInit {
     private authService: AuthService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const params = this.route.snapshot?.queryParams;
     const { platform, service, host } = params;
     if (platform in Platform && service in Service) {
-      localStorage.setItem('platform', platform);
-      localStorage.setItem('service', service);
-      localStorage.setItem('host', decodeURIComponent(host));
+      await Preferences.set({ key: 'platform', value: platform });
+      await Preferences.set({ key: 'service', value: service });
+      await Preferences.set({ key: 'host', value: decodeURIComponent(host) });
       switch (platform) {
         case Platform.web:
           if (service === Service.yandex) {
