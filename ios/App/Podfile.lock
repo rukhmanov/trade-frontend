@@ -31,6 +31,7 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 3.0, >= 1.5)
   - GTMSessionFetcher/Core (2.3.0)
+  - YandexLoginSDK (3.0.2)
 
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
@@ -42,6 +43,7 @@ DEPENDENCIES:
   - "CapacitorPreferences (from `../../node_modules/@capacitor/preferences`)"
   - "CapacitorStatusBar (from `../../node_modules/@capacitor/status-bar`)"
   - "CodetrixStudioCapacitorGoogleAuth (from `../../node_modules/@codetrix-studio/capacitor-google-auth`)"
+  - YandexLoginSDK
 
 SPEC REPOS:
   trunk:
@@ -49,6 +51,7 @@ SPEC REPOS:
     - GoogleSignIn
     - GTMAppAuth
     - GTMSessionFetcher
+    - YandexLoginSDK
 
 EXTERNAL SOURCES:
   Capacitor:
@@ -84,7 +87,8 @@ SPEC CHECKSUMS:
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
   GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  YandexLoginSDK: ea15fc6d5afc2869a320180b0e33ce55937a9783
 
-PODFILE CHECKSUM: eafd2b9bc73d2304f52c93b06cb65433160eed47
+PODFILE CHECKSUM: 8bc97e9f5eb857976d0a09c17c18128ce2f5ff9f
 
 COCOAPODS: 1.16.2

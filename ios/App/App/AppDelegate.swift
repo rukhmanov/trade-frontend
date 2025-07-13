@@ -1,53 +1,96 @@
 import UIKit
 import Capacitor
-import YandexLoginSDK   // ← ОБЯЗАТЕЛЬНО
+import YandexLoginSDK
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
+    // MARK: - Application Lifecycle
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        configureYandexLoginSDK()
+        print("✅ Yandex Login SDK v\(YandexLoginSDK.version) initialized")
         return true
     }
 
+    // MARK: - URL Handling
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        return handleYandexLoginURL(url) ||
+               handleCapacitorURL(app, url: url, options: options)
+    }
+
+    // MARK: - Universal Links
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
+        if let url = userActivity.webpageURL, handleYandexLoginURL(url) {
+            return true
+        }
+        return ApplicationDelegateProxy.shared.application(
+            application,
+            continue: userActivity,
+            restorationHandler: restorationHandler
+        )
+    }
+
+    // MARK: - Private Methods
+    private func configureYandexLoginSDK() {
+        do {
+            try YandexLoginSDK.shared.activate(
+                with: "14e2cce0ee3743fe8f1e0da062f95200",
+                authorizationStrategy: .webOnly
+            )
+        } catch {
+            print("⚠️ Yandex SDK activation failed: \(error.localizedDescription)")
+        }
+    }
+
+    private func handleYandexLoginURL(_ url: URL) -> Bool {
+        let handled = YandexLoginSDK.shared.tryHandleOpenURL(url)
+        if handled {
+            print("🔗 Handled Yandex URL: \(url.absoluteString)")
+        }
+        return handled
+    }
+
+    private func handleCapacitorURL(_ app: UIApplication, url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+        return ApplicationDelegateProxy.shared.application(
+            app,
+            open: url,
+            options: options
+        )
+    }
+
+    // MARK: - Standard Lifecycle Methods
     func applicationWillResignActive(_ application: UIApplication) {
-        // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-        // Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks. Games should use this method to pause the game.
+        print("➡️ App will resign active")
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        print("⬇️ App entered background")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
-        // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
+        print("⬆️ App will enter foreground")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        print("🔄 App became active")
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        print("⏹ App will terminate")
     }
+}
 
-    func application(_ app: UIApplication,
-                    open url: URL,
-                    options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-      if YandexLogin.shared.handleOpen(url: url) {
-        return true
-      }
-      return ApplicationDelegateProxy.shared.application(app, open: url, options: options)
+// MARK: - SceneDelegate for iOS 13+
+@available(iOS 13.0, *)
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let url = URLContexts.first?.url else { return }
+
+        if YandexLoginSDK.shared.tryHandleOpenURL(url) {
+            print("🔗 Handled Yandex URL via SceneDelegate: \(url.absoluteString)")
+        }
     }
-
-    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([UIUserActivityRestoring]?) -> Void) -> Bool {
-        // Called when the app was launched with an activity, including Universal Links.
-        // Feel free to add additional processing here, but if you want the App API to support
-        // tracking app url opens, make sure to keep this call
-        return ApplicationDelegateProxy.shared.application(application, continue: userActivity, restorationHandler: restorationHandler)
-    }
-
 }

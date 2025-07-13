@@ -8,6 +8,7 @@
     "start": "ng serve",
     "build": "ng build",
     "deploy": "ionic build && netlify deploy --prod --dir=www",
+    "sync": "ionic build ios && ionic capacitor sync ios && ionic cap copy ios && npx cap open ios",
     "deploygit": "ng build --base-href /trade-frontend/ && npx angular-cli-ghpages --dir=www",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",

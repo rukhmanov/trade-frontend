@@ -16,6 +16,7 @@
 		50B271D11FEDC1A000F3C39B /* public in Resources */ = {isa = PBXBuildFile; fileRef = 50B271D01FEDC1A000F3C39B /* public */; };
 		A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF277DCFFFF123FFC6DF26C7 /* Pods_App.framework */; };
 		E8096F172DFFD86700FB20E2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8096F162DFFD86700FB20E2 /* GoogleService-Info.plist */; };
+		E842A6162E23A48000292297 /* YandexLoginSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E842A6152E23A48000292297 /* YandexLoginSDK */; };
 		E8BCE52A2E22C35400C4CB68 /* YandexLoginSDK in Frameworks */ = {isa = PBXBuildFile; productRef = E8BCE5292E22C35400C4CB68 /* YandexLoginSDK */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E8BCE52A2E22C35400C4CB68 /* YandexLoginSDK in Frameworks */,
+				E842A6162E23A48000292297 /* YandexLoginSDK in Frameworks */,
 				A084ECDBA7D38E1E42DFC39D /* Pods_App.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -434,6 +436,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E842A6152E23A48000292297 /* YandexLoginSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E8BCE5282E22C35400C4CB68 /* XCRemoteSwiftPackageReference "yandex-login-sdk-ios" */;
+			productName = YandexLoginSDK;
+		};
 		E8BCE5292E22C35400C4CB68 /* YandexLoginSDK */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E8BCE5282E22C35400C4CB68 /* XCRemoteSwiftPackageReference "yandex-login-sdk-ios" */;
