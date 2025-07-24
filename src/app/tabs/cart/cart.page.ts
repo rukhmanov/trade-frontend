@@ -32,7 +32,7 @@ export class CartPage implements OnInit {
 
   ngOnInit(): void {
     if (!this.dataStateService.cardsInMyCart$.value) {
-      this.productsApiService.getProductsInCart().subscribe();
+      this.productsApiService.getProductsFromCart().subscribe();
     }
   }
 }

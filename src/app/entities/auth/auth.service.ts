@@ -98,6 +98,7 @@ export class AuthService {
       })
       .pipe(
         tap(({ jwt }) => {
+          console.log('jwt ==> ', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
           this.router.navigate(['tabs', 'tab1']);

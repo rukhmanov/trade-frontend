@@ -26,12 +26,6 @@ export class ProductsApiService {
       .pipe(tap((all) => this.dataStateService.myCards$.next(all)));
   }
 
-  getProductsInCart(): Observable<any> {
-    return this.http
-      .get<any>(this.baseUrl + 'products/inMyCart')
-      .pipe(tap((all) => this.dataStateService.cardsInMyCart$.next(all)));
-  }
-
   getProductById(id: number | string): Observable<any> {
     return this.http.get<any>(this.baseUrl + 'products/' + id);
   }
@@ -40,7 +34,13 @@ export class ProductsApiService {
     return this.http.post<any>(this.baseUrl + 'products/like', { productId });
   }
 
-  buy(productId: number | string): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'products/buy', { productId });
+  addProductsToCart(productId: number | string): Observable<any> {
+    return this.http.post<any>(this.baseUrl + 'products/cart', { productId });
+  }
+
+  getProductsFromCart(): Observable<any> {
+    return this.http
+      .get<any>(this.baseUrl + 'products/cart')
+      .pipe(tap((all) => this.dataStateService.cardsInMyCart$.next(all)));
   }
 }

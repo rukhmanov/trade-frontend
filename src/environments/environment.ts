@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  // base: 'http://localhost:3000/',
-  base: 'https://rukhmanov-trade-backend-f011.twc1.net/',
+  base: 'http://localhost:3000/',
+  // base: 'https://rukhmanov-trade-backend-f011.twc1.net/',
   frondProdHost: 'https://parsifal-trade.netlify.app/',
   yandexClientId: '14e2cce0ee3743fe8f1e0da062f95200',
   s3: 'https://1f48199c-files.s3.twcstorage.ru/',

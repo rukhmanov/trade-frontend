@@ -57,6 +57,7 @@ export class CompactCardComponent {
   buy(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.data) this.productsApiService.buy(this.data.id).subscribe();
+    if (this.data)
+      this.productsApiService.addProductsToCart(this.data.id).subscribe();
   }
 }
