@@ -4,6 +4,9 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
+  IonCol,
+  IonGrid,
+  IonRow,
 } from '@ionic/angular/standalone';
 
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
@@ -16,6 +19,9 @@ import { ProductsApiService } from 'src/app/entities/cards/compact-card/services
   templateUrl: 'cart.page.html',
   styleUrls: ['cart.page.scss'],
   imports: [
+    IonRow,
+    IonGrid,
+    IonCol,
     IonHeader,
     IonToolbar,
     IonTitle,

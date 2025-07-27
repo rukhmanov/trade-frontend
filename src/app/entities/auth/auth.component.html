@@ -1,33 +1,33 @@
 <div class="container">
-  @if (!(userState.me$ | async)) {
-  <h3>Войдите с</h3>
-  <!-- <ion-chip (click)="loginYandex()">
-    <ion-icon class="login-icon" src="assets/icons/ya.svg"></ion-icon>
-    <ion-text>Яндекс</ion-text>
-  </ion-chip> -->
-  <ion-chip (click)="loginGoogle()">
-    <ion-icon class="login-icon" src="assets/icons/google.svg"></ion-icon>
-    <ion-text>Google</ion-text>
-  </ion-chip>
-  <ion-chip (click)="emailLoginPage()">
-    <ion-icon class="login-icon" src="assets/icons/email.svg"></ion-icon>
-    <ion-text>Email</ion-text>
-  </ion-chip>
-  }@else {
-  <ion-chip class="login__container">
-    <ion-avatar>
-      <img alt="avatar"
-        [src]="`https://avatars.yandex.net/get-yapic/${(userState.me$ | async)?.avatarId}/islands-200`" />
-    </ion-avatar>
-    <ion-label class="login__name">{{
-      (userState.me$ | async)?.fullName
-      }}</ion-label>
-    <div class="btn-wrap">
-      <ion-button fill="outline" (click)="authService.logout()">
-        <ion-text>Выйти</ion-text>
-        <ion-icon name="log-out-outline"></ion-icon>
-      </ion-button>
-    </div>
-  </ion-chip>
-  }
+  <ng-container *ngIf="(userState.me$ | async) as user">
+    <ion-chip class="login__container">
+      <ion-avatar>
+        <img alt="avatar" [src]="user.avatarId | authImage : user.authService" />
+      </ion-avatar>
+      <ion-label class="login__name">{{
+        user?.fullName
+        }}</ion-label>
+      <div class="btn-wrap">
+        <ion-button fill="outline" (click)="authService.logout()">
+          <ion-text>Выйти</ion-text>
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+      </div>
+    </ion-chip>
+  </ng-container>
+  <ng-container *ngIf="!(userState.me$ | async)">
+    <h3>Войдите с</h3>
+    <!-- <ion-chip (click)="loginYandex()">
+      <ion-icon class="login-icon" src="assets/icons/ya.svg"></ion-icon>
+      <ion-text>Яндекс</ion-text>
+    </ion-chip> -->
+    <ion-chip (click)="loginGoogle()">
+      <ion-icon class="login-icon" src="assets/icons/google.svg"></ion-icon>
+      <ion-text>Google</ion-text>
+    </ion-chip>
+    <ion-chip (click)="emailLoginPage()">
+      <ion-icon class="login-icon" src="assets/icons/email.svg"></ion-icon>
+      <ion-text>Email</ion-text>
+    </ion-chip>
+  </ng-container>
 </div>

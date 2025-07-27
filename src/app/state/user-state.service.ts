@@ -20,7 +20,10 @@ export class UserStateService {
     });
 
     const tokenFromStorage = localStorage.getItem('token');
+
     if (tokenFromStorage) {
+      console.log('me ==> ', jwtDecode(tokenFromStorage));
+
       this.token$.next(tokenFromStorage);
       this.me$.next(jwtDecode(tokenFromStorage));
     }

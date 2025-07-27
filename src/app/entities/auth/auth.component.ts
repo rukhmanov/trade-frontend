@@ -12,6 +12,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthImagePipe } from './auth-image.pipe';
 
 @Component({
   selector: 'app-auth',
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     IonButton,
     CommonModule,
     FormsModule,
+    AuthImagePipe,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',

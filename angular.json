@@ -174,9 +174,7 @@
     "@schematics/angular:module": {
       "typeSeparator": "."
     },
-    "@schematics/angular:pipe": {
-      "typeSeparator": "."
-    },
+    "@schematics/angular:pipe": {},
     "@schematics/angular:resolver": {
       "typeSeparator": "."
     }

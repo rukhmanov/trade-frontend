@@ -15,9 +15,15 @@ export interface IUser {
   phone: string;
   birthDate: string;
   gender: string;
-  authService: string;
+  authService: E_AuthService;
   roles: Role[];
   permissions: Permission[];
+}
+
+export enum E_AuthService {
+  Google = 'google',
+  Yandex = 'yandex',
+  Email = 'email',
 }
 
 interface Role {

@@ -10,13 +10,34 @@
       <ion-title class="settings-title" size="large">Настройки</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <div class="setting-wrap">
     <app-auth></app-auth>
-    <!-- <ion-datetime-button datetime="datetime"></ion-datetime-button>
-    <ion-modal [keepContentsMounted]="true">
-      <ng-template>
-        <ion-datetime id="datetime"></ion-datetime>
-      </ng-template>
-    </ion-modal> -->
+
+    <ion-list class="setting-list">
+      <!-- Мои данные -->
+      <ion-item button [routerLink]="['/my-data']">
+        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+        <ion-label>Мои данные</ion-label>
+      </ion-item>
+
+      <!-- Админ панель -->
+      <ion-item button [routerLink]="['/admin']">
+        <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
+        <ion-label>Админ панель</ion-label>
+      </ion-item>
+
+      <!-- Мне нравится -->
+      <ion-item button [routerLink]="['/favorites']">
+        <ion-icon slot="start" name="heart-outline"></ion-icon>
+        <ion-label>Мне нравится</ion-label>
+      </ion-item>
+
+      <!-- Информация -->
+      <ion-item button [routerLink]="['/info']">
+        <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+        <ion-label>Информация</ion-label>
+      </ion-item>
+    </ion-list>
   </div>
 </ion-content>

@@ -16,8 +16,13 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-
-  <div *ngFor="let data of dataStateService.myCards$ | async">
-    <app-compact-card [data]="data"></app-compact-card>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngFor="let data of dataStateService.cardsInMyCart$ | async">
+        <ion-col size="6" size-md="4" size-lg="3">
+          <app-compact-card [data]="data"></app-compact-card>
+        </ion-col>
+      </ng-container>
+    </ion-row>
+  </ion-grid>
 </ion-content>

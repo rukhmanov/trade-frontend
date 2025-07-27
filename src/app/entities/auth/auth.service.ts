@@ -13,16 +13,7 @@ import { isPlatform } from '@ionic/angular/standalone';
 import { registerPlugin } from '@capacitor/core';
 
 import { initializeApp } from 'firebase/app';
-import {
-  Auth,
-  //   signInWithPopup,
-  //   GoogleAuthProvider,
-  getAuth,
-  //   UserCredential,
-  //   User,
-  signInWithEmailAndPassword,
-  //   signInWithRedirect,
-} from 'firebase/auth';
+import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
