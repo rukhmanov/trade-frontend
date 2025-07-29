@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <app-back-button slot="start"></app-back-button>
+    <ion-title>О сайте</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="info-block">
+    <div class="site-info">{{ siteInfo }}</div>
+    <div class="docs-block">
+      <h3>Правовые документы</h3>
+      <ul>
+        <li *ngFor="let doc of docs">
+          <a [href]="doc.url" target="_blank">{{ doc.title }}</a>
+        </li>
+      </ul>
+    </div>
+    <div class="contacts-block">
+      <h3>Контакты</h3>
+      <ul>
+        <li *ngFor="let c of contacts">
+          <b>{{ c.label }}:</b> {{ c.value }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</ion-content>

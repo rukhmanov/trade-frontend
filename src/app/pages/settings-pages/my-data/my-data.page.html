@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <app-back-button slot="start"></app-back-button>
+    <ion-title>Мои данные</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Мои данные</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ng-container *ngIf="user$ | async as user">
+    <div class="my-data-card">
+      <ion-avatar class="my-data-avatar">
+        <img *ngIf="user.avatarId" [src]="user.avatarId | authImage : user.authService" alt="avatar" />
+        <div *ngIf="!user.avatarId" class="my-data-avatar-placeholder">
+          <ion-icon name="person-circle-outline"></ion-icon>
+        </div>
+      </ion-avatar>
+      <h2 class="my-data-name">{{ user.fullName || '—' }}</h2>
+      <div class="my-data-email">{{ user.email || '—' }}</div>
+      <div class="my-data-fields">
+        <div class="my-data-field">
+          <span>Телефон:</span>
+          <span [ngClass]="{'my-data-dash': !user.phone}">{{ user.phone || '—' }}</span>
+        </div>
+        <div class="my-data-field">
+          <span>Дата рождения:</span>
+          <span [ngClass]="{'my-data-dash': !user.birthDate}">{{ user.birthDate || '—' }}</span>
+        </div>
+        <div class="my-data-field">
+          <span>Пол:</span>
+          <span [ngClass]="{'my-data-dash': !user.gender}">{{ user.gender || '—' }}</span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

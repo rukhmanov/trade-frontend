@@ -11,7 +11,8 @@ import { ConfirmEmailComponent } from './entities/auth/email/confirm-email/confi
 export const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./tabs/tabs/tabs.routes').then((m) => m.routes),
+    loadChildren: () =>
+      import('./tabs/tabs/tabs.routes').then((m) => m.tabsRoutes),
   },
   {
     path: 'auth',

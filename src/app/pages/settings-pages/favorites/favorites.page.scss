@@ -1,0 +1,12 @@
+.favorites-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+.favorites-empty {
+  text-align: center;
+  color: #bbb;
+  margin-top: 32px;
+  font-size: 1.2rem;
+}

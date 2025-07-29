@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import {
   IonApp,
@@ -8,6 +8,7 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/angular/standalone';
+import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
 register();
 
@@ -24,6 +25,12 @@ register();
 })
 export class AppComponent {
   constructor(private router: Router, private zone: NgZone) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        console.log('Переход на:', event.url);
+        console.log('Предыдущий URL:', event.urlAfterRedirects);
+      });
     this.initializeApp();
   }
 

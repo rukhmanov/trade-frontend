@@ -3,7 +3,7 @@ import { TabsPage } from './tabs.page';
 
 const tokenFromStorageExists = !!localStorage.getItem('token');
 
-export const routes: Routes = [
+export const tabsRoutes: Routes = [
   {
     path: 'tabs',
     component: TabsPage,
@@ -51,8 +51,41 @@ export const routes: Routes = [
       },
       {
         path: 'settings',
-        loadComponent: () =>
-          import('../settings/settings.page').then((c) => c.SettingsPage),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('../settings/settings.page').then((c) => c.SettingsPage),
+          },
+          {
+            path: 'my-data',
+            loadComponent: () =>
+              import('../../pages/settings-pages/my-data/my-data.page').then(
+                (m) => m.MyDataPage
+              ),
+          },
+          {
+            path: 'admin',
+            loadComponent: () =>
+              import('../../pages/settings-pages/admin/admin.page').then(
+                (m) => m.AdminPage
+              ),
+          },
+          {
+            path: 'favorites',
+            loadComponent: () =>
+              import(
+                '../../pages/settings-pages/favorites/favorites.page'
+              ).then((m) => m.FavoritesPage),
+          },
+          {
+            path: 'info',
+            loadComponent: () =>
+              import('../../pages/settings-pages/info/info.page').then(
+                (m) => m.InfoPage
+              ),
+          },
+        ],
       },
       {
         path: '',

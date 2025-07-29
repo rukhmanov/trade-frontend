@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <app-back-button slot="start"></app-back-button>
+    <ion-title>Избранное</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <div class="favorites-list">
+    <ng-container *ngIf="favorites.length; else empty">
+      <app-compact-card *ngFor="let product of favorites" [data]="product"></app-compact-card>
+    </ng-container>
+    <ng-template #empty>
+      <div class="favorites-empty">Нет избранных продуктов</div>
+    </ng-template>
+  </div>
+</ion-content>
