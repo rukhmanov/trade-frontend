@@ -34,7 +34,7 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+/* @import "@ionic/angular/css/palettes/dark.system.css"; */
 
 @media only screen and (min-width: 1080px) {
   .ion-page {
@@ -202,5 +202,132 @@ ion-content {
   }
   100% {
     background-position: 0% 50%;
+  }
+}
+
+/**
+ * Dark Theme Styles
+ * -----------------------------------------------------
+ * Dark theme styles that will be applied when dark-theme class is present
+ */
+
+.dark-theme {
+  --ion-color-primary: #428cff;
+  --ion-color-primary-rgb: 66, 140, 255;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3a7be0;
+  --ion-color-primary-tint: #5598ff;
+
+  --ion-color-secondary: #50c8ff;
+  --ion-color-secondary-rgb: 80, 200, 255;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #46b0e0;
+  --ion-color-secondary-tint: #62ceff;
+
+  --ion-color-tertiary: #6a64ff;
+  --ion-color-tertiary-rgb: 106, 100, 255;
+  --ion-color-tertiary-contrast: #ffffff;
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #5d58e0;
+  --ion-color-tertiary-tint: #7974ff;
+
+  --ion-color-success: #2fdf75;
+  --ion-color-success-rgb: 47, 223, 117;
+  --ion-color-success-contrast: #000000;
+  --ion-color-success-contrast-rgb: 0, 0, 0;
+  --ion-color-success-shade: #29c467;
+  --ion-color-success-tint: #44e283;
+
+  --ion-color-warning: #ffd534;
+  --ion-color-warning-rgb: 255, 213, 52;
+  --ion-color-warning-contrast: #000000;
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0bb2e;
+  --ion-color-warning-tint: #ffd948;
+
+  --ion-color-danger: #ff4961;
+  --ion-color-danger-rgb: 255, 73, 97;
+  --ion-color-danger-contrast: #ffffff;
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #e04055;
+  --ion-color-danger-tint: #ff5b71;
+
+  --ion-color-medium: #989aa2;
+  --ion-color-medium-rgb: 152, 154, 162;
+  --ion-color-medium-contrast: #000000;
+  --ion-color-medium-contrast-rgb: 0, 0, 0;
+  --ion-color-medium-shade: #86888f;
+  --ion-color-medium-tint: #a2a4ab;
+
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: #ffffff;
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  --ion-color-step-50: #0d0d0d;
+  --ion-color-step-100: #1a1a1a;
+  --ion-color-step-150: #262626;
+  --ion-color-step-200: #333333;
+  --ion-color-step-250: #404040;
+  --ion-color-step-300: #4d4d4d;
+  --ion-color-step-350: #595959;
+  --ion-color-step-400: #666666;
+  --ion-color-step-450: #737373;
+  --ion-color-step-500: #808080;
+  --ion-color-step-550: #8c8c8c;
+  --ion-color-step-600: #999999;
+  --ion-color-step-650: #a6a6a6;
+  --ion-color-step-700: #b3b3b3;
+  --ion-color-step-750: #bfbfbf;
+  --ion-color-step-800: #cccccc;
+  --ion-color-step-850: #d9d9d9;
+  --ion-color-step-900: #e6e6e6;
+  --ion-color-step-950: #f2f2f2;
+
+  --ion-item-background: #1c1c1d;
+  --ion-toolbar-background: #1f1f20;
+  --ion-tab-bar-background: #1f1f20;
+  --ion-card-background: #1c1c1d;
+
+  // Темный градиент для фона
+  ion-content {
+    --background: linear-gradient(45deg, #2c2c2c, #3a3a3a, #4a4a4a, #5a5a5a, #6a6a6a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+  }
+
+  // Контрастные цвета текста
+  --ion-text-color: #ffffff;
+  --ion-text-color-rgb: 255, 255, 255;
+  
+  ion-label, ion-title, h1, h2, h3, h4, h5, h6, p, span {
+    color: #ffffff !important;
+  }
+
+  ion-item {
+    --color: #ffffff;
+    --background: rgba(28, 28, 29, 0.9);
+    backdrop-filter: blur(5px);
+  }
+
+  ion-card {
+    --background: rgba(28, 28, 29, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  ion-tab-bar {
+    --background: rgba(31, 31, 32, 0.9);
+    backdrop-filter: blur(10px);
   }
 }

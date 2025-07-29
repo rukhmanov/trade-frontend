@@ -15,6 +15,14 @@
     <app-auth></app-auth>
 
     <ion-list class="setting-list">
+      <!-- Переключатель темы -->
+      <ion-item>
+        <ion-icon slot="start" name="moon-outline"></ion-icon>
+        <ion-label>Темная тема</ion-label>
+        <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="onThemeChange($event)">
+        </ion-toggle>
+      </ion-item>
+
       <!-- Мои данные -->
       <ion-item button [routerLink]="['my-data']">
         <ion-icon slot="start" name="person-circle-outline"></ion-icon>
