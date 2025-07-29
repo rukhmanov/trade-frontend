@@ -10,11 +10,13 @@ import {
 } from '@ionic/angular/standalone';
 import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
+import { CommonStateService } from './state/common-state.service';
 register();
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
+  standalone: true,
   imports: [
     IonRefresherContent,
     IonRefresher,
@@ -24,7 +26,7 @@ register();
   ],
 })
 export class AppComponent {
-  constructor(private router: Router, private zone: NgZone) {
+  constructor(private router: Router, private zone: NgZone, private commonStateService: CommonStateService) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {

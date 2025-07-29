@@ -24,6 +24,11 @@ import { errorInterceptor } from './app/interceptors/error.interceptor';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from './environments/environment';
+import { ThemeInitializerService } from './app/state/theme-initializer.service';
+
+// Инициализируем тему перед запуском приложения
+const themeInitializer = new ThemeInitializerService();
+themeInitializer.initializeTheme();
 
 bootstrapApplication(AppComponent, {
   providers: [
