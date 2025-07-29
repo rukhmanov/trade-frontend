@@ -174,3 +174,33 @@ ion-grid {
 .custom-loading ion-backdrop {
   background-color: #000;
 }
+
+/**
+ * Global Background Gradient
+ * -----------------------------------------------------
+ * Adding pleasant light gradient that changes over time
+ */
+
+ion-content {
+  --background: linear-gradient(45deg, #f0f8ff, #e6f3ff, #f5f0ff, #fff0f5, #f0fff0);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
