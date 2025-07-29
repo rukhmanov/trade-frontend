@@ -331,3 +331,47 @@ ion-content {
     backdrop-filter: blur(10px);
   }
 }
+
+/**
+ * Transparent Toolbar Background
+ * -----------------------------------------------------
+ */
+
+.toolbar-background {
+  background: transparent !important;
+}
+
+ion-toolbar {
+  --background: transparent !important;
+}
+
+ion-header {
+  --background: transparent !important;
+}
+
+// Более агрессивные стили
+ion-toolbar,
+ion-header,
+.toolbar-background,
+ion-toolbar::part(background),
+ion-header::part(background) {
+  background: transparent !important;
+  --background: transparent !important;
+}
+
+// Специфичные стили для всех возможных селекторов
+ion-toolbar *,
+ion-header * {
+  background: transparent !important;
+}
+
+// Принудительная прозрачность
+ion-toolbar {
+  background-color: transparent !important;
+  background-image: none !important;
+}
+
+ion-header {
+  background-color: transparent !important;
+  background-image: none !important;
+}
