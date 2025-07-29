@@ -51,8 +51,36 @@
 
   .buy-button {
     margin-top: auto; // Push the button to the bottom of the card
-    border-radius: 8px;
-    --border-radius: 10px; /* Задаёт радиус скругления углов */
+    padding: 0 8px 8px 8px;
+    
+    ion-button {
+      --border-radius: 30px;
+      border-radius: 30px !important;
+      --background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --background-hover: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+      --color: white;
+      --box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+      font-weight: 600;
+      font-size: 14px;
+      height: 44px;
+      transition: all 0.3s ease;
+
+      
+      &::part(native) {
+        border-radius: 8px !important;
+      }
+
+      
+      &:hover {
+        --box-shadow: 0 6px 20px rgba(79, 70, 229, 0.6);
+        transform: translateY(-2px);
+      }
+      
+      ion-icon {
+        margin-right: 6px;
+        font-size: 16px;
+      }
+    }
   }
 
   ion-card-title {

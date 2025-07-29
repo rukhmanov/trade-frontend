@@ -34,7 +34,47 @@
 
   .buy-button {
     margin-top: auto; // Push the button to the bottom of the card
-    border-radius: 8px;
+    padding: 0 16px 16px 16px;
+    
+    ion-button {
+      --border-radius: 35px;
+      border-radius: 35px !important;
+      --background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --background-hover: linear-gradient(135deg, #7c3aed 0%, #4f46e5 100%);
+      --color: white;
+      --box-shadow: 0 6px 20px rgba(79, 70, 229, 0.4);
+      font-weight: 600;
+      font-size: 16px;
+      height: 50px;
+      transition: all 0.3s ease;
+      
+      &::part(button-native) {
+        border-radius: 35px !important;
+      }
+      
+      &::part(native) {
+        border-radius: 35px !important;
+      }
+      
+      &::part(button) {
+        border-radius: 35px !important;
+      }
+      
+      // Принудительное применение ко всем дочерним элементам
+      * {
+        border-radius: 35px !important;
+      }
+      
+      &:hover {
+        --box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
+        transform: translateY(-2px);
+      }
+      
+      ion-icon {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+    }
   }
 
   .name {
