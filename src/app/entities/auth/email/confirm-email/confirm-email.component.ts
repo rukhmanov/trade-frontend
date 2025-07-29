@@ -10,7 +10,6 @@ import {
   IonText,
 } from '@ionic/angular/standalone';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { CommonModule } from '@angular/common';
 import { EmailService } from '../email.service';
 
@@ -24,10 +23,10 @@ import { EmailService } from '../email.service';
     IonLabel,
     IonContent,
     IonToolbar,
+    IonTitle,
     FormsModule,
     ReactiveFormsModule,
     IonHeader,
-    BackButtonComponent,
     CommonModule,
   ],
 })

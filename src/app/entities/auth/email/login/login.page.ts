@@ -13,6 +13,7 @@ import { LoginPageRoutingModule } from './login-routing.module';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
+import { IonTitle } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ import { BackButtonComponent } from 'src/app/entities/back-button/back-button.co
     ReactiveFormsModule,
     IonicModule,
     BackButtonComponent,
+    IonTitle,
   ],
 })
 export class LoginPage implements OnInit {

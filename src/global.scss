@@ -57,6 +57,9 @@
   .title {
     font-size: 30px;
     margin-right: 20px;
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: 1.2;
   }
   .add-new-btn {
     margin-left: auto;
@@ -70,6 +73,10 @@
   align-items: center;
   .title {
     margin-right: 10px;
+    word-wrap: break-word;
+    white-space: normal;
+    line-height: 1.2;
+    font-size: 18px;
   }
   .add-new-btn {
     margin-left: auto;

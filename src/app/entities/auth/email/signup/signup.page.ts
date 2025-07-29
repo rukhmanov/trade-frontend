@@ -21,6 +21,7 @@ import { PhoneInputComponent } from 'src/app/entities/phone-input/phone-input.co
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { map, Observable } from 'rxjs';
+import { IonTitle } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-signup',
@@ -35,6 +36,7 @@ import { map, Observable } from 'rxjs';
     IonicModule,
     BackButtonComponent,
     PhoneInputComponent,
+    IonTitle,
   ],
 })
 export class SignupPage implements OnInit {
