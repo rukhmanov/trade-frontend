@@ -12,7 +12,9 @@ import {
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { CommonModule } from '@angular/common';
 import { DataStateService } from 'src/app/state/data-state.service';
+import { UserStateService } from 'src/app/state/user-state.service';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 
 @Component({
   selector: 'app-cart',
@@ -33,7 +35,9 @@ import { ProductsApiService } from 'src/app/entities/cards/compact-card/services
 export class CartPage implements OnInit {
   constructor(
     public dataStateService: DataStateService,
-    public productsApiService: ProductsApiService
+    public productsApiService: ProductsApiService,
+    private userStateService: UserStateService,
+    private userDataService: UserDataService
   ) {}
 
   ngOnInit(): void {
@@ -41,26 +45,19 @@ export class CartPage implements OnInit {
       this.productsApiService.getProductsFromCart().subscribe();
     }
     
-    // Принудительно загружаем лайки при инициализации страницы
-    this.loadLikedProducts();
+    // Принудительно загружаем данные пользователя при инициализации страницы
+    this.loadUserData();
   }
 
   ionViewWillEnter() {
-    // Загружаем лайки при каждом входе на страницу
-    this.loadLikedProducts();
+    // Загружаем данные пользователя при каждом входе на страницу
+    this.loadUserData();
   }
 
-  private loadLikedProducts() {
-    // Проверяем, есть ли уже лайки в состоянии
-    if (!this.dataStateService.likedProducts$.value) {
-      this.productsApiService.getLikedProducts().subscribe(
-        (response) => {
-          this.dataStateService.likedProducts$.next(response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки лайков:', error);
-        }
-      );
+  private loadUserData() {
+    // Загружаем данные только для авторизованных пользователей
+    if (this.userStateService.me$.value) {
+      this.userDataService.loadUserData();
     }
   }
 }

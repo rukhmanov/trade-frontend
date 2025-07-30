@@ -22,6 +22,7 @@ import {
 import { addIcons } from 'ionicons';
 import { FormsModule } from '@angular/forms';
 import { CommonStateService } from '../../state/common-state.service';
+import { UserStateService } from '../../state/user-state.service';
 
 @Component({
   selector: 'app-settings',
@@ -44,8 +45,12 @@ import { CommonStateService } from '../../state/common-state.service';
 })
 export class SettingsPage {
   isDarkMode = false;
+  isLoggedIn = false;
 
-  constructor(private commonStateService: CommonStateService) {
+  constructor(
+    private commonStateService: CommonStateService,
+    private userStateService: UserStateService
+  ) {
     addIcons({
       personCircleOutline,
       heartOutline,
@@ -57,6 +62,11 @@ export class SettingsPage {
     // Подписываемся на изменения темы
     this.commonStateService.isDarkMode$.subscribe(isDarkMode => {
       this.isDarkMode = isDarkMode;
+    });
+
+    // Подписываемся на состояние авторизации
+    this.userStateService.me$.subscribe(user => {
+      this.isLoggedIn = !!user;
     });
   }
 

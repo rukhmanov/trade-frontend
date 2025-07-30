@@ -24,19 +24,19 @@
       </ion-item>
 
       <!-- Мои данные -->
-      <ion-item button [routerLink]="['my-data']">
+      <ion-item button [routerLink]="['my-data']" *ngIf="isLoggedIn">
         <ion-icon slot="start" name="person-circle-outline"></ion-icon>
         <ion-label>Мои данные</ion-label>
       </ion-item>
 
       <!-- Админ панель -->
-      <ion-item button [routerLink]="['admin']">
+      <ion-item button [routerLink]="['admin']" *ngIf="isLoggedIn">
         <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
         <ion-label>Админ панель</ion-label>
       </ion-item>
 
       <!-- Мне нравится -->
-      <ion-item button [routerLink]="['favorites']">
+      <ion-item button [routerLink]="['favorites']" *ngIf="isLoggedIn">
         <ion-icon slot="start" name="heart-outline"></ion-icon>
         <ion-label>Мне нравится</ion-label>
       </ion-item>

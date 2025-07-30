@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
-
-const tokenFromStorageExists = !!localStorage.getItem('token');
+import { AuthGuard } from '../../guards/auth.guard';
 
 export const tabsRoutes: Routes = [
   {
@@ -29,6 +28,7 @@ export const tabsRoutes: Routes = [
       },
       {
         path: 'cart',
+        canActivate: [AuthGuard],
         children: [
           {
             path: '',
@@ -46,6 +46,7 @@ export const tabsRoutes: Routes = [
       },
       {
         path: 'my-cards',
+        canActivate: [AuthGuard],
         loadComponent: () =>
           import('../my-cards/my-cards.page').then((c) => c.MyCardsPage),
       },
@@ -59,6 +60,7 @@ export const tabsRoutes: Routes = [
           },
           {
             path: 'my-data',
+            canActivate: [AuthGuard],
             loadComponent: () =>
               import('../../pages/settings-pages/my-data/my-data.page').then(
                 (m) => m.MyDataPage
@@ -66,6 +68,7 @@ export const tabsRoutes: Routes = [
           },
           {
             path: 'admin',
+            canActivate: [AuthGuard],
             loadComponent: () =>
               import('../../pages/settings-pages/admin/admin.page').then(
                 (m) => m.AdminPage
@@ -73,6 +76,7 @@ export const tabsRoutes: Routes = [
           },
           {
             path: 'favorites',
+            canActivate: [AuthGuard],
             loadComponent: () =>
               import(
                 '../../pages/settings-pages/favorites/favorites.page'
@@ -96,7 +100,7 @@ export const tabsRoutes: Routes = [
   },
   {
     path: '',
-    redirectTo: tokenFromStorageExists ? '/tabs/all' : '/tabs/settings',
+    redirectTo: '/tabs/all',
     pathMatch: 'full',
   },
 ];

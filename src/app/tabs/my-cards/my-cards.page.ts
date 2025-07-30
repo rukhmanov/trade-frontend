@@ -14,9 +14,11 @@ import {
 } from '@ionic/angular/standalone';
 
 import { DataStateService } from '../../state/data-state.service';
+import { UserStateService } from '../../state/user-state.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
 
 @Component({
@@ -43,6 +45,8 @@ export class MyCardsPage implements OnInit {
   constructor(
     private productsApiService: ProductsApiService,
     public dataStateService: DataStateService,
+    private userStateService: UserStateService,
+    private userDataService: UserDataService,
     private router: Router
   ) {}
 
@@ -51,26 +55,19 @@ export class MyCardsPage implements OnInit {
       this.productsApiService.getMyProducts().subscribe();
     }
     
-    // Принудительно загружаем лайки при инициализации страницы
-    this.loadLikedProducts();
+    // Принудительно загружаем данные пользователя при инициализации страницы
+    this.loadUserData();
   }
 
   ionViewWillEnter() {
-    // Загружаем лайки при каждом входе на страницу
-    this.loadLikedProducts();
+    // Загружаем данные пользователя при каждом входе на страницу
+    this.loadUserData();
   }
 
-  private loadLikedProducts() {
-    // Проверяем, есть ли уже лайки в состоянии
-    if (!this.dataStateService.likedProducts$.value) {
-      this.productsApiService.getLikedProducts().subscribe(
-        (response) => {
-          this.dataStateService.likedProducts$.next(response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки лайков:', error);
-        }
-      );
+  private loadUserData() {
+    // Загружаем данные только для авторизованных пользователей
+    if (this.userStateService.me$.value) {
+      this.userDataService.loadUserData();
     }
   }
 

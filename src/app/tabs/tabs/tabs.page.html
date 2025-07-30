@@ -7,13 +7,13 @@
       <ion-label>Товары</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="my-cards" href="/my-cards" (click)="onTabClick()">
+    <ion-tab-button tab="my-cards" href="/my-cards" (click)="onTabClick()" *ngIf="isLoggedIn">
       <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
       <ion-label>Создать</ion-label>
       <ion-badge *ngIf="myCardsCount > 0" class="tab-badge">{{ myCardsCount }}</ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="cart" href="/tabs/cart" (click)="onTabClick()">
+    <ion-tab-button tab="cart" href="/tabs/cart" (click)="onTabClick()" *ngIf="isLoggedIn">
       <ion-icon aria-hidden="true" name="cart"></ion-icon>
       <ion-label>Корзина</ion-label>
       <ion-badge *ngIf="cartCount > 0" class="tab-badge">{{ cartCount }}</ion-badge>

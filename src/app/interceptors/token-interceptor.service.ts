@@ -9,6 +9,7 @@ import {
 } from '@angular/common/http';
 import { UserStateService } from '../state/user-state.service';
 import { AuthService } from '../entities/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,8 @@ import { AuthService } from '../entities/auth/auth.service';
 export class TokenInterceptorService implements HttpInterceptor {
   constructor(
     private userStateService: UserStateService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
   intercept(
     request: HttpRequest<any>,
@@ -34,6 +36,7 @@ export class TokenInterceptorService implements HttpInterceptor {
       catchError((err) => {
         if (err.status === 401) {
           this.authService.logout();
+          this.router.navigate(['/tabs/settings']);
         }
         const error = err.error.message || err.statusText;
         return throwError(error);

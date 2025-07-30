@@ -12,6 +12,8 @@ import { CompactCardComponent } from '../../entities/cards/compact-card/compact-
 import { ProductsApiService } from '../../entities/cards/compact-card/services/cards-api.service';
 import { CommonModule } from '@angular/common';
 import { DataStateService } from '../../state/data-state.service';
+import { UserStateService } from '../../state/user-state.service';
+import { UserDataService } from '../../services/user-data.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -34,6 +36,8 @@ export class AllPage implements OnInit {
   constructor(
     private productsApiService: ProductsApiService,
     public dataStateService: DataStateService,
+    private userStateService: UserStateService,
+    private userDataService: UserDataService,
     private router: Router
   ) {}
 
@@ -42,36 +46,19 @@ export class AllPage implements OnInit {
       this.productsApiService.getAll().subscribe();
     }
     
-    // Принудительно загружаем лайки при инициализации страницы
-    this.loadLikedProducts();
+    // Принудительно загружаем данные пользователя при инициализации страницы
+    this.loadUserData();
   }
 
   ionViewWillEnter() {
-    // Загружаем лайки при каждом входе на страницу
-    this.loadLikedProducts();
+    // Загружаем данные пользователя при каждом входе на страницу
+    this.loadUserData();
   }
 
-  private loadLikedProducts() {
-    // Проверяем, есть ли уже лайки в состоянии
-    if (!this.dataStateService.likedProducts$.value) {
-      this.productsApiService.getLikedProducts().subscribe(
-        (response) => {
-          this.dataStateService.likedProducts$.next(response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки лайков:', error);
-        }
-      );
-    } else {
-      // Если лайки уже есть, обновляем их
-      this.productsApiService.getLikedProducts().subscribe(
-        (response) => {
-          this.dataStateService.likedProducts$.next(response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки лайков:', error);
-        }
-      );
+  private loadUserData() {
+    // Загружаем данные только для авторизованных пользователей
+    if (this.userStateService.me$.value) {
+      this.userDataService.loadUserData();
     }
   }
 

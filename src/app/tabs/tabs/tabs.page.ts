@@ -21,7 +21,8 @@ import {
 } from 'ionicons/icons';
 import { CommonStateService } from 'src/app/state/common-state.service';
 import { DataStateService } from 'src/app/state/data-state.service';
-import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
+import { UserDataService } from 'src/app/services/user-data.service';
+import { UserStateService } from 'src/app/state/user-state.service';
 
 @Component({
   selector: 'app-tabs',
@@ -33,11 +34,13 @@ export class TabsPage implements OnInit {
   public environmentInjector = inject(EnvironmentInjector);
   cartCount = 0;
   myCardsCount = 0;
+  isLoggedIn = false;
 
   constructor(
     public commonStateService: CommonStateService,
     private dataStateService: DataStateService,
-    private productsApiService: ProductsApiService
+    private userDataService: UserDataService,
+    private userStateService: UserStateService
   ) {
     addIcons({
       triangle,
@@ -52,9 +55,14 @@ export class TabsPage implements OnInit {
   }
 
   ngOnInit() {
-    // Загружаем данные при инициализации
-    this.loadCartData();
-    this.loadMyCardsData();
+    // Подписываемся на состояние авторизации
+    this.userStateService.me$.subscribe(user => {
+      this.isLoggedIn = !!user;
+      if (this.isLoggedIn) {
+        // Загружаем данные только для авторизованных пользователей
+        this.loadUserData();
+      }
+    });
     
     // Подписываемся на изменения в корзине
     this.dataStateService.cardsInMyCart$.subscribe((cartItems: any) => {
@@ -68,16 +76,13 @@ export class TabsPage implements OnInit {
   }
 
   onTabClick() {
-    // Обновляем данные при переходе на вкладку
-    this.loadCartData();
-    this.loadMyCardsData();
+    // Обновляем данные при переходе на вкладку только для авторизованных пользователей
+    if (this.isLoggedIn) {
+      this.loadUserData();
+    }
   }
 
-  private loadCartData() {
-    this.productsApiService.getProductsFromCart().subscribe();
-  }
-
-  private loadMyCardsData() {
-    this.productsApiService.getMyProducts().subscribe();
+  private loadUserData() {
+    this.userDataService.loadUserData();
   }
 }

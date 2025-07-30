@@ -34,15 +34,16 @@ bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideHttpClient(withInterceptors([cacheInterceptor])),
     provideRouter(routes, withPreloading(PreloadAllModules)),
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(
+      withInterceptors([cacheInterceptor, errorInterceptor]),
+      withInterceptorsFromDi()
+    ),
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true,
     },
-    provideHttpClient(withInterceptors([errorInterceptor])),
     provideFirebaseApp(() => initializeApp({ ...environment.firebase })),
     provideAuth(() => getAuth()),
   ],

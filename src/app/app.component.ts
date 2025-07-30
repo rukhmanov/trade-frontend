@@ -12,7 +12,8 @@ import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
 import { CommonStateService } from './state/common-state.service';
 import { DataStateService } from './state/data-state.service';
-import { ProductsApiService } from './entities/cards/compact-card/services/cards-api.service';
+import { UserStateService } from './state/user-state.service';
+import { UserDataService } from './services/user-data.service';
 import { environment } from '../environments/environment';
 register();
 
@@ -34,7 +35,8 @@ export class AppComponent {
     private zone: NgZone, 
     private commonStateService: CommonStateService,
     private dataStateService: DataStateService,
-    private productsApiService: ProductsApiService
+    private userStateService: UserStateService,
+    private userDataService: UserDataService
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -49,8 +51,12 @@ export class AppComponent {
   }
 
   initializeApp() {
-    // Загружаем лайки при старте приложения
-    this.loadLikedProducts();
+    // Загружаем данные пользователя при старте приложения только для авторизованных пользователей
+    this.userStateService.me$.subscribe(user => {
+      if (user) {
+        this.userDataService.loadUserData();
+      }
+    });
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Log deep link event for debugging (remove in production)
@@ -68,18 +74,6 @@ export class AppComponent {
         }
       });
     });
-  }
-
-  private loadLikedProducts() {
-    // Загружаем лайки при старте приложения
-    this.productsApiService.getLikedProducts().subscribe(
-      (response) => {
-        this.dataStateService.likedProducts$.next(response.data);
-      },
-      (error) => {
-        console.log('Ошибка загрузки лайков:', error);
-      }
-    );
   }
 
   handleRefresh(event: CustomEvent) {

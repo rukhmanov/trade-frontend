@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { AuthComponent } from './entities/auth/auth.component';
 import { RemoteLoginComponent } from './entities/auth/remote-login/remote-login.component';
 import { RemoteLoginBackComponent } from './entities/auth/remote-login-back/remote-login-back.component';
 import { RemoteLoginTargetComponent } from './entities/auth/remote-login-target/remote-login-target.component';
@@ -7,17 +6,13 @@ import { CreateCardPageComponent } from './tabs/create-card-page/create-card-pag
 import { LoginPage } from './entities/auth/email/login/login.page';
 import { SignupPage } from './entities/auth/email/signup/signup.page';
 import { ConfirmEmailComponent } from './entities/auth/email/confirm-email/confirm-email.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: '',
     loadChildren: () =>
       import('./tabs/tabs/tabs.routes').then((m) => m.tabsRoutes),
-  },
-  {
-    path: 'auth',
-    component: AuthComponent,
-    pathMatch: 'full',
   },
   {
     path: 'remote-login',
@@ -37,6 +32,7 @@ export const routes: Routes = [
   {
     path: 'create-card',
     component: CreateCardPageComponent,
+    canActivate: [AuthGuard],
     pathMatch: 'full',
   },
   {
