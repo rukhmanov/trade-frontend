@@ -38,6 +38,10 @@ export class ProductsApiService {
     return this.http.post<any>(this.baseUrl + 'products/cart', { productId });
   }
 
+  removeFromCart(productId: number | string): Observable<any> {
+    return this.http.delete<any>(this.baseUrl + 'products/cart/' + productId);
+  }
+
   getProductsFromCart(): Observable<any> {
     return this.http
       .get<any>(this.baseUrl + 'products/cart')

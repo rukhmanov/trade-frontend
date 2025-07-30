@@ -19,8 +19,20 @@
   </ion-card-content>
 
   <div class="buy-button">
-    <ion-button (click)="buy($event)" expand="full">
+    <!-- Кнопка "Купить" если товар не в корзине -->
+    <ion-button *ngIf="!isInCart" (click)="buy($event)" expand="full">
       <ion-icon name="cart"></ion-icon> Купить
     </ion-button>
+
+    <!-- Кнопки количества если товар в корзине -->
+    <div *ngIf="isInCart" class="quantity-controls">
+      <ion-button size="small" fill="clear" (click)="decreaseQuantity($event)">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+      <span class="quantity">{{ cartQuantity }}</span>
+      <ion-button size="small" fill="clear" (click)="increaseQuantity($event)">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
   </div>
 </ion-card>

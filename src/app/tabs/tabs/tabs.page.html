@@ -2,22 +2,24 @@
   <!-- <ion-progress-bar *ngIf="commonStateService.pending$ | async" type="indeterminate"></ion-progress-bar> -->
 
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="all" href="/tabs/all">
+    <ion-tab-button tab="all" href="/tabs/all" (click)="onTabClick()">
       <ion-icon aria-hidden="true" name="search"></ion-icon>
       <ion-label>Товары</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="my-cards" href="/my-cards">
+    <ion-tab-button tab="my-cards" href="/my-cards" (click)="onTabClick()">
       <ion-icon aria-hidden="true" name="add-circle"></ion-icon>
       <ion-label>Создать</ion-label>
+      <ion-badge *ngIf="myCardsCount > 0" class="tab-badge">{{ myCardsCount }}</ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="cart" href="/tabs/cart">
+    <ion-tab-button tab="cart" href="/tabs/cart" (click)="onTabClick()">
       <ion-icon aria-hidden="true" name="cart"></ion-icon>
       <ion-label>Корзина</ion-label>
+      <ion-badge *ngIf="cartCount > 0" class="tab-badge">{{ cartCount }}</ion-badge>
     </ion-tab-button>
 
-    <ion-tab-button tab="settings" href="/tabs/settings">
+    <ion-tab-button tab="settings" href="/tabs/settings" (click)="onTabClick()">
       <ion-icon aria-hidden="true" name="cog-outline"></ion-icon>
       <ion-label>Настройки</ion-label>
     </ion-tab-button>
