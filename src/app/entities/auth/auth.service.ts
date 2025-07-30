@@ -6,6 +6,7 @@ import { Platform } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { DataStateService } from 'src/app/state/data-state.service';
+import { UserDataService } from 'src/app/services/user-data.service';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
@@ -32,6 +33,7 @@ export class AuthService {
     private http: HttpClient,
     public userState: UserStateService,
     private dataStateService: DataStateService,
+    private userDataService: UserDataService,
     public router: Router,
     private platform: Platform
   ) {
@@ -99,6 +101,7 @@ export class AuthService {
           console.log('jwt ==> ', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
+          this.userDataService.loadUserData(); // Загружаем данные пользователя
           this.router.navigate(['tabs', 'all']);
         })
       )
@@ -117,6 +120,7 @@ export class AuthService {
           tap(({ jwt }) => {
                       this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
+          this.userDataService.loadUserData(); // Загружаем данные пользователя
           this.router.navigate(['tabs', 'all']);
           })
         )

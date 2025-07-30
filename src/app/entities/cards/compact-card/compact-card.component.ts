@@ -8,8 +8,9 @@ import {
   IonCardTitle,
   IonButton,
   IonIcon,
+  AlertController,
 } from '@ionic/angular/standalone';
-import { heart, add, remove } from 'ionicons/icons';
+import { heart, add, remove, trash } from 'ionicons/icons';
 import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -17,6 +18,7 @@ import { addIcons } from 'ionicons';
 import { CommonStateService } from 'src/app/state/common-state.service';
 import { ProductsApiService } from './services/cards-api.service';
 import { DataStateService } from 'src/app/state/data-state.service';
+import { UserStateService } from 'src/app/state/user-state.service';
 
 @Component({
   selector: 'app-compact-card',
@@ -38,25 +40,32 @@ export class CompactCardComponent implements OnInit {
   isInCart = false;
   cartQuantity = 0;
   isLiked = false;
+  isOwnProduct = false;
 
   @Input() data: IProduct | null = null;
+  @Input() hideButtons = false; // Новый input для скрытия кнопок
+  @Input() showDeleteButton = false; // Новый input для показа кнопки удаления
   
   constructor(
     private router: Router,
     private commonStateService: CommonStateService,
     private productsApiService: ProductsApiService,
-    private dataStateService: DataStateService
+    private dataStateService: DataStateService,
+    private userStateService: UserStateService,
+    private alertController: AlertController
   ) {
     addIcons({
       heart,
       add,
       remove,
+      trash,
     });
   }
 
   ngOnInit() {
     this.checkCartStatus();
     this.checkLikeStatus();
+    this.checkOwnership();
     
     // Подписываемся на изменения в корзине
     this.dataStateService.cardsInMyCart$.subscribe(() => {
@@ -226,5 +235,54 @@ export class CompactCardComponent implements OnInit {
     );
     this.dataStateService.cardsInMyCart$.next(updatedCart);
     this.checkCartStatus();
+  }
+
+  private checkOwnership() {
+    if (!this.data) return;
+    
+    // Временно отключаем проверку владельца
+    // TODO: Добавить правильную проверку владельца товара
+    this.isOwnProduct = false;
+  }
+
+  async deleteProduct(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    if (this.data) {
+      const alert = await this.alertController.create({
+        header: 'Подтверждение удаления',
+        message: 'Вы уверены, что хотите удалить этот товар?',
+        buttons: [
+          {
+            text: 'Отмена',
+            role: 'cancel',
+            handler: () => {
+              console.log('Удаление отменено');
+            },
+          },
+          {
+            text: 'Удалить',
+            role: 'confirm',
+            handler: () => {
+              if (this.data) {
+                this.productsApiService.deleteProduct(this.data.id).subscribe(() => {
+                  // Удаляем товар из списка моих товаров
+                  const currentMyCards = this.dataStateService.myCards$.value || [];
+                  const updatedMyCards = currentMyCards.filter(item => item.id !== this.data?.id);
+                  this.dataStateService.myCards$.next(updatedMyCards);
+                  
+                  // Также удаляем из всех товаров, если он там есть
+                  const currentAllProducts = this.dataStateService.all$.value || [];
+                  const updatedAllProducts = currentAllProducts.filter(item => item.id !== this.data?.id);
+                  this.dataStateService.all$.next(updatedAllProducts);
+                });
+              }
+            },
+          },
+        ],
+      });
+      await alert.present();
+    }
   }
 }

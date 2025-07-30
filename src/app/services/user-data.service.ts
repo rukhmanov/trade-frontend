@@ -16,6 +16,13 @@ export class UserDataService {
   ) {}
 
   loadUserData(): void {
+    // Проверяем, есть ли токен
+    const token = localStorage.getItem('token');
+    
+    if (!token) {
+      return;
+    }
+    
     // Загружаем лайки пользователя
     this.getLikedProducts().subscribe(
       (response) => {

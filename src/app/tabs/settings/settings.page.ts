@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   IonHeader,
   IonToolbar,
@@ -29,6 +30,7 @@ import { UserStateService } from '../../state/user-state.service';
   templateUrl: 'settings.page.html',
   styleUrls: ['settings.page.scss'],
   imports: [
+    CommonModule,
     IonIcon,
     IonLabel,
     IonItem,

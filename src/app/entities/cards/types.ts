@@ -12,6 +12,7 @@ export interface IProduct {
   updateDate: string;
   photos: string[];
   city?: string;
+  user?: IUser; // Добавляем поле для владельца товара
 }
 
 export interface IProductResponse {

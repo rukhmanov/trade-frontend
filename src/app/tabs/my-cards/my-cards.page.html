@@ -28,7 +28,7 @@
     <ion-row>
       <ng-container *ngIf="dataStateService.myCards$ | async as products">
         <ion-col size="6" size-md="4" size-lg="3" *ngFor="let data of products">
-          <app-compact-card [data]="data"></app-compact-card>
+          <app-compact-card [data]="data" [showDeleteButton]="true"></app-compact-card>
         </ion-col>
       </ng-container>
     </ion-row>

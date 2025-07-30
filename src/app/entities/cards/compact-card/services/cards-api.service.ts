@@ -56,4 +56,8 @@ export class ProductsApiService {
       .get<any>(this.baseUrl + 'products/cart')
       .pipe(tap((response) => this.dataStateService.cardsInMyCart$.next(response.data)));
   }
+
+  deleteProduct(productId: number | string): Observable<IApiResponse> {
+    return this.http.delete<IApiResponse>(this.baseUrl + 'products/' + productId);
+  }
 }
