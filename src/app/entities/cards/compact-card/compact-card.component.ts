@@ -12,6 +12,7 @@ import {
 } from '@ionic/angular/standalone';
 import { heart, add, remove, trash } from 'ionicons/icons';
 import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
+import { IUser } from '../../auth/types';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
@@ -240,9 +241,12 @@ export class CompactCardComponent implements OnInit {
   private checkOwnership() {
     if (!this.data) return;
     
-    // Временно отключаем проверку владельца
-    // TODO: Добавить правильную проверку владельца товара
-    this.isOwnProduct = false;
+    const currentUser: IUser | null = this.userStateService.me$.value;
+    if (!currentUser || !this.data.user) return;
+    
+    // Проверяем, является ли текущий пользователь владельцем товара
+    // Используем email для сравнения, так как это уникальное поле
+    this.isOwnProduct = currentUser.email === this.data.user.email;
   }
 
   async deleteProduct(event: Event) {

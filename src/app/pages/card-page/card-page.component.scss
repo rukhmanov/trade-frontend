@@ -32,7 +32,7 @@
     padding: 25px 20px 5px 15px;
   }
 
-  .buy-button {
+  .action-buttons {
     margin-top: auto; // Push the button to the bottom of the card
     padding: 0 16px 16px 16px;
     
@@ -75,6 +75,51 @@
         font-size: 18px;
       }
     }
+
+    // Стили для кнопки удаления
+    ion-button[color="danger"] {
+      --background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      --background-hover: linear-gradient(135deg, #dc2626 0%, #ef4444 100%);
+      --box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+      
+      &:hover {
+        --box-shadow: 0 8px 25px rgba(239, 68, 68, 0.6);
+      }
+    }
+  }
+
+  .quantity-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    padding: 12px;
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    
+    ion-button {
+      --background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      --color: white;
+      --border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      min-height: 40px;
+      
+      ion-icon {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+    
+    .quantity {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+      min-width: 30px;
+      text-align: center;
+    }
   }
 
   .name {
@@ -95,6 +140,63 @@
 
   .liked {
     color: rgb(255, 0, 119);
+  }
+
+  // Стили для информации о владельце
+  .owner-info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    padding: 6px 12px;
+    
+    .owner-name {
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+    }
+  }
+
+  // Стили для сообщения о своем товаре
+  .own-product-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border-radius: 8px;
+    padding: 8px 12px;
+    height: 36px;
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+    margin: 10px 16px;
+    
+    ion-icon {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+  }
+
+  // Стили для дополнительной информации
+  .additional-info {
+    margin-top: 16px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid #4f46e5;
+    
+    p {
+      margin: 4px 0;
+      color: #e2e8f0;
+      font-size: 14px;
+      
+      strong {
+        color: #cbd5e1;
+      }
+    }
   }
 }
 

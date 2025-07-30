@@ -24,13 +24,14 @@
       <ion-icon name="trash"></ion-icon> Удалить
     </ion-button>
 
-    <!-- Кнопка "Купить" если товар не в корзине и не на странице "Мои товары" -->
-    <ion-button *ngIf="!isInCart && !showDeleteButton && !hideButtons" (click)="buy($event)" expand="full">
+    <!-- Кнопка "Купить" если товар не в корзине, не свой и не скрыты кнопки -->
+    <ion-button *ngIf="!isInCart && !isOwnProduct && !showDeleteButton && !hideButtons" (click)="buy($event)"
+      expand="full">
       <ion-icon name="cart"></ion-icon> Купить
     </ion-button>
 
-    <!-- Кнопки количества если товар в корзине и не на странице "Мои товары" -->
-    <div *ngIf="isInCart && !showDeleteButton && !hideButtons" class="quantity-controls">
+    <!-- Кнопки количества если товар в корзине, не свой и не скрыты кнопки -->
+    <div *ngIf="isInCart && !isOwnProduct && !showDeleteButton && !hideButtons" class="quantity-controls">
       <ion-button size="small" fill="clear" (click)="decreaseQuantity($event)">
         <ion-icon name="remove"></ion-icon>
       </ion-button>

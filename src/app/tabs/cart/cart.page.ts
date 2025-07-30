@@ -7,6 +7,8 @@ import {
   IonCol,
   IonGrid,
   IonRow,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/angular/standalone';
 
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
@@ -28,6 +30,8 @@ import { UserDataService } from 'src/app/services/user-data.service';
     IonToolbar,
     IonTitle,
     IonContent,
+    IonRefresher,
+    IonRefresherContent,
     CompactCardComponent,
     CommonModule,
   ],
@@ -41,23 +45,49 @@ export class CartPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.dataStateService.cardsInMyCart$.value) {
+    // Загружаем корзину только если кеш устарел
+    if (this.dataStateService.shouldRefresh('cart')) {
       this.productsApiService.getProductsFromCart().subscribe();
     }
     
-    // Принудительно загружаем данные пользователя при инициализации страницы
-    this.loadUserData();
+    // Загружаем данные пользователя только если авторизован
+    if (this.userStateService.me$.value) {
+      this.loadUserData();
+    }
   }
 
   ionViewWillEnter() {
-    // Загружаем данные пользователя при каждом входе на страницу
-    this.loadUserData();
+    // Загружаем данные пользователя только если авторизован
+    if (this.userStateService.me$.value) {
+      this.loadUserData();
+    }
   }
 
   private loadUserData() {
     // Загружаем данные только для авторизованных пользователей
     if (this.userStateService.me$.value) {
       this.userDataService.loadUserData();
+    }
+  }
+
+  // Обработчик pull-to-refresh
+  async handleRefresh(event: any) {
+    try {
+      // Очищаем кеш корзины для принудительного обновления
+      this.dataStateService.clearCacheItem('cart');
+      
+      // Загружаем корзину заново
+      await this.productsApiService.getProductsFromCart().toPromise();
+      
+      // Загружаем данные пользователя если авторизован
+      if (this.userStateService.me$.value) {
+        await this.userDataService.forceRefreshUserData().toPromise();
+      }
+      
+      event.target.complete();
+    } catch (error) {
+      console.error('Error refreshing cart data:', error);
+      event.target.complete();
     }
   }
 }

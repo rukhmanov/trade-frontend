@@ -51,12 +51,9 @@ export class AppComponent {
   }
 
   initializeApp() {
-    // Загружаем данные пользователя при старте приложения только для авторизованных пользователей
-    this.userStateService.me$.subscribe(user => {
-      if (user) {
-        this.userDataService.loadUserData();
-      }
-    });
+    // Убираем автоматическую загрузку данных при старте приложения
+    // Данные будут загружаться только при необходимости через кеширование
+    // при переходе на соответствующие страницы
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Log deep link event for debugging (remove in production)

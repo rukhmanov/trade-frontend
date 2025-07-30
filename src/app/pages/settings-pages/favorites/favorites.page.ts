@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
+import { 
+  IonContent, 
+  IonHeader, 
+  IonTitle, 
+  IonToolbar, 
+  IonGrid, 
+  IonRow, 
+  IonCol,
+  IonRefresher,
+  IonRefresherContent
+} from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
 import { IProduct, ILikeItem } from 'src/app/entities/cards/types';
@@ -40,7 +50,21 @@ const MOCK_FAVORITES: IProduct[] = [
   templateUrl: './favorites.page.html',
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, CommonModule, FormsModule, BackButtonComponent, CompactCardComponent],
+  imports: [
+    IonContent, 
+    IonHeader, 
+    IonTitle, 
+    IonToolbar, 
+    IonGrid, 
+    IonRow, 
+    IonCol, 
+    IonRefresher,
+    IonRefresherContent,
+    CommonModule, 
+    FormsModule, 
+    BackButtonComponent, 
+    CompactCardComponent
+  ],
 })
 export class FavoritesPage implements OnInit {
   favorites: ILikeItem[] = [];
@@ -62,9 +86,35 @@ export class FavoritesPage implements OnInit {
   }
 
   private loadLikedProducts() {
-    this.productsApiService.getLikedProducts().subscribe((response) => {
-      this.dataStateService.likedProducts$.next(response.data);
-      this.favorites = response.data;
-    });
+    // Проверяем кеш перед загрузкой
+    if (this.dataStateService.shouldRefresh('liked')) {
+      this.productsApiService.getLikedProducts().subscribe((response) => {
+        this.dataStateService.likedProducts$.next(response.data);
+        this.favorites = response.data;
+      });
+    } else {
+      // Используем данные из кеша
+      const cachedLikes = this.dataStateService.getCachedData('liked');
+      if (cachedLikes) {
+        this.dataStateService.likedProducts$.next(cachedLikes);
+        this.favorites = cachedLikes;
+      }
+    }
+  }
+
+  // Обработчик pull-to-refresh
+  async handleRefresh(event: any) {
+    try {
+      // Очищаем кеш лайков для принудительного обновления
+      this.dataStateService.clearCacheItem('liked');
+      
+      // Загружаем лайки заново
+      await this.productsApiService.getLikedProducts().toPromise();
+      
+      event.target.complete();
+    } catch (error) {
+      console.error('Error refreshing favorites data:', error);
+      event.target.complete();
+    }
   }
 }

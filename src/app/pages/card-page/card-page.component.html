@@ -3,22 +3,74 @@
     <app-back-button></app-back-button>
   </ion-toolbar>
 </ion-header>
+
 <div class="card">
+  <!-- Информация о владельце -->
+  <div *ngIf="data?.user" class="owner-info">
+
+    <div class="owner-name">{{ ownerName }}</div>
+  </div>
+
+  <!-- Сообщение о своем товаре -->
+  <div *ngIf="isOwnProduct" class="own-product-message">
+    <ion-icon name="checkmark-circle"></ion-icon>
+    Ваш товар
+  </div>
+
+  <!-- Кнопка лайка -->
   <div class="heart-button">
     <ion-button size="small" (click)="like($event)" fill="clear" color="primary">
-      <ion-icon class="heart-icon" [class.liked]="false" name="heart"></ion-icon>
+      <ion-icon class="heart-icon" [class.liked]="isLiked" name="heart"></ion-icon>
     </ion-button>
   </div>
-  <app-image-slider [images]="data?.photos"></app-image-slider>
+
+  <!-- Слайдер изображений -->
+  <app-image-slider [images]="images"></app-image-slider>
+
+  <!-- Цена -->
   <div class="price" color="danger">{{ data?.price }}₽</div>
+
+  <!-- Контент -->
   <ion-content class="ion-padding">
     <h4 class="name">{{ data?.name }}</h4>
     <p class="description">{{ data?.description }}</p>
+
+    <!-- Дополнительная информация -->
+    <div *ngIf="data?.city" class="additional-info">
+      <p><strong>Город:</strong> {{ data?.city }}</p>
+    </div>
+    <div *ngIf="data?.quantity" class="additional-info">
+      <p><strong>Количество:</strong> {{ data?.quantity }}</p>
+    </div>
+    <div *ngIf="data?.weight" class="additional-info">
+      <p><strong>Вес:</strong> {{ data?.weight }}</p>
+    </div>
+    <div *ngIf="data?.sale" class="additional-info">
+      <p><strong>Скидка:</strong> {{ data?.sale }}</p>
+    </div>
   </ion-content>
 
-  <div class="buy-button">
-    <ion-button (click)="buy($event)" expand="full">
+  <!-- Кнопки действий -->
+  <div class="action-buttons">
+    <!-- Кнопка удаления для своих товаров -->
+    <ion-button *ngIf="isOwnProduct" (click)="deleteProduct($event)" expand="full" color="danger">
+      <ion-icon name="trash"></ion-icon> Удалить
+    </ion-button>
+
+    <!-- Кнопка "Купить" если товар не в корзине и не свой -->
+    <ion-button *ngIf="!isInCart && !isOwnProduct" (click)="buy($event)" expand="full">
       <ion-icon name="cart"></ion-icon> Купить
     </ion-button>
+
+    <!-- Кнопки количества если товар в корзине и не свой -->
+    <div *ngIf="isInCart && !isOwnProduct" class="quantity-controls">
+      <ion-button size="small" fill="clear" (click)="decreaseQuantity($event)">
+        <ion-icon name="remove"></ion-icon>
+      </ion-button>
+      <span class="quantity">{{ cartQuantity }}</span>
+      <ion-button size="small" fill="clear" (click)="increaseQuantity($event)">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </div>
   </div>
 </div>

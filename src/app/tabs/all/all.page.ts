@@ -7,6 +7,8 @@ import {
   IonGrid,
   IonCol,
   IonRow,
+  IonRefresher,
+  IonRefresherContent,
 } from '@ionic/angular/standalone';
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { ProductsApiService } from '../../entities/cards/compact-card/services/cards-api.service';
@@ -28,6 +30,8 @@ import { Router } from '@angular/router';
     IonToolbar,
     IonTitle,
     IonContent,
+    IonRefresher,
+    IonRefresherContent,
     CompactCardComponent,
     CommonModule,
   ],
@@ -42,23 +46,49 @@ export class AllPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.dataStateService.all$.value) {
+    // Загружаем все товары только если их нет в кеше
+    if (this.dataStateService.shouldRefresh('all')) {
       this.productsApiService.getAll().subscribe();
     }
     
-    // Принудительно загружаем данные пользователя при инициализации страницы
-    this.loadUserData();
+    // Загружаем данные пользователя только если авторизован
+    if (this.userStateService.me$.value) {
+      this.loadUserData();
+    }
   }
 
   ionViewWillEnter() {
-    // Загружаем данные пользователя при каждом входе на страницу
-    this.loadUserData();
+    // Загружаем данные пользователя только если авторизован и кеш устарел
+    if (this.userStateService.me$.value) {
+      this.loadUserData();
+    }
   }
 
   private loadUserData() {
     // Загружаем данные только для авторизованных пользователей
     if (this.userStateService.me$.value) {
       this.userDataService.loadUserData();
+    }
+  }
+
+  // Обработчик pull-to-refresh
+  async handleRefresh(event: any) {
+    try {
+      // Очищаем кеш для принудительного обновления
+      this.dataStateService.clearCacheItem('all');
+      
+      // Загружаем все товары заново
+      await this.productsApiService.getAll().toPromise();
+      
+      // Загружаем данные пользователя если авторизован
+      if (this.userStateService.me$.value) {
+        await this.userDataService.forceRefreshUserData().toPromise();
+      }
+      
+      event.target.complete();
+    } catch (error) {
+      console.error('Error refreshing data:', error);
+      event.target.complete();
     }
   }
 
