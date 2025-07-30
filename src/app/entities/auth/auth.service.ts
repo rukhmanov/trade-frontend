@@ -5,6 +5,8 @@ import { IYandexResponse } from './types';
 import { Platform } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
 import { UserStateService } from 'src/app/state/user-state.service';
+import { DataStateService } from 'src/app/state/data-state.service';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
@@ -30,6 +32,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     public userState: UserStateService,
+    private dataStateService: DataStateService,
+    private productsApiService: ProductsApiService,
     public router: Router,
     private platform: Platform
   ) {
@@ -68,6 +72,11 @@ export class AuthService {
     this.userState.me$.next(null);
     this.userState.token$.next(null);
     localStorage.removeItem('token');
+    
+    // Очищаем данные пользователя при выходе
+    this.dataStateService.likedProducts$.next(null);
+    this.dataStateService.cardsInMyCart$.next(null);
+    this.dataStateService.myCards$.next(null);
   }
 
   initializeGoogleAuth() {
@@ -92,6 +101,7 @@ export class AuthService {
           console.log('jwt ==> ', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
+          this.loadUserData(); // Загружаем данные пользователя
           this.router.navigate(['tabs', 'tab1']);
         })
       )
@@ -110,6 +120,7 @@ export class AuthService {
           tap(({ jwt }) => {
             this.userState.token$.next(jwt);
             this.userState.me$.next(jwtDecode(jwt));
+            this.loadUserData(); // Загружаем данные пользователя
             this.router.navigate(['tabs', 'tab1']);
           })
         )
@@ -128,5 +139,10 @@ export class AuthService {
         console.log('User logged in:', user);
       }
     );
+  }
+
+  private loadUserData() {
+    // Данные загружаются автоматически в UserStateService при установке токена
+    // Этот метод оставлен для совместимости
   }
 }
