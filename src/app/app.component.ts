@@ -11,6 +11,7 @@ import {
 import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
 import { CommonStateService } from './state/common-state.service';
+import { environment } from '../environments/environment';
 register();
 
 @Component({
@@ -30,23 +31,27 @@ export class AppComponent {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        console.log('Переход на:', event.url);
-        console.log('Предыдущий URL:', event.urlAfterRedirects);
+        // Log navigation for debugging (remove in production)
+        if (environment.production === false) {
+          console.log('Navigation to:', event.url);
+          console.log('Previous URL:', event.urlAfterRedirects);
+        }
       });
     this.initializeApp();
   }
 
   initializeApp() {
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      console.log('event ==> ', event);
+      // Log deep link event for debugging (remove in production)
+      if (environment.production === false) {
+        console.log('Deep link event:', event);
+      }
+      
       this.zone.run(() => {
         const domain = 'parsifal.com';
-
         const pathArray = event.url.split(domain);
-        // The pathArray is now like ['https://devdactic.com', '/details/42']
-
-        // Get the last element with pop()
         const appPath = pathArray.pop();
+        
         if (appPath) {
           this.router.navigateByUrl(appPath);
         }

@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { DataStateService } from 'src/app/state/data-state.service';
 import { environment } from 'src/environments/environment';
+import { IProduct, IProductResponse, IProductDetailResponse, ICartItem, ILikeItem, IApiResponse } from 'src/app/entities/cards/types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,37 +15,37 @@ export class ProductsApiService {
     private dataStateService: DataStateService
   ) {}
 
-  getAll(): Observable<any> {
+  getAll(): Observable<IProductResponse> {
     return this.http
-      .get<any>(environment.base + 'products/')
-      .pipe(tap((all) => this.dataStateService.all$.next(all)));
+      .get<IProductResponse>(environment.base + 'products/')
+      .pipe(tap((response) => this.dataStateService.all$.next(response.data)));
   }
 
-  getMyProducts(): Observable<any> {
+  getMyProducts(): Observable<IProductResponse> {
     return this.http
-      .get<any>(this.baseUrl + 'products/my')
-      .pipe(tap((all) => this.dataStateService.myCards$.next(all)));
+      .get<IProductResponse>(this.baseUrl + 'products/my')
+      .pipe(tap((response) => this.dataStateService.myCards$.next(response.data)));
   }
 
-  getProductById(id: number | string): Observable<any> {
-    return this.http.get<any>(this.baseUrl + 'products/' + id);
+  getProductById(id: number | string): Observable<IProductDetailResponse> {
+    return this.http.get<IProductDetailResponse>(this.baseUrl + 'products/' + id);
   }
 
-  like(productId: number | string): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'products/like', { productId });
+  like(productId: number | string): Observable<IApiResponse> {
+    return this.http.post<IApiResponse>(this.baseUrl + 'products/like', { productId });
   }
 
-  addProductsToCart(productId: number | string): Observable<any> {
-    return this.http.post<any>(this.baseUrl + 'products/cart', { productId });
+  addProductsToCart(productId: number | string): Observable<IApiResponse> {
+    return this.http.post<IApiResponse>(this.baseUrl + 'products/cart', { productId });
   }
 
-  removeFromCart(productId: number | string): Observable<any> {
-    return this.http.delete<any>(this.baseUrl + 'products/cart/' + productId);
+  removeFromCart(productId: number | string): Observable<IApiResponse> {
+    return this.http.delete<IApiResponse>(this.baseUrl + 'products/cart/' + productId);
   }
 
-  getProductsFromCart(): Observable<any> {
+  getProductsFromCart(): Observable<IProductResponse> {
     return this.http
-      .get<any>(this.baseUrl + 'products/cart')
-      .pipe(tap((all) => this.dataStateService.cardsInMyCart$.next(all)));
+      .get<IProductResponse>(this.baseUrl + 'products/cart')
+      .pipe(tap((response) => this.dataStateService.cardsInMyCart$.next(response.data)));
   }
 }

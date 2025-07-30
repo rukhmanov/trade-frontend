@@ -21,8 +21,8 @@
 
   <ion-grid>
     <ion-row>
-      <ng-container *ngFor="let data of dataStateService.all$ | async">
-        <ion-col size="6" size-md="4" size-lg="3">
+      <ng-container *ngIf="dataStateService.all$ | async as products">
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let data of products">
           <app-compact-card [data]="data"></app-compact-card>
         </ion-col>
       </ng-container>

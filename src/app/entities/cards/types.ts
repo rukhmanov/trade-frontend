@@ -2,9 +2,64 @@ export interface IProduct {
   id: number;
   name: string;
   description: string;
-  city: string;
+  price: string;
+  currency: string;
+  quantity: string;
+  weight?: string;
+  sale?: string;
+  saleType?: string;
   createDate: string;
   updateDate: string;
-  price: string;
   photos: string[];
+  city?: string;
+}
+
+export interface IProductResponse {
+  status: string;
+  data: IProduct[];
+}
+
+export interface IProductDetailResponse {
+  status: string;
+  data: IProduct;
+}
+
+export interface ICartItem {
+  id: number;
+  productId: number;
+  userId: number;
+  product: IProduct;
+}
+
+export interface ILikeItem {
+  id: number;
+  productId: number;
+  userId: number;
+  product: IProduct;
+}
+
+export interface IUser {
+  id: number;
+  email: string;
+  firstName?: string;
+  secondName?: string;
+  fullName?: string;
+  avatarId?: string;
+  phone?: string;
+  roles?: any[];
+  permissions?: any[];
+}
+
+export interface IAuthResponse {
+  status: string;
+  data: {
+    access_token: string;
+    user: IUser;
+  };
+}
+
+export interface IApiResponse<T = any> {
+  status: string;
+  data: T;
+  error?: string;
 }

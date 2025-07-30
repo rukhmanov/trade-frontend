@@ -20,7 +20,9 @@ export class BackButtonComponent implements OnInit {
     private commonStateService: CommonStateService
   ) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
 
   back() {
     if (this.tab) {

@@ -35,5 +35,7 @@ export class ConfirmEmailComponent implements OnInit {
 
   constructor(public emailService: EmailService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
 }

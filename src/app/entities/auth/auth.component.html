@@ -15,7 +15,7 @@
       </div>
     </ion-chip>
   </ng-container>
-  <ng-container *ngIf="!(userState.me$ | async)">
+  <ng-container *ngIf="(userState.me$ | async) === null">
     <h3>Войдите с</h3>
     <!-- <ion-chip (click)="loginYandex()">
       <ion-icon class="login-icon" src="assets/icons/ya.svg"></ion-icon>

@@ -11,16 +11,20 @@ const MOCK_FAVORITES: IProduct[] = [
     id: 1,
     name: 'Мок-продукт 1',
     price: '1000',
+    currency: 'RUB',
+    quantity: '1',
     city: 'Москва',
     description: 'Описание продукта 1',
     photos: [],
-    createDate: '',   // or a mock date string, e.g. '2024-01-01'
-    updateDate: '',   // or a mock date string
+    createDate: '',
+    updateDate: '',
   },
   {
     id: 2,
     name: 'Мок-продукт 2',
     price: '2000',
+    currency: 'RUB',
+    quantity: '1',
     city: 'Санкт-Петербург',
     description: 'Описание продукта 2',
     photos: [],

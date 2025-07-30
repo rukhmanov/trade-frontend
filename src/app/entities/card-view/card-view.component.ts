@@ -8,5 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class CardViewComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
 }

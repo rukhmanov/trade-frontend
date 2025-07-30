@@ -10,5 +10,7 @@ import { AuthComponent } from 'src/app/entities/auth/auth.component';
 export class LogoutComponent implements OnInit {
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
 }

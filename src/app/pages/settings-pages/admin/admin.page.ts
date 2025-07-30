@@ -28,7 +28,9 @@ export class AdminPage implements OnInit {
   users: IUserAdmin[] = [...MOCK_USERS];
   allRoles = ALL_ROLES;
   constructor() { }
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
   removeUser(id: number) {
     this.users = this.users.filter(u => u.id !== id);
   }

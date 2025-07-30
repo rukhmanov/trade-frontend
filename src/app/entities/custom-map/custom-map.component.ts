@@ -19,7 +19,9 @@ import { TooltipPopoverComponent } from '../popup/popup.component';
 export class CustomMapComponent implements OnInit {
   constructor(public mapService: MapService) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    // Component initialization logic can be added here if needed
+  }
 
   onCoordinate(coordinates: [number, number]) {}
 }
