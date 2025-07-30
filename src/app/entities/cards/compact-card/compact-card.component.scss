@@ -103,36 +103,41 @@
       background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
       border-radius: 8px;
       padding: 8px 12px;
-      height: 36px;
+      height: 40px;
       box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
 
       ion-button {
         --background: transparent;
         --color: white;
         --box-shadow: none;
-        height: 24px;
-        width: 24px;
-        min-width: 24px;
+        height: 36px;
+        width: 36px;
+        min-width: 36px;
         margin: 0;
         padding: 0;
 
         &:hover {
-          --background: rgba(255, 255, 255, 0.1);
-          transform: none;
+          --background: rgba(255, 255, 255, 0.2);
+          transform: scale(1.1);
         }
 
         ion-icon {
-          font-size: 16px;
+          font-size: 28px;
           margin: 0;
+          color: white;
+          font-weight: 900;
+          line-height: 1;
         }
       }
 
       .quantity {
         color: white;
-        font-weight: 600;
+        font-weight: 900;
         font-size: 14px;
         min-width: 20px;
         text-align: center;
+        margin: 0 16px;
+        line-height: 1;
       }
     }
   }
