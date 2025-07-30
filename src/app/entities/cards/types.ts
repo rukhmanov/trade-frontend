@@ -28,7 +28,13 @@ export interface ICartItem {
   id: number;
   productId: number;
   userId: number;
+  quantity: number;
   product: IProduct;
+}
+
+export interface ICartResponse {
+  status: string;
+  data: ICartItem[];
 }
 
 export interface ILikeItem {

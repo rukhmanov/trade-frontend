@@ -10,7 +10,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { heart, add, remove } from 'ionicons/icons';
-import { IProduct } from '../types';
+import { IProduct, ICartItem } from '../types';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
@@ -65,11 +65,18 @@ export class CompactCardComponent implements OnInit {
   private checkCartStatus() {
     if (!this.data) return;
     
-    const cartItems: any = this.dataStateService.cardsInMyCart$.value;
+    const cartItems: any[] | null = this.dataStateService.cardsInMyCart$.value;
     if (Array.isArray(cartItems)) {
-      const cartItem = cartItems.find((item: any) => item.id === this.data?.id);
+      // Проверяем новый формат (CartItem)
+      let cartItem = cartItems.find((item: any) => item.product?.id === this.data?.id);
+      
+      // Если не найден в новом формате, проверяем старый формат (Product)
+      if (!cartItem) {
+        cartItem = cartItems.find((item: any) => item.id === this.data?.id);
+      }
+      
       this.isInCart = !!cartItem;
-      this.cartQuantity = cartItem?.quantity || 0;
+      this.cartQuantity = cartItem?.quantity || 1; // По умолчанию 1 для старого формата
     }
   }
 
@@ -88,7 +95,7 @@ export class CompactCardComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     if (this.data) {
-      this.productsApiService.addProductsToCart(this.data.id).subscribe(() => {
+      this.productsApiService.addProductsToCart(this.data.id, 1).subscribe(() => {
         this.checkCartStatus();
       });
     }
@@ -98,7 +105,8 @@ export class CompactCardComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     if (this.data) {
-      this.productsApiService.addProductsToCart(this.data.id).subscribe(() => {
+      const newQuantity = this.cartQuantity + 1;
+      this.productsApiService.updateCartQuantity(this.data.id, newQuantity).subscribe(() => {
         this.checkCartStatus();
       });
     }
@@ -108,10 +116,12 @@ export class CompactCardComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     if (this.data && this.cartQuantity > 1) {
-      this.productsApiService.removeFromCart(this.data.id).subscribe(() => {
+      const newQuantity = this.cartQuantity - 1;
+      this.productsApiService.updateCartQuantity(this.data.id, newQuantity).subscribe(() => {
         this.checkCartStatus();
       });
     } else if (this.data && this.cartQuantity === 1) {
+      // Если количество станет 0, удаляем из корзины
       this.productsApiService.removeFromCart(this.data.id).subscribe(() => {
         this.checkCartStatus();
       });

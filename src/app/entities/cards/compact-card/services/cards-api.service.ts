@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { DataStateService } from 'src/app/state/data-state.service';
 import { environment } from 'src/environments/environment';
-import { IProduct, IProductResponse, IProductDetailResponse, ICartItem, ILikeItem, IApiResponse } from 'src/app/entities/cards/types';
+import { IProduct, IProductResponse, IProductDetailResponse, ICartItem, ICartResponse, ILikeItem, IApiResponse } from 'src/app/entities/cards/types';
 
 @Injectable({
   providedIn: 'root',
@@ -35,17 +35,21 @@ export class ProductsApiService {
     return this.http.post<IApiResponse>(this.baseUrl + 'products/like', { productId });
   }
 
-  addProductsToCart(productId: number | string): Observable<IApiResponse> {
-    return this.http.post<IApiResponse>(this.baseUrl + 'products/cart', { productId });
+  addProductsToCart(productId: number | string, quantity: number = 1): Observable<IApiResponse> {
+    return this.http.post<IApiResponse>(this.baseUrl + 'products/cart', { productId, quantity });
+  }
+
+  updateCartQuantity(productId: number | string, quantity: number): Observable<IApiResponse> {
+    return this.http.put<IApiResponse>(this.baseUrl + 'products/cart/' + productId, { quantity });
   }
 
   removeFromCart(productId: number | string): Observable<IApiResponse> {
     return this.http.delete<IApiResponse>(this.baseUrl + 'products/cart/' + productId);
   }
 
-  getProductsFromCart(): Observable<IProductResponse> {
+  getProductsFromCart(): Observable<any> {
     return this.http
-      .get<IProductResponse>(this.baseUrl + 'products/cart')
+      .get<any>(this.baseUrl + 'products/cart')
       .pipe(tap((response) => this.dataStateService.cardsInMyCart$.next(response.data)));
   }
 }
