@@ -42,6 +42,12 @@ export interface ILikeItem {
   productId: number;
   userId: number;
   product: IProduct;
+  createdAt: string;
+}
+
+export interface ILikeResponse {
+  status: string;
+  data: ILikeItem[];
 }
 
 export interface IUser {
@@ -68,4 +74,11 @@ export interface IApiResponse<T = any> {
   status: string;
   data: T;
   error?: string;
+}
+
+export interface ILikeActionResponse {
+  status: string;
+  data: {
+    liked: boolean;
+  };
 }

@@ -10,7 +10,7 @@ import {
   IonIcon,
 } from '@ionic/angular/standalone';
 import { heart, add, remove } from 'ionicons/icons';
-import { IProduct, ICartItem } from '../types';
+import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { addIcons } from 'ionicons';
@@ -37,6 +37,7 @@ export class CompactCardComponent implements OnInit {
   s3 = environment.s3;
   isInCart = false;
   cartQuantity = 0;
+  isLiked = false;
 
   @Input() data: IProduct | null = null;
   
@@ -55,10 +56,16 @@ export class CompactCardComponent implements OnInit {
 
   ngOnInit() {
     this.checkCartStatus();
+    this.checkLikeStatus();
     
     // Подписываемся на изменения в корзине
     this.dataStateService.cardsInMyCart$.subscribe(() => {
       this.checkCartStatus();
+    });
+
+    // Подписываемся на изменения в лайках
+    this.dataStateService.likedProducts$.subscribe(() => {
+      this.checkLikeStatus();
     });
   }
 
@@ -85,10 +92,50 @@ export class CompactCardComponent implements OnInit {
     this.router.navigate(['tabs', 'all', this.data?.id]);
   }
 
+  private checkLikeStatus() {
+    if (!this.data) return;
+    
+    const likedProducts: ILikeItem[] | null = this.dataStateService.likedProducts$.value;
+    if (Array.isArray(likedProducts)) {
+      const likedItem = likedProducts.find((item: ILikeItem) => item.product.id === this.data?.id);
+      this.isLiked = !!likedItem;
+    } else {
+      // Если лайки еще не загружены, устанавливаем false
+      this.isLiked = false;
+    }
+  }
+
   like(event: Event) {
     event.preventDefault();
     event.stopPropagation();
-    if (this.data) this.productsApiService.like(this.data.id).subscribe();
+    if (this.data) {
+      this.productsApiService.like(this.data.id).subscribe((response: ILikeActionResponse) => {
+        // Обновляем состояние лайков после действия
+        this.updateLikesState(response.data.liked);
+      });
+    }
+  }
+
+  private updateLikesState(liked: boolean) {
+    const currentLikes = this.dataStateService.likedProducts$.value || [];
+    
+    if (liked) {
+      // Добавляем лайк
+      const newLike: ILikeItem = {
+        id: Math.random(), // Временный ID
+        productId: this.data!.id,
+        userId: 1, // Временный ID пользователя
+        product: this.data!,
+        createdAt: new Date().toISOString()
+      };
+      this.dataStateService.likedProducts$.next([...currentLikes, newLike]);
+    } else {
+      // Удаляем лайк
+      const updatedLikes = currentLikes.filter(like => like.product.id !== this.data!.id);
+      this.dataStateService.likedProducts$.next(updatedLikes);
+    }
+    
+    this.checkLikeStatus();
   }
 
   buy(event: Event) {
@@ -96,9 +143,41 @@ export class CompactCardComponent implements OnInit {
     event.stopPropagation();
     if (this.data) {
       this.productsApiService.addProductsToCart(this.data.id, 1).subscribe(() => {
-        this.checkCartStatus();
+        this.addToCartState();
       });
     }
+  }
+
+  private addToCartState() {
+    const currentCart = this.dataStateService.cardsInMyCart$.value || [];
+    
+    // Проверяем, есть ли уже этот товар в корзине
+    const existingItem = currentCart.find(item => 
+      item.product?.id === this.data?.id || item.id === this.data?.id
+    );
+
+    if (existingItem) {
+      // Если товар уже в корзине, увеличиваем количество
+      const updatedCart = currentCart.map(item => {
+        if (item.product?.id === this.data?.id || item.id === this.data?.id) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
+      });
+      this.dataStateService.cardsInMyCart$.next(updatedCart);
+    } else {
+      // Если товара нет в корзине, добавляем новый
+      const newCartItem = {
+        id: Math.random(), // Временный ID
+        productId: this.data!.id,
+        userId: 1, // Временный ID пользователя
+        product: this.data!,
+        quantity: 1
+      };
+      this.dataStateService.cardsInMyCart$.next([...currentCart, newCartItem]);
+    }
+    
+    this.checkCartStatus();
   }
 
   increaseQuantity(event: Event) {
@@ -107,7 +186,7 @@ export class CompactCardComponent implements OnInit {
     if (this.data) {
       const newQuantity = this.cartQuantity + 1;
       this.productsApiService.updateCartQuantity(this.data.id, newQuantity).subscribe(() => {
-        this.checkCartStatus();
+        this.updateCartState(newQuantity);
       });
     }
   }
@@ -118,13 +197,34 @@ export class CompactCardComponent implements OnInit {
     if (this.data && this.cartQuantity > 1) {
       const newQuantity = this.cartQuantity - 1;
       this.productsApiService.updateCartQuantity(this.data.id, newQuantity).subscribe(() => {
-        this.checkCartStatus();
+        this.updateCartState(newQuantity);
       });
     } else if (this.data && this.cartQuantity === 1) {
       // Если количество станет 0, удаляем из корзины
       this.productsApiService.removeFromCart(this.data.id).subscribe(() => {
-        this.checkCartStatus();
+        this.removeFromCartState();
       });
     }
+  }
+
+  private updateCartState(newQuantity: number) {
+    const currentCart = this.dataStateService.cardsInMyCart$.value || [];
+    const updatedCart = currentCart.map(item => {
+      if (item.product?.id === this.data?.id || item.id === this.data?.id) {
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+    this.dataStateService.cardsInMyCart$.next(updatedCart);
+    this.checkCartStatus();
+  }
+
+  private removeFromCartState() {
+    const currentCart = this.dataStateService.cardsInMyCart$.value || [];
+    const updatedCart = currentCart.filter(item => 
+      (item.product?.id !== this.data?.id && item.id !== this.data?.id)
+    );
+    this.dataStateService.cardsInMyCart$.next(updatedCart);
+    this.checkCartStatus();
   }
 }

@@ -40,5 +40,27 @@ export class CartPage implements OnInit {
     if (!this.dataStateService.cardsInMyCart$.value) {
       this.productsApiService.getProductsFromCart().subscribe();
     }
+    
+    // Принудительно загружаем лайки при инициализации страницы
+    this.loadLikedProducts();
+  }
+
+  ionViewWillEnter() {
+    // Загружаем лайки при каждом входе на страницу
+    this.loadLikedProducts();
+  }
+
+  private loadLikedProducts() {
+    // Проверяем, есть ли уже лайки в состоянии
+    if (!this.dataStateService.likedProducts$.value) {
+      this.productsApiService.getLikedProducts().subscribe(
+        (response) => {
+          this.dataStateService.likedProducts$.next(response.data);
+        },
+        (error) => {
+          console.log('Ошибка загрузки лайков:', error);
+        }
+      );
+    }
   }
 }

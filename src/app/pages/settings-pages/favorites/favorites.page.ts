@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
-import { IProduct } from 'src/app/entities/cards/types';
+import { IProduct, ILikeItem } from 'src/app/entities/cards/types';
+import { DataStateService } from 'src/app/state/data-state.service';
+import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 
 const MOCK_FAVORITES: IProduct[] = [
   {
@@ -38,10 +40,31 @@ const MOCK_FAVORITES: IProduct[] = [
   templateUrl: './favorites.page.html',
   styleUrls: ['./favorites.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, CompactCardComponent],
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, IonGrid, IonRow, IonCol, CommonModule, FormsModule, BackButtonComponent, CompactCardComponent],
 })
 export class FavoritesPage implements OnInit {
-  favorites: IProduct[] = MOCK_FAVORITES;
-  constructor() { }
-  ngOnInit() {}
+  favorites: ILikeItem[] = [];
+
+  constructor(
+    private dataStateService: DataStateService,
+    private productsApiService: ProductsApiService
+  ) { }
+
+  ngOnInit() {
+    this.loadLikedProducts();
+    
+    // Подписываемся на изменения в лайках
+    this.dataStateService.likedProducts$.subscribe((likes) => {
+      if (likes) {
+        this.favorites = likes;
+      }
+    });
+  }
+
+  private loadLikedProducts() {
+    this.productsApiService.getLikedProducts().subscribe((response) => {
+      this.dataStateService.likedProducts$.next(response.data);
+      this.favorites = response.data;
+    });
+  }
 }

@@ -5,12 +5,18 @@
   </ion-toolbar>
 </ion-header>
 <ion-content [fullscreen]="true">
-  <div class="favorites-list">
-    <ng-container *ngIf="favorites.length; else empty">
-      <app-compact-card *ngFor="let product of favorites" [data]="product"></app-compact-card>
-    </ng-container>
-    <ng-template #empty>
-      <div class="favorites-empty">Нет избранных продуктов</div>
-    </ng-template>
-  </div>
+  <ion-grid>
+    <ion-row>
+      <ng-container *ngIf="favorites.length; else empty">
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let likeItem of favorites">
+          <app-compact-card [data]="likeItem.product"></app-compact-card>
+        </ion-col>
+      </ng-container>
+      <ng-template #empty>
+        <ion-col size="12">
+          <div class="favorites-empty">Нет избранных продуктов</div>
+        </ion-col>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
 </ion-content>

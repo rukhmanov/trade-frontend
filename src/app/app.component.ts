@@ -11,6 +11,8 @@ import {
 import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
 import { CommonStateService } from './state/common-state.service';
+import { DataStateService } from './state/data-state.service';
+import { ProductsApiService } from './entities/cards/compact-card/services/cards-api.service';
 import { environment } from '../environments/environment';
 register();
 
@@ -27,7 +29,13 @@ register();
   ],
 })
 export class AppComponent {
-  constructor(private router: Router, private zone: NgZone, private commonStateService: CommonStateService) {
+  constructor(
+    private router: Router, 
+    private zone: NgZone, 
+    private commonStateService: CommonStateService,
+    private dataStateService: DataStateService,
+    private productsApiService: ProductsApiService
+  ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -41,6 +49,9 @@ export class AppComponent {
   }
 
   initializeApp() {
+    // Загружаем лайки при старте приложения
+    this.loadLikedProducts();
+    
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Log deep link event for debugging (remove in production)
       if (environment.production === false) {
@@ -57,6 +68,18 @@ export class AppComponent {
         }
       });
     });
+  }
+
+  private loadLikedProducts() {
+    // Загружаем лайки при старте приложения
+    this.productsApiService.getLikedProducts().subscribe(
+      (response) => {
+        this.dataStateService.likedProducts$.next(response.data);
+      },
+      (error) => {
+        console.log('Ошибка загрузки лайков:', error);
+      }
+    );
   }
 
   handleRefresh(event: CustomEvent) {
