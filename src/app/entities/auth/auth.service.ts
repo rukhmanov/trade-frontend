@@ -10,21 +10,12 @@ import { UserDataService } from 'src/app/services/user-data.service';
 import { Router } from '@angular/router';
 import { Capacitor } from '@capacitor/core';
 import { Browser } from '@capacitor/browser';
+import { GoogleAuth, User } from '@codetrix-studio/capacitor-google-auth';
 import { isPlatform } from '@ionic/angular/standalone';
 import { registerPlugin } from '@capacitor/core';
 
 import { initializeApp } from 'firebase/app';
-import { 
-  Auth, 
-  getAuth, 
-  signInWithEmailAndPassword,
-  GoogleAuthProvider,
-  signInWithPopup,
-  signInWithRedirect,
-  getRedirectResult,
-  User as FirebaseUser,
-  onAuthStateChanged
-} from 'firebase/auth';
+import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
@@ -48,60 +39,6 @@ export class AuthService {
   ) {
     initializeApp(environment.firebase);
     this.initializeGoogleAuth();
-    
-    // Слушатель состояния аутентификации Firebase
-    onAuthStateChanged(this.auth, (user) => {
-      if (user) {
-        console.log('Firebase user is signed in:', user.email);
-      } else {
-        console.log('Firebase user is signed out');
-      }
-    });
-    
-    // Обработка результата redirect для нативных платформ
-    if (Capacitor.isNativePlatform()) {
-      this.handleRedirectResult();
-    }
-  }
-
-  private async handleRedirectResult() {
-    try {
-      const result = await getRedirectResult(this.auth);
-      if (result?.user) {
-        // Получаем access token от Google через Firebase
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const accessToken = credential?.accessToken;
-        
-        if (!accessToken) {
-          throw new Error('Failed to get access token from Google');
-        }
-        
-        this.http
-          .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
-            accessToken: accessToken,
-          })
-          .pipe(
-            tap(({ jwt }) => {
-              console.log('jwt from redirect ==> ', jwt);
-              this.userState.token$.next(jwt);
-              this.userState.me$.next(jwtDecode(jwt));
-              this.userDataService.loadUserData();
-              this.router.navigate(['tabs', 'all']);
-            })
-          )
-          .subscribe({
-            error: (error) => {
-              console.error('Backend auth error from redirect:', error);
-            }
-          });
-      }
-    } catch (error: any) {
-      console.error('Redirect result error:', error);
-      // Проверяем, является ли ошибка отменой пользователя
-      if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
-        console.log('User cancelled Google Sign In (redirect)');
-      }
-    }
   }
 
   async yandexLogin() {
@@ -143,71 +80,32 @@ export class AuthService {
   }
 
   initializeGoogleAuth() {
-    // Firebase Auth автоматически инициализируется при создании экземпляра
-    console.log('Firebase Auth initialized');
+    if (!isPlatform('capacitor')) {
+      GoogleAuth.initialize();
+    }
+    this.platform.ready().then(() => {
+      console.log('platform ==> ');
+      GoogleAuth.initialize();
+    });
   }
 
-  async googleSignIn(): Promise<void> {
-    try {
-      const provider = new GoogleAuthProvider();
-      let result;
-      
-      if (Capacitor.isNativePlatform()) {
-        // Для нативных платформ используем redirect
-        await signInWithRedirect(this.auth, provider);
-        result = await getRedirectResult(this.auth);
-      } else {
-        // Для веб используем popup
-        result = await signInWithPopup(this.auth, provider);
-      }
-      
-      if (result?.user) {
-        // Получаем access token от Google через Firebase
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const accessToken = credential?.accessToken;
-        
-        console.log('Google Sign In successful:', {
-          user: result.user.email,
-          accessToken: accessToken ? 'present' : 'missing'
-        });
-        
-        if (!accessToken) {
-          throw new Error('Failed to get access token from Google');
-        }
-        
-        console.log('Sending access token to backend...');
-        
-        this.http
-          .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
-            accessToken: accessToken,
-          })
-          .pipe(
-            tap(({ jwt }) => {
-              console.log('jwt ==> ', jwt);
-              this.userState.token$.next(jwt);
-              this.userState.me$.next(jwtDecode(jwt));
-              this.userDataService.loadUserData(); // Загружаем данные пользователя
-              this.router.navigate(['tabs', 'all']);
-            })
-          )
-          .subscribe({
-            error: (error) => {
-              console.error('Backend auth error:', error);
-              // Здесь можно добавить уведомление пользователю об ошибке
-            }
-          });
-      } else {
-        console.log('Google Sign In was cancelled by user');
-      }
-    } catch (error: any) {
-      console.error('Google Sign In error:', error);
-      // Проверяем, является ли ошибка отменой пользователя
-      if (error.code === 'auth/popup-closed-by-user' || error.code === 'auth/cancelled-popup-request') {
-        console.log('User cancelled Google Sign In');
-      } else {
-        throw error;
-      }
-    }
+  async googleSignIn() {
+    const googleUser = await GoogleAuth.signIn();
+    const googleAccessToken = googleUser?.authentication?.accessToken;
+    return this.http
+      .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
+        accessToken: googleAccessToken,
+      })
+      .pipe(
+        tap(({ jwt }) => {
+          console.log('jwt ==> ', jwt);
+          this.userState.token$.next(jwt);
+          this.userState.me$.next(jwtDecode(jwt));
+          this.userDataService.loadUserData(); // Загружаем данные пользователя
+          this.router.navigate(['tabs', 'all']);
+        })
+      )
+      .subscribe();
   }
 
   async yandexSignIn() {
