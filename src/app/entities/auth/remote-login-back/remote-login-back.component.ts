@@ -33,8 +33,6 @@ export class RemoteLoginBackComponent {
 
     // Если есть токен в fragment, обрабатываем его
     if (fragment?.access_token) {
-      console.log('Yandex access token received:', fragment.access_token);
-      
       // Отправляем токен на сервер и получаем JWT
       this.authService.processYandexToken(fragment.access_token).subscribe({
         next: (response) => {
@@ -47,28 +45,6 @@ export class RemoteLoginBackComponent {
         }
       });
       return;
-    }
-
-    // Существующая логика для мобильных приложений
-    const { value: platform } = await Preferences.get({ key: 'platform' });
-    const { value: host } = await Preferences.get({ key: 'host' });
-    const { value: service } = await Preferences.get({ key: 'service' });
-    await Preferences.remove({ key: 'platform' });
-    await Preferences.remove({ key: 'host' });
-    await Preferences.remove({ key: 'service' });
-    switch (platform) {
-      case Platform.web:
-        window.open(
-          host +
-            '/remote-login-target/' +
-            `?service=${service}&access_token=${fragment.access_token}`,
-          '_self'
-        );
-        break;
-      case Platform.ios:
-        break;
-      case Platform.android:
-        break;
     }
   }
 }

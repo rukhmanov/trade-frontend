@@ -42,43 +42,6 @@ export class AuthComponent {
     public userState: UserStateService
   ) {}
 
-  loginYandexWeb(): void {
-    console.log('Starting Yandex web authentication...');
-    this.authService.yandexWebLogin();
-  }
-
-  loginYandex(): void {
-    this.authService.yandexSignIn();
-    // const platform: Platform = Capacitor.getPlatform() as Platform;
-    // switch (platform) {
-    //   case Platform.web:
-    //     const host = window.location.origin;
-    //     window.open(
-    //       environment.frondProdHost +
-    //         '/remote-login' +
-    //         `?platform=${Platform.web}&service=${
-    //           Service.yandex
-    //         }&host=${encodeURIComponent(host)}`,
-    //       '_self'
-    //     );
-    //     break;
-    //   case Platform.ios:
-    //     this.router.navigate(['remote-login'], {
-    //       queryParams: { platform: Platform.web, service: Service.yandex },
-    //     });
-    //     break;
-    //   case Platform.android:
-    //     break;
-    // }
-    // this.authService.yandexLogin();
-  }
-
-  loginGoogle(): void {
-    // window.open('http://localhost:4200/remote-login/123');
-    // this.authService.signInWithGoogle();
-    this.authService.googleSignIn();
-  }
-
   async loginWithEmail() {
     this.errorMessage = null; // Reset error message
     try {

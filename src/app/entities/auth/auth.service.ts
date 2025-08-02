@@ -41,7 +41,7 @@ export class AuthService {
     this.initializeGoogleAuth();
   }
 
-  async yandexLogin() {
+  async yandexSignIn() {
     console.log('yandexLogin ==> ', Capacitor.isNativePlatform());
     if (Capacitor.isNativePlatform()) {
       Browser.open({
@@ -58,22 +58,6 @@ export class AuthService {
     }
   }
 
-  // Новый метод для веб-авторизации Яндекса
-  async yandexWebLogin() {
-    const redirectUri = encodeURIComponent(`${environment.frondProdHost}remote-login-back`);
-    const authUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${environment.yandexClientId}&redirect_uri=${redirectUri}`;
-    
-    console.log('Yandex web login URL:', authUrl);
-    
-    if (Capacitor.isNativePlatform()) {
-      Browser.open({
-        url: authUrl,
-      });
-    } else {
-      window.open(authUrl, '_self');
-    }
-  }
-
   // Метод для обработки токена от Яндекса и отправки на сервер
   processYandexToken(accessToken: string): Observable<any> {
     return this.http
@@ -82,19 +66,13 @@ export class AuthService {
       })
       .pipe(
         tap((response) => {
-          console.log('Response from server:', response);
           const jwt = response.data;
-          console.log('JWT received from server:', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
           this.userDataService.loadUserData(); // Загружаем данные пользователя
           this.router.navigate(['tabs', 'all']);
         })
       );
-  }
-
-  authYandex(body: IYandexResponse): Observable<any> {
-    return this.http.post(environment.base + 'oauth/ya', body);
   }
 
   getAndSaveUserData(accessToken: string): Observable<any> {
@@ -126,6 +104,7 @@ export class AuthService {
 
   async googleSignIn() {
     const googleUser = await GoogleAuth.signIn();
+    console.log("🔍 ~ googleSignIn ~ parsifal/src/app/entities/auth/auth.service.ts:106 ~ googleUser:", googleUser);
     const googleAccessToken = googleUser?.authentication?.accessToken;
     return this.http
       .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
@@ -134,38 +113,12 @@ export class AuthService {
       .pipe(
         tap((response) => {
           const jwt = response.jwt;
-          console.log('jwt ==> ', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
           this.userDataService.loadUserData(); // Загружаем данные пользователя
-          this.router.navigate(['tabs', 'all']);
         })
       )
       .subscribe();
-  }
-
-  async yandexSignIn() {
-    try {
-      const result = await this.YandexLogin.login();
-      const yandexAccessToken = result.accessToken;
-      return this.http
-        .post<{ status: string; data: string }>(environment.base + 'users/auth/', {
-          accessToken: yandexAccessToken,
-        })
-        .pipe(
-          tap((response) => {
-            const jwt = response.data;
-            this.userState.token$.next(jwt);
-            this.userState.me$.next(jwtDecode(jwt));
-            this.userDataService.loadUserData(); // Загружаем данные пользователя
-            this.router.navigate(['tabs', 'all']);
-          })
-        )
-        .subscribe();
-    } catch (e) {
-      console.error('Yandex login error', e);
-      return null;
-    }
   }
 
   async signInWithEmail(email: string, password: string): Promise<void> {
