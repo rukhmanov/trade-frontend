@@ -58,12 +58,47 @@ export class AuthService {
     }
   }
 
+  // Новый метод для веб-авторизации Яндекса
+  async yandexWebLogin() {
+    const redirectUri = encodeURIComponent(`${environment.frondProdHost}remote-login-back`);
+    const authUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${environment.yandexClientId}&redirect_uri=${redirectUri}`;
+    
+    console.log('Yandex web login URL:', authUrl);
+    
+    if (Capacitor.isNativePlatform()) {
+      Browser.open({
+        url: authUrl,
+      });
+    } else {
+      window.open(authUrl, '_self');
+    }
+  }
+
+  // Метод для обработки токена от Яндекса и отправки на сервер
+  processYandexToken(accessToken: string): Observable<any> {
+    return this.http
+      .post<{ status: string; data: string }>(environment.base + 'users/auth/', {
+        accessToken: accessToken,
+      })
+      .pipe(
+        tap((response) => {
+          console.log('Response from server:', response);
+          const jwt = response.data;
+          console.log('JWT received from server:', jwt);
+          this.userState.token$.next(jwt);
+          this.userState.me$.next(jwtDecode(jwt));
+          this.userDataService.loadUserData(); // Загружаем данные пользователя
+          this.router.navigate(['tabs', 'all']);
+        })
+      );
+  }
+
   authYandex(body: IYandexResponse): Observable<any> {
     return this.http.post(environment.base + 'oauth/ya', body);
   }
 
-  getAndSaveUserData(accessToken: string): any {
-    return this.http.post(environment.base + 'users/auth/', {
+  getAndSaveUserData(accessToken: string): Observable<any> {
+    return this.http.post<{ status: string; data: string }>(environment.base + 'users/auth/', {
       accessToken,
     });
   }
@@ -97,7 +132,8 @@ export class AuthService {
         accessToken: googleAccessToken,
       })
       .pipe(
-        tap(({ jwt }) => {
+        tap((response) => {
+          const jwt = response.jwt;
           console.log('jwt ==> ', jwt);
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
@@ -113,15 +149,16 @@ export class AuthService {
       const result = await this.YandexLogin.login();
       const yandexAccessToken = result.accessToken;
       return this.http
-        .post<{ jwt: string }>(environment.base + 'users/auth/', {
+        .post<{ status: string; data: string }>(environment.base + 'users/auth/', {
           accessToken: yandexAccessToken,
         })
         .pipe(
-          tap(({ jwt }) => {
-                      this.userState.token$.next(jwt);
-          this.userState.me$.next(jwtDecode(jwt));
-          this.userDataService.loadUserData(); // Загружаем данные пользователя
-          this.router.navigate(['tabs', 'all']);
+          tap((response) => {
+            const jwt = response.data;
+            this.userState.token$.next(jwt);
+            this.userState.me$.next(jwtDecode(jwt));
+            this.userDataService.loadUserData(); // Загружаем данные пользователя
+            this.router.navigate(['tabs', 'all']);
           })
         )
         .subscribe();

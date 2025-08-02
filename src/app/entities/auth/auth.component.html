@@ -17,10 +17,10 @@
   </ng-container>
   <ng-container *ngIf="(userState.me$ | async) === null">
     <h3>Войдите с</h3>
-    <!-- <ion-chip (click)="loginYandex()">
+    <ion-chip (click)="loginYandexWeb()">
       <ion-icon class="login-icon" src="assets/icons/ya.svg"></ion-icon>
-      <ion-text>Яндекс</ion-text>
-    </ion-chip> -->
+      <ion-text>Яндекс (Веб)</ion-text>
+    </ion-chip>
     <ion-chip (click)="loginGoogle()">
       <ion-icon class="login-icon" src="assets/icons/google.svg"></ion-icon>
       <ion-text>Google</ion-text>

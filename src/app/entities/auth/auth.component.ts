@@ -42,6 +42,11 @@ export class AuthComponent {
     public userState: UserStateService
   ) {}
 
+  loginYandexWeb(): void {
+    console.log('Starting Yandex web authentication...');
+    this.authService.yandexWebLogin();
+  }
+
   loginYandex(): void {
     this.authService.yandexSignIn();
     // const platform: Platform = Capacitor.getPlatform() as Platform;

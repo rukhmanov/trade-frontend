@@ -27,12 +27,23 @@ export class RemoteLoginTargetComponent {
     public userState: UserStateService,
     public router: Router
   ) {
-    this.authService
-      .getAndSaveUserData(this.route.snapshot.queryParams['access_token'])
-      .subscribe((data: IUser | any) => {
-        userState.token$.next(data.data);
-        userState.me$.next(jwtDecode(data.data));
-        this.router.navigate(['tabs', 'settings']);
+    const accessToken = this.route.snapshot.queryParams['access_token'];
+    
+    if (accessToken) {
+      // Используем новый метод для обработки токена
+      this.authService.processYandexToken(accessToken).subscribe({
+        next: (response) => {
+          console.log('Authentication successful:', response);
+        },
+        error: (error) => {
+          console.error('Authentication failed:', error);
+          // В случае ошибки перенаправляем на страницу настроек
+          this.router.navigate(['tabs', 'settings']);
+        }
       });
+    } else {
+      console.error('No access token provided');
+      this.router.navigate(['tabs', 'settings']);
+    }
   }
 }

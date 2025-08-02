@@ -22,6 +22,7 @@ export class RemoteLoginBackComponent {
   ) {}
 
   async ngOnInit() {
+    // Получаем токен из URL fragment (для веб-авторизации)
     const fragment: IYandexResponse = this.route.snapshot.fragment
       ?.split('&')
       .reduce((acc: any, cur: string) => {
@@ -30,6 +31,25 @@ export class RemoteLoginBackComponent {
         return acc;
       }, {});
 
+    // Если есть токен в fragment, обрабатываем его
+    if (fragment?.access_token) {
+      console.log('Yandex access token received:', fragment.access_token);
+      
+      // Отправляем токен на сервер и получаем JWT
+      this.authService.processYandexToken(fragment.access_token).subscribe({
+        next: (response) => {
+          console.log('Authentication successful:', response);
+        },
+        error: (error) => {
+          console.error('Authentication failed:', error);
+          // В случае ошибки перенаправляем на страницу входа
+          this.router.navigate(['tabs', 'settings']);
+        }
+      });
+      return;
+    }
+
+    // Существующая логика для мобильных приложений
     const { value: platform } = await Preferences.get({ key: 'platform' });
     const { value: host } = await Preferences.get({ key: 'host' });
     const { value: service } = await Preferences.get({ key: 'service' });
