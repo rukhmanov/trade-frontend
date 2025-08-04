@@ -51,9 +51,17 @@ export class AppComponent {
   }
 
   initializeApp() {
-    // Убираем автоматическую загрузку данных при старте приложения
-    // Данные будут загружаться только при необходимости через кеширование
-    // при переходе на соответствующие страницы
+    // Проверяем токен при инициализации приложения
+    const token = localStorage.getItem('token');
+    if (!token) {
+      // Если токена нет, очищаем все данные пользователя
+      this.dataStateService.clearCache();
+      this.dataStateService.likedProducts$.next(null);
+      this.dataStateService.cardsInMyCart$.next(null);
+      this.dataStateService.myCards$.next(null);
+      this.userStateService.me$.next(null);
+      this.userStateService.token$.next(null);
+    }
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
       // Log deep link event for debugging (remove in production)

@@ -67,10 +67,15 @@ export class AuthService {
       .pipe(
         tap((response) => {
           const jwt = response.data;
+          // Очищаем данные предыдущего пользователя
+          this.clearUserData();
+          
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
-          this.userDataService.loadUserData(); // Загружаем данные пользователя
-          this.router.navigate(['tabs', 'all']);
+          // Принудительно обновляем данные пользователя при входе
+          this.userDataService.forceRefreshUserData().subscribe(() => {
+            this.router.navigate(['tabs', 'all']);
+          });
         })
       );
   }
@@ -78,7 +83,18 @@ export class AuthService {
   getAndSaveUserData(accessToken: string): Observable<any> {
     return this.http.post<{ status: string; data: string }>(environment.base + 'users/auth/', {
       accessToken,
-    });
+    }).pipe(
+      tap((response) => {
+        const jwt = response.data;
+        // Очищаем данные предыдущего пользователя
+        this.clearUserData();
+        
+        this.userState.token$.next(jwt);
+        this.userState.me$.next(jwtDecode(jwt));
+        // Принудительно обновляем данные пользователя
+        this.userDataService.forceRefreshUserData().subscribe();
+      })
+    );
   }
 
   logout() {
@@ -90,6 +106,17 @@ export class AuthService {
     this.dataStateService.likedProducts$.next(null);
     this.dataStateService.cardsInMyCart$.next(null);
     this.dataStateService.myCards$.next(null);
+    
+    // Очищаем кеш данных
+    this.dataStateService.clearCache();
+  }
+
+  // Метод для очистки данных при смене пользователя
+  clearUserData() {
+    this.dataStateService.likedProducts$.next(null);
+    this.dataStateService.cardsInMyCart$.next(null);
+    this.dataStateService.myCards$.next(null);
+    this.dataStateService.clearCache();
   }
 
   initializeGoogleAuth() {
@@ -113,9 +140,15 @@ export class AuthService {
       .pipe(
         tap((response) => {
           const jwt = response.jwt;
+          // Очищаем данные предыдущего пользователя
+          this.clearUserData();
+          
           this.userState.token$.next(jwt);
           this.userState.me$.next(jwtDecode(jwt));
-          this.userDataService.loadUserData(); // Загружаем данные пользователя
+          // Принудительно обновляем данные пользователя при входе
+          this.userDataService.forceRefreshUserData().subscribe(() => {
+            this.router.navigate(['tabs', 'all']);
+          });
         })
       )
       .subscribe();
@@ -127,6 +160,12 @@ export class AuthService {
         // You can handle user information here if needed
         const user = userCredential.user;
         console.log('User logged in:', user);
+        
+        // Очищаем данные предыдущего пользователя
+        this.clearUserData();
+        
+        // Принудительно обновляем данные пользователя
+        this.userDataService.forceRefreshUserData().subscribe();
       }
     );
   }

@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { BehaviorSubject, from, map, Observable, switchMap, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { DataStateService } from 'src/app/state/data-state.service';
+import { UserStateService } from 'src/app/state/user-state.service';
+import { UserDataService } from 'src/app/services/user-data.service';
+import { jwtDecode } from 'jwt-decode';
 
 const TOKEN_KEY = 'auth-token';
 @Injectable({
@@ -17,7 +21,12 @@ export class AuthenticationService {
   >(null);
 
   token = '';
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private dataStateService: DataStateService,
+    private userStateService: UserStateService,
+    private userDataService: UserDataService
+  ) {
     this.loadToken();
   }
 
@@ -40,8 +49,24 @@ export class AuthenticationService {
       switchMap((token) => {
         return from(Preferences.set({ key: TOKEN_KEY, value: token }));
       }),
-      tap((_) => {
+      tap(() => {
+        // Очищаем данные предыдущего пользователя
+        this.clearUserData();
+        
         this.isAuthenticated.next(true);
+        
+        // Получаем токен из Preferences
+        Preferences.get({ key: TOKEN_KEY }).then((result) => {
+          if (result.value) {
+            this.token = result.value;
+            // Обновляем состояние пользователя
+            this.userStateService.token$.next(result.value);
+            this.userStateService.me$.next(jwtDecode(result.value));
+            
+            // Принудительно обновляем данные пользователя
+            this.userDataService.forceRefreshUserData().subscribe();
+          }
+        });
       })
     );
   }
@@ -50,6 +75,17 @@ export class AuthenticationService {
   async logout(): Promise<void> {
     await Preferences.remove({ key: TOKEN_KEY });
     this.isAuthenticated.next(false);
+    
+    // Очищаем данные пользователя при выходе
+    this.clearUserData();
+  }
+
+  // Метод для очистки данных при смене пользователя
+  clearUserData() {
+    this.dataStateService.likedProducts$.next(null);
+    this.dataStateService.cardsInMyCart$.next(null);
+    this.dataStateService.myCards$.next(null);
+    this.dataStateService.clearCache();
   }
 
   // This is a fake register method. It will return a token if the credentials are correct.
@@ -64,8 +100,24 @@ export class AuthenticationService {
         switchMap((token) => {
           return from(Preferences.set({ key: TOKEN_KEY, value: token }));
         }),
-        tap((_) => {
+        tap(() => {
+          // Очищаем данные предыдущего пользователя
+          this.clearUserData();
+          
           this.isAuthenticated.next(true);
+          
+          // Получаем токен из Preferences
+          Preferences.get({ key: TOKEN_KEY }).then((result) => {
+            if (result.value) {
+              this.token = result.value;
+              // Обновляем состояние пользователя
+              this.userStateService.token$.next(result.value);
+              this.userStateService.me$.next(jwtDecode(result.value));
+              
+              // Принудительно обновляем данные пользователя
+              this.userDataService.forceRefreshUserData().subscribe();
+            }
+          });
         })
       );
   }
