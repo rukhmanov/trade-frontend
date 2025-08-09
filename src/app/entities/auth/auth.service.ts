@@ -13,6 +13,7 @@ import { Browser } from '@capacitor/browser';
 import { GoogleAuth, User } from '@codetrix-studio/capacitor-google-auth';
 import { isPlatform } from '@ionic/angular/standalone';
 import { registerPlugin } from '@capacitor/core';
+import { GoogleAuthService } from './google-auth.service';
 
 import { initializeApp } from 'firebase/app';
 import { Auth, getAuth, signInWithEmailAndPassword } from 'firebase/auth';
@@ -35,7 +36,8 @@ export class AuthService {
     private dataStateService: DataStateService,
     private userDataService: UserDataService,
     public router: Router,
-    private platform: Platform
+    private platform: Platform,
+    private googleAuthService: GoogleAuthService
   ) {
     initializeApp(environment.firebase);
     this.initializeGoogleAuth();
@@ -120,38 +122,87 @@ export class AuthService {
   }
 
   initializeGoogleAuth() {
-    if (!isPlatform('capacitor')) {
-      GoogleAuth.initialize();
+    // Инициализируем Google Auth только один раз
+    try {
+      if (isPlatform('capacitor')) {
+        // Для мобильных платформ
+        this.platform.ready().then(() => {
+          console.log('Initializing Google Auth for Capacitor');
+          GoogleAuth.initialize();
+        });
+      } else {
+        // Для веб-платформы
+        console.log('Initializing Google Auth for Web');
+        // Добавляем небольшую задержку для веб-платформы
+        setTimeout(() => {
+          try {
+            GoogleAuth.initialize();
+          } catch (initError) {
+            console.error('Error initializing Google Auth for Web:', initError);
+            // Попробуем еще раз через большее время
+            setTimeout(() => {
+              try {
+                GoogleAuth.initialize();
+              } catch (retryError) {
+                console.error('Retry failed for Google Auth initialization:', retryError);
+              }
+            }, 500);
+          }
+        }, 100);
+      }
+    } catch (error) {
+      console.error('Error in initializeGoogleAuth:', error);
     }
-    this.platform.ready().then(() => {
-      console.log('platform ==> ');
-      GoogleAuth.initialize();
-    });
   }
 
   async googleSignIn() {
-    const googleUser = await GoogleAuth.signIn();
-    console.log("🔍 ~ googleSignIn ~ parsifal/src/app/entities/auth/auth.service.ts:106 ~ googleUser:", googleUser);
-    const googleAccessToken = googleUser?.authentication?.accessToken;
-    return this.http
-      .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
-        accessToken: googleAccessToken,
-      })
-      .pipe(
-        tap((response) => {
-          const jwt = response.jwt;
-          // Очищаем данные предыдущего пользователя
-          this.clearUserData();
-          
-          this.userState.token$.next(jwt);
-          this.userState.me$.next(jwtDecode(jwt));
-          // Принудительно обновляем данные пользователя при входе
-          this.userDataService.forceRefreshUserData().subscribe(() => {
-            this.router.navigate(['tabs', 'all']);
-          });
+    try {
+      // Убеждаемся, что Google Auth инициализирован
+      if (isPlatform('capacitor')) {
+        await this.platform.ready();
+      } else {
+        // Для веб-платформы убеждаемся, что инициализация завершена
+        await new Promise(resolve => setTimeout(resolve, 300));
+      }
+      
+      // Попробуем инициализировать еще раз перед входом
+      try {
+        GoogleAuth.initialize();
+      } catch (initError) {
+        console.log('Google Auth already initialized or initialization failed:', initError);
+      }
+      
+      const googleUser = await GoogleAuth.signIn();
+      console.log("🔍 ~ googleSignIn ~ parsifal/src/app/entities/auth/auth.service.ts:106 ~ googleUser:", googleUser);
+      const googleAccessToken = googleUser?.authentication?.accessToken;
+      
+      if (!googleAccessToken) {
+        throw new Error('Не удалось получить токен доступа от Google');
+      }
+      
+      return this.http
+        .post<{ jwt: string }>(environment.base + 'users/google-auth/', {
+          accessToken: googleAccessToken,
         })
-      )
-      .subscribe();
+        .pipe(
+          tap((response) => {
+            const jwt = response.jwt;
+            // Очищаем данные предыдущего пользователя
+            this.clearUserData();
+            
+            this.userState.token$.next(jwt);
+            this.userState.me$.next(jwtDecode(jwt));
+            // Принудительно обновляем данные пользователя при входе
+            this.userDataService.forceRefreshUserData().subscribe(() => {
+              this.router.navigate(['tabs', 'all']);
+            });
+          })
+        )
+        .subscribe();
+    } catch (error) {
+      console.error('Ошибка при входе через Google:', error);
+      throw error;
+    }
   }
 
   async signInWithEmail(email: string, password: string): Promise<void> {
