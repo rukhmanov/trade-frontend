@@ -1,0 +1,43 @@
+<ion-content class="ion-padding">
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>Вход в систему</h1>
+            <p>Выберите способ авторизации</p>
+        </div>
+
+        <!-- Сообщения об ошибках -->
+        <div *ngIf="errorMessage" class="error-message">
+            <ion-text color="danger">
+                {{ errorMessage }}
+                <ion-button fill="clear" size="small" (click)="clearError()">
+                    <ion-icon name="close"></ion-icon>
+                </ion-button>
+            </ion-text>
+        </div>
+
+        <!-- Кнопки авторизации -->
+        <div class="auth-buttons">
+            <!-- Яндекс авторизация -->
+            <ion-button expand="block" fill="outline" class="yandex-btn" (click)="yandexSignIn()"
+                [disabled]="isLoading">
+                <ion-icon name="logo-yahoo" slot="start"></ion-icon>
+                Войти через Яндекс
+                <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            </ion-button>
+
+            <!-- Google авторизация -->
+            <ion-button expand="block" fill="outline" class="google-btn" (click)="googleSignIn()"
+                [disabled]="isLoading">
+                <ion-icon name="logo-google" slot="start"></ion-icon>
+                Войти через Google
+                <ion-spinner *ngIf="isLoading" name="crescent"></ion-spinner>
+            </ion-button>
+        </div>
+
+        <!-- Индикатор загрузки -->
+        <div *ngIf="isLoading" class="loading-container">
+            <ion-spinner name="crescent"></ion-spinner>
+            <p>Выполняется авторизация...</p>
+        </div>
+    </div>
+</ion-content>

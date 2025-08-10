@@ -28,6 +28,16 @@
 				<string>com.googleusercontent.apps.81877849768-5h27j2fiq47t8fnodpuf2hlet884jrj6</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>parsifal.auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>parsifal</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>

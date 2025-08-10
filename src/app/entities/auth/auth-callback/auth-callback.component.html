@@ -1,0 +1,38 @@
+<ion-content class="ion-padding">
+    <div class="callback-container">
+        <div class="callback-content">
+            <!-- Индикатор загрузки -->
+            <div *ngIf="isLoading" class="loading-section">
+                <ion-spinner name="crescent" class="loading-spinner"></ion-spinner>
+                <h2>Обработка авторизации...</h2>
+                <p>Пожалуйста, подождите</p>
+            </div>
+
+            <!-- Сообщение об ошибке -->
+            <div *ngIf="!isLoading && errorMessage" class="error-section">
+                <ion-icon name="alert-circle" class="error-icon"></ion-icon>
+                <h2>Ошибка авторизации</h2>
+                <p class="error-text">{{ errorMessage }}</p>
+                <ion-button expand="block" (click)="goToAuth()">
+                    Вернуться к авторизации
+                </ion-button>
+            </div>
+
+            <!-- Успешная авторизация -->
+            <div *ngIf="!isLoading && !errorMessage" class="success-section">
+                <ion-icon name="checkmark-circle" class="success-icon"></ion-icon>
+                <h2>Авторизация успешна!</h2>
+                <p>Перенаправление на главную страницу...</p>
+                <ion-spinner name="crescent" class="redirect-spinner"></ion-spinner>
+            </div>
+
+            <!-- Инструкции для iOS -->
+            <div *ngIf="!isLoading && !errorMessage && isIOSPlatform" class="ios-instructions">
+                <ion-icon name="phone-portrait" class="ios-icon"></ion-icon>
+                <h2>Для iOS пользователей</h2>
+                <p>Авторизация завершена в браузере. Теперь вернитесь в приложение Parsifal.</p>
+                <p class="ios-note">Приложение автоматически получит токен авторизации.</p>
+            </div>
+        </div>
+    </div>
+</ion-content>

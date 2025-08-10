@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, tap } from 'rxjs';
+import { Observable, tap, catchError } from 'rxjs';
 import { IYandexResponse } from './types';
 import { Platform } from '@ionic/angular/standalone';
 import { environment } from 'src/environments/environment';
@@ -45,29 +45,47 @@ export class AuthService {
 
   async yandexSignIn() {
     console.log('yandexLogin ==> ', Capacitor.isNativePlatform());
+    
+    // Создаем callback URL
+    const callbackUrl = this.getCallbackUrl();
+    const authUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${environment.yandexClientId}&redirect_uri=${encodeURIComponent(callbackUrl)}`;
+    
     if (Capacitor.isNativePlatform()) {
-      Browser.open({
-        url:
-          'https://oauth.yandex.ru/authorize?response_type=token&client_id=' +
-          environment.yandexClientId,
+      // Для iOS открываем браузер с callback URL
+      await Browser.open({
+        url: authUrl,
+        windowName: '_self'
       });
     } else {
-      window.open(
-        'https://oauth.yandex.ru/authorize?response_type=token&client_id=' +
-          environment.yandexClientId,
-        '_self'
-      );
+      // Для веба используем стандартный подход
+      window.open(authUrl, '_self');
+    }
+  }
+
+  private getCallbackUrl(): string {
+    // Создаем callback URL для возврата в приложение
+    if (Capacitor.isNativePlatform()) {
+      // Для iOS используем веб-URL с параметром платформы
+      // Это позволит Яндексу корректно перенаправить
+      return window.location.origin + '/auth/callback?platform=ios';
+    } else {
+      // Для веба используем текущий URL с callback маршрутом
+      return window.location.origin + '/auth/callback';
     }
   }
 
   // Метод для обработки токена от Яндекса и отправки на сервер
   processYandexToken(accessToken: string): Observable<any> {
+    console.log('🔍 Processing Yandex token:', accessToken);
+    console.log('🔍 API endpoint:', environment.base + 'users/auth/');
+    
     return this.http
       .post<{ status: string; data: string }>(environment.base + 'users/auth/', {
         accessToken: accessToken,
       })
       .pipe(
         tap((response) => {
+          console.log('🔍 Yandex auth response:', response);
           const jwt = response.data;
           // Очищаем данные предыдущего пользователя
           this.clearUserData();
@@ -78,6 +96,10 @@ export class AuthService {
           this.userDataService.forceRefreshUserData().subscribe(() => {
             this.router.navigate(['tabs', 'all']);
           });
+        }),
+        catchError((error: any) => {
+          console.error('🔍 Error processing Yandex token:', error);
+          throw error;
         })
       );
   }

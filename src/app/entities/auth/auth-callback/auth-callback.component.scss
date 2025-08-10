@@ -1,0 +1,98 @@
+.callback-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.callback-content {
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.loading-section,
+.error-section,
+.success-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.loading-spinner,
+.redirect-spinner {
+  width: 4rem;
+  height: 4rem;
+  --color: var(--ion-color-primary);
+}
+
+.error-icon,
+.success-icon {
+  font-size: 4rem;
+  color: var(--ion-color-danger);
+}
+
+.success-icon {
+  color: var(--ion-color-success);
+}
+
+h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--ion-color-dark);
+}
+
+p {
+  font-size: 1.1rem;
+  color: var(--ion-color-medium);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.error-text {
+  color: var(--ion-color-danger);
+  font-weight: 500;
+}
+
+       ion-button {
+         margin-top: 1rem;
+         --padding-start: 2rem;
+         --padding-end: 2rem;
+       }
+
+       .ios-instructions {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         gap: 1.5rem;
+         text-align: center;
+       }
+
+       .ios-icon {
+         font-size: 4rem;
+         color: var(--ion-color-primary);
+       }
+
+       .ios-note {
+         font-size: 0.9rem;
+         color: var(--ion-color-medium);
+         font-style: italic;
+       }
+
+// Адаптивность для мобильных устройств
+@media (max-width: 768px) {
+  .callback-container {
+    padding: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+  }
+  
+  p {
+    font-size: 1rem;
+  }
+}

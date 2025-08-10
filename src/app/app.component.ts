@@ -1,4 +1,4 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import {
@@ -14,6 +14,7 @@ import { CommonStateService } from './state/common-state.service';
 import { DataStateService } from './state/data-state.service';
 import { UserStateService } from './state/user-state.service';
 import { UserDataService } from './services/user-data.service';
+import { CustomUrlSchemeService } from './plugins/custom-url-scheme/custom-url-scheme.service';
 import { environment } from '../environments/environment';
 register();
 
@@ -29,7 +30,9 @@ register();
     IonRouterOutlet,
   ],
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy {
+  private customUrlSchemeService!: CustomUrlSchemeService;
+
   constructor(
     private router: Router, 
     private zone: NgZone, 
@@ -51,6 +54,9 @@ export class AppComponent {
   }
 
   initializeApp() {
+    // Инициализируем Custom URL Scheme сервис
+    this.customUrlSchemeService = new CustomUrlSchemeService(this.router, this.userStateService);
+    
     // Проверяем токен при инициализации приложения
     const token = localStorage.getItem('token');
     if (!token) {
@@ -86,5 +92,11 @@ export class AppComponent {
       // Any calls to load data go here
       (event.target as HTMLIonRefresherElement).complete();
     }, 2000);
+  }
+
+  ngOnDestroy() {
+    if (this.customUrlSchemeService) {
+      this.customUrlSchemeService.destroy();
+    }
   }
 }

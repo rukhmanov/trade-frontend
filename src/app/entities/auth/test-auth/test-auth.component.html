@@ -1,0 +1,29 @@
+<ion-content class="ion-padding">
+    <div class="test-container">
+        <h1>Тестирование авторизации</h1>
+
+        <div class="test-buttons">
+            <ion-button expand="block" (click)="goToUniversalAuth()">
+                Тест универсальной авторизации
+            </ion-button>
+
+            <ion-button expand="block" fill="outline" (click)="goToCallback()">
+                Тест успешного callback
+            </ion-button>
+
+            <ion-button expand="block" fill="outline" (click)="goToCallbackWithError()">
+                Тест callback с ошибкой
+            </ion-button>
+        </div>
+
+        <div class="info-section">
+            <h3>Информация:</h3>
+            <ul>
+                <li>Универсальная авторизация работает для веба и iOS</li>
+                <li>В iOS используется Custom URL Scheme: parsifal://</li>
+                <li>Callback URL: /auth/callback</li>
+                <li>Все токены обрабатываются автоматически</li>
+            </ul>
+        </div>
+    </div>
+</ion-content>
