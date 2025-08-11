@@ -6,6 +6,8 @@ import { BackButtonComponent } from 'src/app/entities/back-button/back-button.co
 import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { addIcons } from 'ionicons';
+import { alertCircleOutline, peopleOutline, personCircleOutline, trashOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-admin',
@@ -19,7 +21,14 @@ export class AdminPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private adminService: AdminService) { }
+  constructor(private adminService: AdminService) {
+    addIcons({
+      alertCircleOutline,
+      personCircleOutline,
+      trashOutline,
+      peopleOutline
+    });
+  }
 
   ngOnInit(): void {
     this.loadUsers();
