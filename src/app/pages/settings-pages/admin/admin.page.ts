@@ -7,7 +7,13 @@ import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { addIcons } from 'ionicons';
-import { alertCircleOutline, peopleOutline, personCircleOutline, trashOutline } from 'ionicons/icons';
+import { 
+  alertCircleOutline, 
+  peopleOutline, 
+  personCircleOutline, 
+  trashOutline,
+  chevronDownCircleOutline 
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-admin',
@@ -29,7 +35,8 @@ export class AdminPage implements OnInit {
       alertCircleOutline,
       personCircleOutline,
       trashOutline,
-      peopleOutline
+      peopleOutline,
+      chevronDownCircleOutline
     });
   }
 
