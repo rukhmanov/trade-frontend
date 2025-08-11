@@ -10,10 +10,8 @@ import {
 } from '@ionic/angular/standalone';
 import { filter } from 'rxjs';
 import { register } from 'swiper/element/bundle';
-import { CommonStateService } from './state/common-state.service';
 import { DataStateService } from './state/data-state.service';
 import { UserStateService } from './state/user-state.service';
-import { UserDataService } from './services/user-data.service';
 import { CustomUrlSchemeService } from './plugins/custom-url-scheme/custom-url-scheme.service';
 import { environment } from '../environments/environment';
 register();
@@ -36,18 +34,14 @@ export class AppComponent implements OnDestroy {
   constructor(
     private router: Router, 
     private zone: NgZone, 
-    private commonStateService: CommonStateService,
     private dataStateService: DataStateService,
     private userStateService: UserStateService,
-    private userDataService: UserDataService
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         // Log navigation for debugging (remove in production)
         if (environment.production === false) {
-          console.log('Navigation to:', event.url);
-          console.log('Previous URL:', event.urlAfterRedirects);
         }
       });
     this.initializeApp();
@@ -70,7 +64,6 @@ export class AppComponent implements OnDestroy {
     }
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      // Log deep link event for debugging (remove in production)
       if (environment.production === false) {
         console.log('Deep link event:', event);
       }

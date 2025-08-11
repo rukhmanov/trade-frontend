@@ -3,6 +3,8 @@ import { IonButton, IonIcon } from '@ionic/angular/standalone';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { CommonStateService } from 'src/app/state/common-state.service';
+import { addIcons } from 'ionicons';
+import { arrowBackOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-back-button',
@@ -18,7 +20,11 @@ export class BackButtonComponent implements OnInit {
     private location: Location,
     private router: Router,
     private commonStateService: CommonStateService
-  ) {}
+  ) {
+    addIcons({
+      arrowBackOutline,
+    });
+  }
 
   ngOnInit(): void {
     // Component initialization logic can be added here if needed
