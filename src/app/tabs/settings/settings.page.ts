@@ -19,6 +19,8 @@ import {
   personCircleOutline,
   shieldCheckmarkOutline,
   moonOutline,
+  refreshOutline,
+  peopleOutline,
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { FormsModule } from '@angular/forms';
@@ -59,6 +61,8 @@ export class SettingsPage {
       shieldCheckmarkOutline,
       informationCircleOutline,
       moonOutline,
+      refreshOutline,
+      peopleOutline,
     });
     
     // Подписываемся на изменения темы
