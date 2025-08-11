@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { of } from 'rxjs';
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, IonButton, IonIcon, IonSpinner]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent]
 })
 export class AdminPage implements OnInit {
   users: IUserAdmin[] = [];
@@ -65,6 +65,11 @@ export class AdminPage implements OnInit {
   editRoles(user: IUserAdmin) {
     // Здесь можно открыть модальное окно для редактирования ролей
     console.log('Редактирование ролей для:', user.fullName || user.email);
+  }
+
+  handleRefresh(event: any) {
+    this.loadUsers();
+    event.target.complete();
   }
 
   getUserDisplayName(user: IUserAdmin): string {

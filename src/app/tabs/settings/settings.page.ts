@@ -19,7 +19,6 @@ import {
   personCircleOutline,
   shieldCheckmarkOutline,
   moonOutline,
-  refreshOutline,
   peopleOutline,
 } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -61,7 +60,6 @@ export class SettingsPage {
       shieldCheckmarkOutline,
       informationCircleOutline,
       moonOutline,
-      refreshOutline,
       peopleOutline,
     });
     
