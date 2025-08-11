@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, AlertController } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
@@ -21,7 +21,10 @@ export class AdminPage implements OnInit {
   isLoading = false;
   errorMessage = '';
 
-  constructor(private adminService: AdminService) {
+  constructor(
+    private adminService: AdminService,
+    private alertController: AlertController
+  ) {
     addIcons({
       alertCircleOutline,
       personCircleOutline,
@@ -56,19 +59,39 @@ export class AdminPage implements OnInit {
       });
   }
 
-  removeUser(id: number) {
-    this.adminService.deleteUser(id)
-      .pipe(
-        catchError(error => {
-          console.error('Ошибка удаления пользователя:', error);
-          return of({ status: -1 });
-        })
-      )
-      .subscribe(response => {
-        if (response.status === 0) {
-          this.users = this.users.filter(u => u.id !== id);
-        }
-      });
+  async removeUser(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Подтверждение удаления',
+      message: 'Вы уверены, что хотите удалить этого пользователя?',
+      buttons: [
+        {
+          text: 'Отмена',
+          role: 'cancel',
+          handler: () => {
+            console.log('Удаление пользователя отменено');
+          },
+        },
+        {
+          text: 'Удалить',
+          role: 'confirm',
+          handler: () => {
+            this.adminService.deleteUser(id)
+              .pipe(
+                catchError(error => {
+                  console.error('Ошибка удаления пользователя:', error);
+                  return of({ status: -1 });
+                })
+              )
+              .subscribe(response => {
+                if (response.status === 0) {
+                  this.users = this.users.filter(u => u.id !== id);
+                }
+              });
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   editRoles(user: IUserAdmin) {
