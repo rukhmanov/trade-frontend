@@ -30,7 +30,7 @@
       </ion-item>
 
       <!-- Админ панель -->
-      <ion-item button [routerLink]="['admin']">
+      <ion-item button [routerLink]="['admin']" *ngIf="isLoggedIn">
         <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
         <ion-label>Админ панель</ion-label>
       </ion-item>
