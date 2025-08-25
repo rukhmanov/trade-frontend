@@ -48,28 +48,21 @@ export class AllPage implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Загружаем все товары только если их нет в кеше
-    if (this.dataStateService.shouldRefresh('all')) {
+    // Загружаем все товары только если их нет
+    if (!this.dataStateService.all$.value) {
       this.productsApiService.getAll().subscribe();
     }
     
-    // Загружаем данные пользователя только если авторизован
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
+    // Загружаем данные пользователя только если авторизован и это первый запуск
+    if (this.userStateService.me$.value && this.dataStateService.isFirstLoadApp()) {
+      this.userDataService.loadUserData();
     }
   }
 
   ionViewWillEnter() {
-    // Загружаем данные пользователя только если авторизован и кеш устарел
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
-    }
-  }
-
-  private loadUserData() {
-    // Загружаем данные только для авторизованных пользователей
-    if (this.userStateService.me$.value) {
-      this.userDataService.loadUserData();
+    // Загружаем все товары только если их нет
+    if (!this.dataStateService.all$.value) {
+      this.productsApiService.getAll().subscribe();
     }
   }
 

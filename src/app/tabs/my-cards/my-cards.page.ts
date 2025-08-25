@@ -61,28 +61,21 @@ export class MyCardsPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // Загружаем мои товары только если кеш устарел
-    if (this.dataStateService.shouldRefresh('myCards')) {
+    // Загружаем мои товары только если данных нет
+    if (!this.dataStateService.myCards$.value) {
       this.productsApiService.getMyProducts().subscribe();
     }
     
-    // Загружаем данные пользователя только если авторизован
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
+    // Загружаем данные пользователя только если авторизован и это первый запуск
+    if (this.userStateService.me$.value && this.dataStateService.isFirstLoadApp()) {
+      this.userDataService.loadUserData();
     }
   }
 
   ionViewWillEnter() {
-    // Загружаем данные пользователя только если авторизован
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
-    }
-  }
-
-  private loadUserData() {
-    // Загружаем данные только для авторизованных пользователей
-    if (this.userStateService.me$.value) {
-      this.userDataService.loadUserData();
+    // Загружаем мои товары только если данных нет
+    if (!this.dataStateService.myCards$.value) {
+      this.productsApiService.getMyProducts().subscribe();
     }
   }
 

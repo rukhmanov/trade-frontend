@@ -8,7 +8,7 @@ import {
   IonCardTitle,
   IonButton,
   IonIcon,
-  AlertController,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { heart, add, remove, trash } from 'ionicons/icons';
 import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
@@ -20,6 +20,7 @@ import { CommonStateService } from 'src/app/state/common-state.service';
 import { ProductsApiService } from './services/cards-api.service';
 import { DataStateService } from 'src/app/state/data-state.service';
 import { UserStateService } from 'src/app/state/user-state.service';
+import { ConfirmationModalComponent } from '../../confirmation-modal';
 
 @Component({
   selector: 'app-compact-card',
@@ -53,7 +54,7 @@ export class CompactCardComponent implements OnInit {
     private productsApiService: ProductsApiService,
     private dataStateService: DataStateService,
     private userStateService: UserStateService,
-    private alertController: AlertController
+    private modalController: ModalController
   ) {
     addIcons({
       heart,
@@ -254,39 +255,35 @@ export class CompactCardComponent implements OnInit {
     event.stopPropagation();
     
     if (this.data) {
-      const alert = await this.alertController.create({
-        header: 'Подтверждение удаления',
-        message: 'Вы уверены, что хотите удалить этот товар?',
-        buttons: [
-          {
-            text: 'Отмена',
-            role: 'cancel',
-            handler: () => {
-              console.log('Удаление отменено');
-            },
-          },
-          {
-            text: 'Удалить',
-            role: 'confirm',
-            handler: () => {
-              if (this.data) {
-                this.productsApiService.deleteProduct(this.data.id).subscribe(() => {
-                  // Удаляем товар из списка моих товаров
-                  const currentMyCards = this.dataStateService.myCards$.value || [];
-                  const updatedMyCards = currentMyCards.filter(item => item.id !== this.data?.id);
-                  this.dataStateService.myCards$.next(updatedMyCards);
-                  
-                  // Также удаляем из всех товаров, если он там есть
-                  const currentAllProducts = this.dataStateService.all$.value || [];
-                  const updatedAllProducts = currentAllProducts.filter(item => item.id !== this.data?.id);
-                  this.dataStateService.all$.next(updatedAllProducts);
-                });
-              }
-            },
-          },
-        ],
+      const modal = await this.modalController.create({
+        component: ConfirmationModalComponent,
+        componentProps: {
+          title: 'Подтверждение удаления',
+          message: 'Вы уверены, что хотите удалить этот товар?',
+          productName: this.data.name,
+          confirmText: 'Удалить',
+          cancelText: 'Отмена',
+        },
       });
-      await alert.present();
+      await modal.present();
+
+      const { data } = await modal.onDidDismiss();
+
+      if (data?.confirmed) {
+        if (this.data) {
+          this.productsApiService.deleteProduct(this.data.id).subscribe(() => {
+            // Удаляем товар из списка моих товаров
+            const currentMyCards = this.dataStateService.myCards$.value || [];
+            const updatedMyCards = currentMyCards.filter(item => item.id !== this.data?.id);
+            this.dataStateService.myCards$.next(updatedMyCards);
+            
+            // Также удаляем из всех товаров, если он там есть
+            const currentAllProducts = this.dataStateService.all$.value || [];
+            const updatedAllProducts = currentAllProducts.filter(item => item.id !== this.data?.id);
+            this.dataStateService.all$.next(updatedAllProducts);
+          });
+        }
+      }
     }
   }
 }

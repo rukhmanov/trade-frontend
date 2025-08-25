@@ -51,29 +51,21 @@ export class CartPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // Всегда загружаем корзину свежими данными
-    this.productsApiService.getProductsFromCart().subscribe();
+    // Загружаем корзину только если данных нет
+    if (!this.dataStateService.cardsInMyCart$.value) {
+      this.productsApiService.getProductsFromCart().subscribe();
+    }
     
-    // Загружаем данные пользователя только если авторизован
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
+    // Загружаем данные пользователя только если авторизован и это первый запуск
+    if (this.userStateService.me$.value && this.dataStateService.isFirstLoadApp()) {
+      this.userDataService.loadUserData();
     }
   }
 
   ionViewWillEnter() {
-    // Всегда загружаем корзину свежими данными при входе на страницу
-    this.productsApiService.getProductsFromCart().subscribe();
-    
-    // Загружаем данные пользователя только если авторизован
-    if (this.userStateService.me$.value) {
-      this.loadUserData();
-    }
-  }
-
-  private loadUserData() {
-    // Загружаем данные только для авторизованных пользователей
-    if (this.userStateService.me$.value) {
-      this.userDataService.loadUserData();
+    // Загружаем корзину только если данных нет
+    if (!this.dataStateService.cardsInMyCart$.value) {
+      this.productsApiService.getProductsFromCart().subscribe();
     }
   }
 

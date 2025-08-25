@@ -9,47 +9,44 @@ export class DataStateService {
   cardsInMyCart$ = new BehaviorSubject<any[] | null>(null);
   likedProducts$ = new BehaviorSubject<ILikeItem[] | null>(null);
 
-  // Кеш для отслеживания времени последнего обновления
-  private cache = {
-    all: { data: null as IProduct[] | null, timestamp: 0 },
-    myCards: { data: null as IProduct[] | null, timestamp: 0 },
-    cart: { data: null as any[] | null, timestamp: 0 },
-    liked: { data: null as ILikeItem[] | null, timestamp: 0 }
-  };
-
-  // Время жизни кеша в миллисекундах (5 минут)
-  private readonly CACHE_TTL = 5 * 60 * 1000;
+  // Флаг для отслеживания первого запуска приложения
+  private isFirstLoad = true;
 
   constructor() {}
 
-  // Проверяет, нужно ли обновлять данные
-  shouldRefresh(cacheKey: keyof typeof this.cache): boolean {
-    const cache = this.cache[cacheKey];
-    return !cache.data || (Date.now() - cache.timestamp) > this.CACHE_TTL;
+  // Проверяет, является ли это первым запуском
+  isFirstLoadApp(): boolean {
+    return this.isFirstLoad;
   }
 
-  // Обновляет кеш для указанного ключа
-  updateCache(cacheKey: keyof typeof this.cache, data: any): void {
-    this.cache[cacheKey] = {
-      data,
-      timestamp: Date.now()
-    };
-  }
-
-  // Получает данные из кеша
-  getCachedData(cacheKey: keyof typeof this.cache): any {
-    return this.cache[cacheKey].data;
+  // Отмечает, что первый запуск завершен
+  markFirstLoadComplete(): void {
+    this.isFirstLoad = false;
   }
 
   // Очищает весь кеш
   clearCache(): void {
-    Object.keys(this.cache).forEach(key => {
-      this.cache[key as keyof typeof this.cache] = { data: null, timestamp: 0 };
-    });
+    this.all$.next(null);
+    this.myCards$.next(null);
+    this.cardsInMyCart$.next(null);
+    this.likedProducts$.next(null);
   }
 
   // Очищает конкретный кеш
-  clearCacheItem(cacheKey: keyof typeof this.cache): void {
-    this.cache[cacheKey] = { data: null, timestamp: 0 };
+  clearCacheItem(cacheKey: string): void {
+    switch (cacheKey) {
+      case 'all':
+        this.all$.next(null);
+        break;
+      case 'myCards':
+        this.myCards$.next(null);
+        break;
+      case 'cart':
+        this.cardsInMyCart$.next(null);
+        break;
+      case 'liked':
+        this.likedProducts$.next(null);
+        break;
+    }
   }
 }

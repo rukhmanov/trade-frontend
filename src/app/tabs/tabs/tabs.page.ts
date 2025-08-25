@@ -59,8 +59,10 @@ export class TabsPage implements OnInit {
     this.userStateService.me$.subscribe(user => {
       this.isLoggedIn = !!user;
       if (this.isLoggedIn) {
-        // Загружаем данные только для авторизованных пользователей
-        this.loadUserData();
+        // Загружаем данные только для авторизованных пользователей при первом запуске
+        if (this.dataStateService.isFirstLoadApp()) {
+          this.userDataService.loadUserData();
+        }
       }
     });
     
@@ -77,10 +79,6 @@ export class TabsPage implements OnInit {
 
   onTabClick() {
     // Убираем автоматическую загрузку данных при переключении вкладок
-    // Данные будут загружаться только при необходимости через кеширование
-  }
-
-  private loadUserData() {
-    this.userDataService.loadUserData();
+    // Данные будут загружаться только при необходимости
   }
 }

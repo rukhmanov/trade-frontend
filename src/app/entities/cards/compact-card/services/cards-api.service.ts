@@ -16,47 +16,21 @@ export class ProductsApiService {
   ) {}
 
   getAll(): Observable<IProductResponse> {
-    // Проверяем кеш
-    if (!this.dataStateService.shouldRefresh('all')) {
-      const cachedData = this.dataStateService.getCachedData('all');
-      if (cachedData) {
-        this.dataStateService.all$.next(cachedData);
-        return new Observable(observer => {
-          observer.next({ status: 'ok', data: cachedData });
-          observer.complete();
-        });
-      }
-    }
-
     return this.http
       .get<IProductResponse>(environment.base + 'products/')
       .pipe(
         tap((response) => {
           this.dataStateService.all$.next(response.data);
-          this.dataStateService.updateCache('all', response.data);
         })
       );
   }
 
   getMyProducts(): Observable<IProductResponse> {
-    // Проверяем кеш
-    if (!this.dataStateService.shouldRefresh('myCards')) {
-      const cachedData = this.dataStateService.getCachedData('myCards');
-      if (cachedData) {
-        this.dataStateService.myCards$.next(cachedData);
-        return new Observable(observer => {
-          observer.next({ status: 'ok', data: cachedData });
-          observer.complete();
-        });
-      }
-    }
-
     return this.http
       .get<IProductResponse>(this.baseUrl + 'products/my')
       .pipe(
         tap((response) => {
           this.dataStateService.myCards$.next(response.data);
-          this.dataStateService.updateCache('myCards', response.data);
         })
       );
   }
@@ -70,24 +44,11 @@ export class ProductsApiService {
   }
 
   getLikedProducts(): Observable<ILikeResponse> {
-    // Проверяем кеш
-    if (!this.dataStateService.shouldRefresh('liked')) {
-      const cachedData = this.dataStateService.getCachedData('liked');
-      if (cachedData) {
-        this.dataStateService.likedProducts$.next(cachedData);
-        return new Observable(observer => {
-          observer.next({ status: 'ok', data: cachedData });
-          observer.complete();
-        });
-      }
-    }
-
     return this.http
       .get<ILikeResponse>(this.baseUrl + 'products/likes')
       .pipe(
         tap((response) => {
           this.dataStateService.likedProducts$.next(response.data);
-          this.dataStateService.updateCache('liked', response.data);
         })
       );
   }

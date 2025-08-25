@@ -92,19 +92,12 @@ export class FavoritesPage implements OnInit {
   }
 
   private loadLikedProducts() {
-    // Проверяем кеш перед загрузкой
-    if (this.dataStateService.shouldRefresh('liked')) {
+    // Загружаем лайки только если данных нет
+    if (!this.dataStateService.likedProducts$.value) {
       this.productsApiService.getLikedProducts().subscribe((response) => {
         this.dataStateService.likedProducts$.next(response.data);
         this.favorites = response.data;
       });
-    } else {
-      // Используем данные из кеша
-      const cachedLikes = this.dataStateService.getCachedData('liked');
-      if (cachedLikes) {
-        this.dataStateService.likedProducts$.next(cachedLikes);
-        this.favorites = cachedLikes;
-      }
     }
   }
 

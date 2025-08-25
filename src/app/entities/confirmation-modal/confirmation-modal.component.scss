@@ -1,0 +1,55 @@
+.modal-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.message {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  color: var(--ion-color-dark);
+}
+
+.product-name {
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  margin-bottom: 30px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.confirm-btn {
+  --background: var(--ion-color-danger);
+  --color: white;
+  --border-radius: 8px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 600;
+}
+
+.cancel-btn {
+  --color: var(--ion-color-medium);
+  --border-color: var(--ion-color-medium);
+  --border-radius: 8px;
+  --padding-top: 12px;
+  --padding-bottom: 12px;
+  font-weight: 500;
+}
+
+ion-header {
+  --background: var(--ion-color-light);
+}
+
+ion-toolbar {
+  --background: var(--ion-color-light);
+  --color: var(--ion-color-dark);
+}
+
+ion-title {
+  font-weight: 600;
+  font-size: 18px;
+}

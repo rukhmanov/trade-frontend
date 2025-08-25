@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import {
   IonToolbar,
@@ -8,13 +8,13 @@ import {
   IonButton,
   IonIcon,
   IonContent,
+  ModalController,
 } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 import { ImageSliderComponent } from 'src/app/entities/image-slider/image-slider.component';
 import { DataStateService } from 'src/app/state/data-state.service';
 import { UserStateService } from 'src/app/state/user-state.service';
-import { AlertController } from '@ionic/angular/standalone';
 import { IProduct, ICartItem, ILikeItem } from 'src/app/entities/cards/types';
 import { addIcons } from 'ionicons';
 import {
@@ -25,6 +25,7 @@ import {
   remove,
   checkmarkCircle
 } from 'ionicons/icons';
+import { ConfirmationModalComponent } from '../../entities/confirmation-modal';
 
 @Component({
   selector: 'app-card-page',
@@ -62,7 +63,7 @@ export class CardPageComponent implements OnInit {
     private productsApiService: ProductsApiService,
     private dataStateService: DataStateService,
     private userStateService: UserStateService,
-    private alertController: AlertController
+    private modalController: ModalController
   ) {
     addIcons({
       heart,
@@ -319,39 +320,42 @@ export class CardPageComponent implements OnInit {
     
     if (!this.data) return;
 
-    const alert = await this.alertController.create({
-      header: 'Подтверждение удаления',
-      message: 'Вы уверены, что хотите удалить этот товар?',
-      buttons: [
-        { text: 'Отмена', role: 'cancel' },
-        {
-          text: 'Удалить',
-          role: 'confirm',
-          handler: () => {
-            this.productsApiService.deleteProduct(this.data!.id).subscribe({
-              next: () => {
-                // Удаляем из всех списков
-                const currentMyCards = this.dataStateService.myCards$.value || [];
-                this.dataStateService.myCards$.next(
-                  currentMyCards.filter(item => item.id !== this.data?.id)
-                );
-                
-                const currentAllProducts = this.dataStateService.all$.value || [];
-                this.dataStateService.all$.next(
-                  currentAllProducts.filter(item => item.id !== this.data?.id)
-                );
-                
-                // Возвращаемся на главную страницу
-                this.router.navigate(['/tabs/all']);
-              },
-              error: (error) => {
-                console.error('Error deleting product:', error);
-              }
-            });
-          }
-        }
-      ]
+    const modal = await this.modalController.create({
+      component: ConfirmationModalComponent,
+      componentProps: {
+        title: 'Подтверждение удаления',
+        message: `Вы уверены, что хотите удалить товар "${this.data.name}"?`,
+        productName: this.data.name,
+        confirmText: 'Удалить',
+        cancelText: 'Отмена'
+      }
     });
-    await alert.present();
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+
+    if (data?.confirmed) {
+      this.productsApiService.deleteProduct(this.data!.id).subscribe({
+        next: () => {
+          // Удаляем из всех списков
+          const currentMyCards = this.dataStateService.myCards$.value || [];
+          this.dataStateService.myCards$.next(
+            currentMyCards.filter(item => item.id !== this.data?.id)
+          );
+          
+          const currentAllProducts = this.dataStateService.all$.value || [];
+          this.dataStateService.all$.next(
+            currentAllProducts.filter(item => item.id !== this.data?.id)
+          );
+          
+          // Возвращаемся на главную страницу
+          this.router.navigate(['/tabs/all']);
+        },
+        error: (error) => {
+          console.error('Error deleting product:', error);
+        }
+      });
+    }
   }
 }

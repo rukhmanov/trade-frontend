@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular/standalone';
 import {
   IonToolbar,
   IonTitle,
@@ -15,6 +15,7 @@ import {
   selector: 'app-confirmation-modal',
   templateUrl: './confirmation-modal.component.html',
   styleUrls: ['./confirmation-modal.component.scss'],
+  standalone: true,
   imports: [
     IonHeader,
     IonCol,
@@ -25,10 +26,14 @@ import {
     IonTitle,
     CommonModule,
   ],
+  providers: [ModalController],
 })
 export class ConfirmationModalComponent {
+  @Input() title: string = 'Подтверждение'; // Заголовок модального окна
   @Input() message!: string; // Сообщение для отображения в модальном окне
   @Input() productName?: string; // Имя продукта, если имеется
+  @Input() confirmText: string = 'Да'; // Текст кнопки подтверждения
+  @Input() cancelText: string = 'Нет'; // Текст кнопки отмены
 
   constructor(private modalCtrl: ModalController) {}
 

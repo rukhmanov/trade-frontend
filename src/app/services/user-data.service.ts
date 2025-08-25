@@ -23,62 +23,46 @@ export class UserDataService {
       return;
     }
     
-    // Проверяем кеш для лайков
-    if (this.dataStateService.shouldRefresh('liked')) {
-      this.getLikedProducts().subscribe(
-        (response) => {
-          this.dataStateService.likedProducts$.next(response.data);
-          this.dataStateService.updateCache('liked', response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки лайков:', error);
-        }
-      );
-    } else {
-      // Используем данные из кеша
-      const cachedLikes = this.dataStateService.getCachedData('liked');
-      if (cachedLikes) {
-        this.dataStateService.likedProducts$.next(cachedLikes);
-      }
+    // Если это первый запуск, загружаем все данные
+    if (this.dataStateService.isFirstLoadApp()) {
+      this.loadAllUserData();
     }
+  }
 
-    // Проверяем кеш для корзины
-    if (this.dataStateService.shouldRefresh('cart')) {
-      this.getProductsFromCart().subscribe(
-        (response) => {
-          this.dataStateService.cardsInMyCart$.next(response.data);
-          this.dataStateService.updateCache('cart', response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки корзины:', error);
-        }
-      );
-    } else {
-      // Используем данные из кеша
-      const cachedCart = this.dataStateService.getCachedData('cart');
-      if (cachedCart) {
-        this.dataStateService.cardsInMyCart$.next(cachedCart);
+  // Загружает все данные пользователя (для первого запуска)
+  private loadAllUserData(): void {
+    // Загружаем лайки
+    this.getLikedProducts().subscribe(
+      (response) => {
+        this.dataStateService.likedProducts$.next(response.data);
+      },
+      (error) => {
+        console.log('Ошибка загрузки лайков:', error);
       }
-    }
+    );
 
-    // Проверяем кеш для моих товаров
-    if (this.dataStateService.shouldRefresh('myCards')) {
-      this.getMyProducts().subscribe(
-        (response) => {
-          this.dataStateService.myCards$.next(response.data);
-          this.dataStateService.updateCache('myCards', response.data);
-        },
-        (error) => {
-          console.log('Ошибка загрузки товаров пользователя:', error);
-        }
-      );
-    } else {
-      // Используем данные из кеша
-      const cachedMyCards = this.dataStateService.getCachedData('myCards');
-      if (cachedMyCards) {
-        this.dataStateService.myCards$.next(cachedMyCards);
+    // Загружаем корзину
+    this.getProductsFromCart().subscribe(
+      (response) => {
+        this.dataStateService.cardsInMyCart$.next(response.data);
+      },
+      (error) => {
+        console.log('Ошибка загрузки корзины:', error);
       }
-    }
+    );
+
+    // Загружаем мои товары
+    this.getMyProducts().subscribe(
+      (response) => {
+        this.dataStateService.myCards$.next(response.data);
+      },
+      (error) => {
+        console.log('Ошибка загрузки товаров пользователя:', error);
+      }
+    );
+
+    // Отмечаем, что первый запуск завершен
+    this.dataStateService.markFirstLoadComplete();
   }
 
   // Метод для принудительного обновления всех данных пользователя
@@ -104,7 +88,6 @@ export class UserDataService {
       this.getLikedProducts().subscribe(
         (response) => {
           this.dataStateService.likedProducts$.next(response.data);
-          this.dataStateService.updateCache('liked', response.data);
           checkComplete();
         },
         (error) => {
@@ -116,7 +99,6 @@ export class UserDataService {
       this.getProductsFromCart().subscribe(
         (response) => {
           this.dataStateService.cardsInMyCart$.next(response.data);
-          this.dataStateService.updateCache('cart', response.data);
           checkComplete();
         },
         (error) => {
@@ -128,7 +110,6 @@ export class UserDataService {
       this.getMyProducts().subscribe(
         (response) => {
           this.dataStateService.myCards$.next(response.data);
-          this.dataStateService.updateCache('myCards', response.data);
           checkComplete();
         },
         (error) => {
