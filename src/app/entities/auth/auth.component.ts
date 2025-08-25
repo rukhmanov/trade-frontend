@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from './auth.service';
 import { UserStateService } from 'src/app/state/user-state.service';
+import { addIcons } from 'ionicons';
+import { logOutOutline } from 'ionicons/icons';
 import {
   IonButton,
   IonText,
@@ -40,7 +42,11 @@ export class AuthComponent {
     public authService: AuthService,
     public router: Router,
     public userState: UserStateService
-  ) {}
+  ) {
+    addIcons({
+      logOutOutline
+    });
+  }
 
   async loginWithEmail() {
     this.errorMessage = null; // Reset error message

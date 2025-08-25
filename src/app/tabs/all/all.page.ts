@@ -10,6 +10,8 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronDownCircleOutline } from 'ionicons/icons';
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { ProductsApiService } from '../../entities/cards/compact-card/services/cards-api.service';
 import { CommonModule } from '@angular/common';

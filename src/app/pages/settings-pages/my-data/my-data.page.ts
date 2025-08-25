@@ -6,6 +6,8 @@ import { UserStateService } from 'src/app/state/user-state.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { AuthImagePipe } from 'src/app/entities/auth/auth-image.pipe';
+import { addIcons } from 'ionicons';
+import { personCircleOutline } from 'ionicons/icons';
 
 @Component({
   selector: 'app-my-data',
@@ -16,13 +18,26 @@ import { AuthImagePipe } from 'src/app/entities/auth/auth-image.pipe';
 })
 export class MyDataPage implements OnInit {
   public user$ = this.userState.me$;
+  public avatarLoadError = false;
 
   constructor(
     public userState: UserStateService,
     private sanitizer: DomSanitizer
-  ) { }
+  ) {
+    addIcons({
+      personCircleOutline
+    });
+  }
 
   ngOnInit() {
   }
 
+  onImageError(event: any) {
+    console.warn('Ошибка загрузки аватара:', event);
+    this.avatarLoadError = true;
+  }
+
+  onImageLoad(event: any) {
+    this.avatarLoadError = false;
+  }
 }

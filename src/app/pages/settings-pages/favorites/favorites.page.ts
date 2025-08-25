@@ -12,6 +12,8 @@ import {
   IonRefresher,
   IonRefresherContent
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronDownCircleOutline } from 'ionicons/icons';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
 import { IProduct, ILikeItem } from 'src/app/entities/cards/types';
@@ -72,7 +74,11 @@ export class FavoritesPage implements OnInit {
   constructor(
     private dataStateService: DataStateService,
     private productsApiService: ProductsApiService
-  ) { }
+  ) {
+    addIcons({
+      chevronDownCircleOutline
+    });
+  }
 
   ngOnInit() {
     this.loadLikedProducts();

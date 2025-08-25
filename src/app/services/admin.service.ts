@@ -17,8 +17,9 @@ export interface IUserAdmin {
       name: string;
     }>;
   }>;
-  authService?: string;
+  authService?: 'google' | 'yandex' | 'email' | string;
   avatarId?: string;
+  avatarLoadError?: boolean;
   phone?: string;
   birthDate?: string;
   gender?: string;

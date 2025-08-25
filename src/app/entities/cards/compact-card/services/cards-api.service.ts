@@ -105,24 +105,11 @@ export class ProductsApiService {
   }
 
   getProductsFromCart(): Observable<any> {
-    // Проверяем кеш
-    if (!this.dataStateService.shouldRefresh('cart')) {
-      const cachedData = this.dataStateService.getCachedData('cart');
-      if (cachedData) {
-        this.dataStateService.cardsInMyCart$.next(cachedData);
-        return new Observable(observer => {
-          observer.next({ status: 'ok', data: cachedData });
-          observer.complete();
-        });
-      }
-    }
-
     return this.http
       .get<any>(this.baseUrl + 'products/cart')
       .pipe(
         tap((response) => {
           this.dataStateService.cardsInMyCart$.next(response.data);
-          this.dataStateService.updateCache('cart', response.data);
         })
       );
   }

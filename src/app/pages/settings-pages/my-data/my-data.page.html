@@ -15,8 +15,9 @@
   <ng-container *ngIf="user$ | async as user">
     <div class="my-data-card">
       <ion-avatar class="my-data-avatar">
-        <img *ngIf="user.avatarId" [src]="user.avatarId | authImage : user.authService" alt="avatar" />
-        <div *ngIf="!user.avatarId" class="my-data-avatar-placeholder">
+        <img *ngIf="user.avatarId && !avatarLoadError" [src]="user.avatarId | authImage : user.authService" alt="avatar"
+          (error)="onImageError($event)" (load)="onImageLoad($event)" />
+        <div *ngIf="!user.avatarId || avatarLoadError" class="my-data-avatar-placeholder">
           <ion-icon name="person-circle-outline"></ion-icon>
         </div>
       </ion-avatar>

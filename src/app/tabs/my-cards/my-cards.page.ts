@@ -86,27 +86,6 @@ export class MyCardsPage implements OnInit {
     }
   }
 
-  // Обработчик pull-to-refresh
-  async handleRefresh(event: any) {
-    try {
-      // Очищаем кеш для принудительного обновления
-      this.dataStateService.clearCacheItem('myCards');
-      
-      // Загружаем мои товары заново
-      await this.productsApiService.getMyProducts().toPromise();
-      
-      // Загружаем данные пользователя если авторизован
-      if (this.userStateService.me$.value) {
-        await this.userDataService.forceRefreshUserData().toPromise();
-      }
-      
-      event.target.complete();
-    } catch (error) {
-      console.error('Error refreshing my cards data:', error);
-      event.target.complete();
-    }
-  }
-
   create() {
     this.router.navigate(['/', 'create-card']);
   }

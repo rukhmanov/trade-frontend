@@ -10,6 +10,8 @@ import {
   IonRefresher,
   IonRefresherContent,
 } from '@ionic/angular/standalone';
+import { addIcons } from 'ionicons';
+import { chevronDownCircleOutline } from 'ionicons/icons';
 
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { CommonModule } from '@angular/common';
@@ -42,13 +44,15 @@ export class CartPage implements OnInit {
     public productsApiService: ProductsApiService,
     private userStateService: UserStateService,
     private userDataService: UserDataService
-  ) {}
+  ) {
+    addIcons({
+      chevronDownCircleOutline
+    });
+  }
 
   ngOnInit(): void {
-    // Загружаем корзину только если кеш устарел
-    if (this.dataStateService.shouldRefresh('cart')) {
-      this.productsApiService.getProductsFromCart().subscribe();
-    }
+    // Всегда загружаем корзину свежими данными
+    this.productsApiService.getProductsFromCart().subscribe();
     
     // Загружаем данные пользователя только если авторизован
     if (this.userStateService.me$.value) {
@@ -57,6 +61,9 @@ export class CartPage implements OnInit {
   }
 
   ionViewWillEnter() {
+    // Всегда загружаем корзину свежими данными при входе на страницу
+    this.productsApiService.getProductsFromCart().subscribe();
+    
     // Загружаем данные пользователя только если авторизован
     if (this.userStateService.me$.value) {
       this.loadUserData();
@@ -73,9 +80,6 @@ export class CartPage implements OnInit {
   // Обработчик pull-to-refresh
   async handleRefresh(event: any) {
     try {
-      // Очищаем кеш корзины для принудительного обновления
-      this.dataStateService.clearCacheItem('cart');
-      
       // Загружаем корзину заново
       await this.productsApiService.getProductsFromCart().toPromise();
       

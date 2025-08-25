@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, AlertController } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, AlertController, IonAvatar } from '@ionic/angular/standalone';
 import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
@@ -14,13 +14,14 @@ import {
   trashOutline,
   chevronDownCircleOutline 
 } from 'ionicons/icons';
+import { AuthImagePipe } from 'src/app/entities/auth/auth-image.pipe';
 
 @Component({
   selector: 'app-admin',
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, IonAvatar, AuthImagePipe]
 })
 export class AdminPage implements OnInit {
   users: IUserAdmin[] = [];
@@ -129,5 +130,14 @@ export class AdminPage implements OnInit {
 
   getRoleNames(user: IUserAdmin): string[] {
     return user.roles.map(role => role.name);
+  }
+
+  onImageError(event: any, user: IUserAdmin) {
+    console.warn(`Ошибка загрузки аватара для пользователя ${user.email}:`, event);
+    user.avatarLoadError = true;
+  }
+
+  onImageLoad(event: any, user: IUserAdmin) {
+    user.avatarLoadError = false;
   }
 }

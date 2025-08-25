@@ -6,7 +6,7 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content pulling-icon="chevron-down-circle-outline" pulling-text="Потяните для обновления"
+    <ion-refresher-content pulling-icon="chevronDownCircleOutline" pulling-text="Потяните для обновления"
       refreshing-spinner="circles" refreshing-text="Обновление...">
     </ion-refresher-content>
   </ion-refresher>
@@ -35,7 +35,14 @@
     <div *ngIf="!isLoading && !errorMessage" class="users-grid">
       <div *ngFor="let user of users" class="user-card">
         <div class="user-avatar">
-          <ion-icon name="person-circle-outline"></ion-icon>
+
+          <ion-avatar *ngIf="user.avatarId">
+            <img [src]="user.avatarId | authImage : user.authService" alt="avatar" (error)="onImageError($event, user)"
+              (load)="onImageLoad($event, user)" />
+          </ion-avatar>
+          <div *ngIf="!user.avatarId || user.avatarLoadError" class="user-avatar-placeholder">
+            <ion-icon name="person-circle-outline"></ion-icon>
+          </div>
         </div>
         <div class="user-info">
           <h3>{{ getUserDisplayName(user) }}</h3>
