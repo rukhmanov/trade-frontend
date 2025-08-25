@@ -22,6 +22,8 @@ import { Router } from '@angular/router';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 import { UserDataService } from 'src/app/services/user-data.service';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
+import { chevronDownCircleOutline } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-my-cards',
@@ -52,7 +54,11 @@ export class MyCardsPage implements OnInit {
     private userStateService: UserStateService,
     private userDataService: UserDataService,
     private router: Router
-  ) {}
+  ) {
+        addIcons({
+      chevronDownCircleOutline
+    });
+  }
 
   ngOnInit(): void {
     // Загружаем мои товары только если кеш устарел
