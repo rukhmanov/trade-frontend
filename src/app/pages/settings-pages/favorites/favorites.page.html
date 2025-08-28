@@ -6,7 +6,7 @@
 </ion-header>
 <ion-content [fullscreen]="true">
   <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
-    <ion-refresher-content pullingIcon="chevronDownCircleOutline" pullingText="Потяните для обновления"
+    <ion-refresher-content pullingIcon="chevron-down-circle-outline" pullingText="Потяните для обновления"
       refreshingSpinner="circles" refreshingText="Обновление...">
     </ion-refresher-content>
   </ion-refresher>
@@ -15,7 +15,7 @@
     <ion-row>
       <ng-container *ngIf="favorites.length; else empty">
         <ion-col size="6" size-md="4" size-lg="3" *ngFor="let likeItem of favorites">
-          <app-compact-card [data]="likeItem.product" [hideButtons]="true"></app-compact-card>
+          <app-compact-card [data]="likeItem.product" [hideButtons]="false"></app-compact-card>
         </ion-col>
       </ng-container>
       <ng-template #empty>

@@ -45,7 +45,11 @@ export class AllPage implements OnInit {
     private userStateService: UserStateService,
     private userDataService: UserDataService,
     private router: Router
-  ) {}
+  ) {
+    addIcons({
+      chevronDownCircleOutline
+    });
+  }
 
   ngOnInit(): void {
     // Загружаем все товары только если их нет
