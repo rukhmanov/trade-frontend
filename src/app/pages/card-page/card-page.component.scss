@@ -13,13 +13,23 @@
     color: white;
   }
 
-  .image {
-    border-radius: 8px;
+  // Стили для слайдера изображений
+  app-image-slider {
     width: 100%;
-    height: 41%;
-    min-height: 41%;
-    max-height: 41%;
-    object-fit: cover; // Ensure image covers the area appropriately
+    margin-bottom: 16px;
+    
+    // Ограничиваем высоту слайдера
+    ::ng-deep .image-slider-container {
+      max-height: 300px;
+      
+      @media (max-width: 768px) {
+        max-height: 250px;
+      }
+      
+      @media (max-width: 480px) {
+        max-height: 200px;
+      }
+    }
   }
 
   ion-card-header {

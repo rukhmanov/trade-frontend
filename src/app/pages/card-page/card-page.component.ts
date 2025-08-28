@@ -23,7 +23,9 @@ import {
   trash,
   add,
   remove,
-  checkmarkCircle
+  checkmarkCircle,
+  chevronBack,
+  chevronForward
 } from 'ionicons/icons';
 import { ConfirmationModalComponent } from '../../entities/confirmation-modal';
 import { PriceFormatPipe } from '../../pipes/price-format.pipe';
@@ -73,7 +75,9 @@ export class CardPageComponent implements OnInit {
       trash,
       add,
       remove,
-      checkmarkCircle
+      checkmarkCircle,
+      chevronBack,
+      chevronForward
     });
   }
 

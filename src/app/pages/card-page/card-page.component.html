@@ -25,7 +25,9 @@
   </div>
 
   <!-- Слайдер изображений -->
-  <app-image-slider [images]="images"></app-image-slider>
+  <app-image-slider [images]="images" [maxHeight]="'300px'" [showPagination]="true" [showNavigation]="true"
+    [autoPlay]="false">
+  </app-image-slider>
 
   <!-- Цена -->
   <div class="price" color="danger">{{ data?.price | priceFormat }}₽</div>

@@ -1,6 +1,48 @@
-<img *ngIf="!images?.length" class="image" [src]="'assets/images/card-image.png'" alt="Image" />
-<swiper-container [centeredSlidesBounds]="true" [pagination]="true" *ngIf="images?.length" [modules]="swiperModules">
-  <swiper-slide *ngFor="let key of images">
-    <img class="image" [src]="s3 + key" alt="Image" />
-  </swiper-slide>
-</swiper-container>
+<div class="image-slider-container" [style.max-height]="maxHeight">
+  <!-- Заглушка если нет изображений -->
+  <div *ngIf="!images?.length" class="placeholder-image">
+    <img class="image" [src]="'assets/images/card-image.png'" alt="Placeholder Image" (load)="onImageLoad($event)"
+      (error)="onImageError($event)" />
+  </div>
+
+  <!-- Слайдер если есть изображения -->
+  <div *ngIf="images?.length" class="slider-wrapper">
+    <!-- Основной слайдер -->
+    <swiper-container #swiperContainer [centeredSlidesBounds]="true" [pagination]="showPagination"
+      [modules]="swiperModules" [loop]="images.length > 1" [autoplay]="autoPlay" [autoplay-delay]="autoPlayDelay"
+      (swiperSlideChange)="onSlideChange($event)" class="main-swiper">
+
+      <swiper-slide *ngFor="let image of images; let i = index" class="slide">
+        <div class="image-container">
+          <img class="image" [src]="s3 + image" [alt]="'Image ' + (i + 1)" (load)="onImageLoad($event)"
+            (error)="onImageError($event)" />
+        </div>
+      </swiper-slide>
+    </swiper-container>
+
+    <!-- Навигационные кнопки -->
+    <div *ngIf="showNavigation && images.length > 1" class="navigation-buttons">
+      <button class="nav-btn prev-btn" (click)="prevSlide()" [disabled]="currentSlideIndex === 0"
+        aria-label="Предыдущее изображение">
+        <ion-icon name="chevron-back"></ion-icon>
+      </button>
+
+      <button class="nav-btn next-btn" (click)="nextSlide()" [disabled]="currentSlideIndex === images.length - 1"
+        aria-label="Следующее изображение">
+        <ion-icon name="chevron-forward"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Счетчик слайдов -->
+    <div *ngIf="images.length > 1" class="slide-counter">
+      {{ currentSlideIndex + 1 }} / {{ images.length }}
+    </div>
+
+    <!-- Миниатюры (если больше одного изображения) -->
+    <div *ngIf="images.length > 1" class="thumbnails">
+      <div *ngFor="let image of images; let i = index" class="thumbnail active" (click)="goToSlide(i)">
+        <img [src]="s3 + image" [alt]="'Thumbnail ' + (i + 1)" (error)="onImageError($event)" />
+      </div>
+    </div>
+  </div>
+</div>
