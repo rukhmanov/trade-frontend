@@ -7,7 +7,7 @@
   <img class="image" [src]="data?.photos?.length ? s3 + data?.photos?.[0] : 'assets/images/card-image.png'"
     alt="Image" />
   <ion-card-header>
-    <div class="price" color="danger">{{ data?.price }}₽</div>
+    <div class="price" color="danger">{{ data?.price | priceFormat }}₽</div>
   </ion-card-header>
   <ion-card-content class="content">
     <ion-card-title>

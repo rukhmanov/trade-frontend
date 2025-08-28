@@ -103,7 +103,7 @@ export class CreateCardPageComponent implements OnInit {
     this.productForm = this.fb.group({
       name: ['', Validators.required], // Название продукта
       description: ['', Validators.required], // Описание продукта
-      price: [null, [Validators.required, Validators.min(0)]], // Цена продукта
+      price: [null, [Validators.required, Validators.min(0)]], // Цена продукта (число)
       weight: [null], // Вес продукта (необязательное поле)
       quantity: [1, [Validators.required, Validators.min(1)]], // Количество продукта
       currency: ['', Validators.required], // Валюта
@@ -144,8 +144,12 @@ export class CreateCardPageComponent implements OnInit {
           .pipe(
             mergeMap((images: any[] = []) => {
               const photos = images.map((image) => image.key);
+              const formData = this.productForm.getRawValue();
+              
+              // Убеждаемся, что цена отправляется как число
               return this.createCardPageApiService.createProduct({
-                ...this.productForm.getRawValue(),
+                ...formData,
+                price: Number(formData.price), // Преобразуем в число
                 photos,
               });
             }),

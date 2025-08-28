@@ -2,7 +2,7 @@ export interface IProduct {
   id: number;
   name: string;
   description: string;
-  price: string;
+  price: number; // Изменено с string на number
   currency: string;
   quantity: string;
   weight?: string;

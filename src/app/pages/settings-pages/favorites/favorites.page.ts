@@ -24,7 +24,7 @@ const MOCK_FAVORITES: IProduct[] = [
   {
     id: 1,
     name: 'Мок-продукт 1',
-    price: '1000',
+    price: 1000, // Изменено с string на number
     currency: 'RUB',
     quantity: '1',
     city: 'Москва',
@@ -36,7 +36,7 @@ const MOCK_FAVORITES: IProduct[] = [
   {
     id: 2,
     name: 'Мок-продукт 2',
-    price: '2000',
+    price: 2000, // Изменено с string на number
     currency: 'RUB',
     quantity: '1',
     city: 'Санкт-Петербург',

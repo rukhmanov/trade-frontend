@@ -10,6 +10,7 @@ import {
   IonIcon,
   ModalController,
 } from '@ionic/angular/standalone';
+import { PriceFormatPipe } from '../../../pipes/price-format.pipe';
 import { heart, add, remove, trash } from 'ionicons/icons';
 import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
 import { IUser } from '../../auth/types';
@@ -35,6 +36,7 @@ import { ConfirmationModalComponent } from '../../confirmation-modal';
     IonCardHeader,
     IonCardSubtitle,
     IonCardTitle,
+    PriceFormatPipe,
   ],
 })
 export class CompactCardComponent implements OnInit {

@@ -28,7 +28,7 @@
   <app-image-slider [images]="images"></app-image-slider>
 
   <!-- Цена -->
-  <div class="price" color="danger">{{ data?.price }}₽</div>
+  <div class="price" color="danger">{{ data?.price | priceFormat }}₽</div>
 
   <!-- Контент -->
   <ion-content class="ion-padding">

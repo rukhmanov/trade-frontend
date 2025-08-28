@@ -26,6 +26,7 @@ import {
   checkmarkCircle
 } from 'ionicons/icons';
 import { ConfirmationModalComponent } from '../../entities/confirmation-modal';
+import { PriceFormatPipe } from '../../pipes/price-format.pipe';
 
 @Component({
   selector: 'app-card-page',
@@ -40,6 +41,7 @@ import { ConfirmationModalComponent } from '../../entities/confirmation-modal';
     BackButtonComponent,
     ImageSliderComponent,
     IonContent,
+    PriceFormatPipe,
   ],
 })
 export class CardPageComponent implements OnInit {
