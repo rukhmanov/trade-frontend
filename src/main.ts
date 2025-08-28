@@ -33,7 +33,10 @@ themeInitializer.initializeTheme();
 bootstrapApplication(AppComponent, {
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    provideIonicAngular(),
+    provideIonicAngular({
+      // Отключаем все анимации
+      animated: false,
+    }),
     provideRouter(routes, withPreloading(PreloadAllModules)),
     provideHttpClient(
       withInterceptors([cacheInterceptor, errorInterceptor]),
