@@ -1,0 +1,76 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="goBack()">
+                <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Оплата</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+    <ion-header collapse="condense">
+        <ion-toolbar>
+            <ion-title size="large">Оплата</ion-title>
+        </ion-toolbar>
+    </ion-header>
+
+    <div class="payment-container">
+        <ion-card class="payment-card">
+            <ion-card-header>
+                <ion-card-title class="payment-title">
+                    <ion-icon name="card-outline"></ion-icon>
+                    Данные для оплаты
+                </ion-card-title>
+            </ion-card-header>
+
+            <ion-card-content>
+                <ion-list>
+                    <ion-item>
+                        <ion-label position="stacked">Номер карты</ion-label>
+                        <ion-input type="text" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric">
+                        </ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Срок действия</ion-label>
+                        <ion-input type="text" placeholder="MM/YY" maxlength="5">
+                        </ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">CVV код</ion-label>
+                        <ion-input type="password" placeholder="123" maxlength="3" inputmode="numeric">
+                        </ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label position="stacked">Имя владельца</ion-label>
+                        <ion-input type="text" placeholder="IVAN IVANOV">
+                        </ion-input>
+                    </ion-item>
+                </ion-list>
+
+                <div class="payment-summary">
+                    <ion-item>
+                        <ion-label>Итого к оплате:</ion-label>
+                        <ion-note slot="end" class="total-amount">₽ 0</ion-note>
+                    </ion-item>
+                </div>
+
+                <ion-button expand="block" class="pay-button" (click)="processPayment()">
+                    <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+                    Оплатить
+                </ion-button>
+            </ion-card-content>
+        </ion-card>
+
+        <div class="payment-info">
+            <ion-text color="medium">
+                <p>Ваши данные защищены SSL-шифрованием</p>
+                <p>Оплата производится через безопасный шлюз</p>
+            </ion-text>
+        </div>
+    </div>
+</ion-content>

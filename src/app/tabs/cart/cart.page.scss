@@ -1,1 +1,32 @@
+.payment-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--ion-background-color);
+  padding: 16px;
+  border-top: 1px solid var(--ion-color-light);
+  z-index: 100;
+}
 
+.pay-button {
+  height: 56px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 12px;
+  --background: var(--ion-color-primary);
+  --color: white;
+  
+  ion-icon {
+    font-size: 1.2rem;
+  }
+  
+  &:hover {
+    --background: var(--ion-color-primary-shade);
+  }
+}
+
+// Добавляем отступ снизу для контента, чтобы кнопка не перекрывала карточки
+ion-content {
+  padding-bottom: 100px;
+}

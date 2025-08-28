@@ -32,4 +32,12 @@
       </ng-container>
     </ion-row>
   </ion-grid>
+
+  <!-- Кнопка оплаты -->
+  <div class="payment-section" *ngIf="(dataStateService.cardsInMyCart$ | async)?.length">
+    <ion-button expand="block" class="pay-button" (click)="goToPayment()">
+      <ion-icon name="card-outline" slot="start"></ion-icon>
+      Оплатить
+    </ion-button>
+  </div>
 </ion-content>

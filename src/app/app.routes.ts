@@ -8,6 +8,7 @@ import { UniversalAuthComponent } from './entities/auth/universal-auth/universal
 import { AuthCallbackComponent } from './entities/auth/auth-callback/auth-callback.component';
 import { TestAuthComponent } from './entities/auth/test-auth/test-auth.component';
 import { AuthGuard } from './guards/auth.guard';
+import { PaymentPage } from './pages/payment/payment.page';
 
 export const routes: Routes = [
   {
@@ -54,6 +55,12 @@ export const routes: Routes = [
   {
     path: 'test-auth',
     component: TestAuthComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: 'payment',
+    component: PaymentPage,
+    canActivate: [AuthGuard],
     pathMatch: 'full',
   },
   {

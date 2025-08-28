@@ -9,9 +9,12 @@ import {
   IonRow,
   IonRefresher,
   IonRefresherContent,
+  IonButton,
+  IonIcon,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { chevronDownCircleOutline } from 'ionicons/icons';
+import { chevronDownCircleOutline, cardOutline } from 'ionicons/icons';
+import { Router } from '@angular/router';
 
 import { CompactCardComponent } from '../../entities/cards/compact-card/compact-card.component';
 import { CommonModule } from '@angular/common';
@@ -34,6 +37,8 @@ import { UserDataService } from 'src/app/services/user-data.service';
     IonContent,
     IonRefresher,
     IonRefresherContent,
+    IonButton,
+    IonIcon,
     CompactCardComponent,
     CommonModule,
   ],
@@ -43,10 +48,12 @@ export class CartPage implements OnInit {
     public dataStateService: DataStateService,
     public productsApiService: ProductsApiService,
     private userStateService: UserStateService,
-    private userDataService: UserDataService
+    private userDataService: UserDataService,
+    private router: Router
   ) {
     addIcons({
-      chevronDownCircleOutline
+      chevronDownCircleOutline,
+      cardOutline
     });
   }
 
@@ -85,5 +92,9 @@ export class CartPage implements OnInit {
       console.error('Error refreshing cart data:', error);
       event.target.complete();
     }
+  }
+
+  goToPayment() {
+    this.router.navigate(['/payment']);
   }
 }
