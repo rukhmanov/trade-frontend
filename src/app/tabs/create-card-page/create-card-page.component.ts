@@ -146,10 +146,14 @@ export class CreateCardPageComponent implements OnInit {
               const photos = images.map((image) => image.key);
               const formData = this.productForm.getRawValue();
               
-              // Убеждаемся, что цена отправляется как число
+              // Преобразуем цену в число, убирая пробелы и заменяя запятую на точку
+              const priceValue = formData.price ? 
+                parseFloat(formData.price.toString().replace(/\s+/g, '').replace(',', '.')) : 
+                0;
+              
               return this.createCardPageApiService.createProduct({
                 ...formData,
-                price: Number(formData.price), // Преобразуем в число
+                price: priceValue,
                 photos,
               });
             }),

@@ -11,8 +11,6 @@ import {
   IonGrid,
   IonRow,
   IonCol,
-  IonRefresher,
-  IonRefresherContent,
 } from '@ionic/angular/standalone';
 
 import { DataStateService } from '../../state/data-state.service';
@@ -39,8 +37,6 @@ import { addIcons } from 'ionicons';
     IonToolbar,
     IonTitle,
     IonContent,
-    IonRefresher,
-    IonRefresherContent,
     CommonModule,
     IonSelect,
     IonSelectOption,

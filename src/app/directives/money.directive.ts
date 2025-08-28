@@ -1,34 +1,10 @@
 import { Directive, HostListener, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[appMoneyFormat]',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => MoneyFormatDirective),
-      multi: true
-    }
-  ]
+  selector: '[appMoneyFormat]'
 })
-export class MoneyFormatDirective implements ControlValueAccessor {
-  private onChange = (value: number) => {};
-  private onTouched = () => {};
-
+export class MoneyFormatDirective {
   constructor(private el: ElementRef) {}
-
-  writeValue(value: number): void {
-    if (value !== null && value !== undefined) {
-      this.el.nativeElement.value = this.formatNumber(value);
-    }
-  }
-
-  registerOnChange(fn: (value: number) => void): void {
-    this.onChange = fn;
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {
@@ -52,17 +28,33 @@ export class MoneyFormatDirective implements ControlValueAccessor {
     // Проверяем, не превышает ли значение 1 000 000 000
     if (numericValue > 1000000000) {
       this.el.nativeElement.value = '1 000 000 000'; // Устанавливаем максимальное значение
-      this.onChange(1000000000);
     } else {
       this.el.nativeElement.value = formattedValue; // Устанавливаем отформатированное значение
-      this.onChange(numericValue);
     }
-    this.onTouched();
+  }
+
+  @HostListener('focus')
+  onFocus() {
+    // При получении фокуса убираем форматирование для удобства редактирования
+    const currentValue = this.el.nativeElement.value;
+    if (currentValue) {
+      const numericValue = this.parseToNumber(currentValue);
+      if (!isNaN(numericValue)) {
+        this.el.nativeElement.value = numericValue.toString();
+      }
+    }
   }
 
   @HostListener('blur')
   onBlur() {
-    this.onTouched();
+    // При потере фокуса форматируем значение для красивого отображения
+    const currentValue = this.el.nativeElement.value;
+    if (currentValue) {
+      const numericValue = this.parseToNumber(currentValue);
+      if (!isNaN(numericValue)) {
+        this.el.nativeElement.value = this.formatNumber(numericValue);
+      }
+    }
   }
 
   private formatIntegerPart(integerPart: string): string {
