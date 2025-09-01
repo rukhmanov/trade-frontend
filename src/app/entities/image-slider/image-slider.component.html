@@ -9,8 +9,8 @@
   <div *ngIf="images?.length" class="slider-wrapper">
     <!-- Основной слайдер -->
     <swiper-container #swiperContainer [centeredSlidesBounds]="true" [pagination]="showPagination"
-      [modules]="swiperModules" [loop]="images.length > 1" [autoplay]="autoPlay" [autoplay-delay]="autoPlayDelay"
-      (swiperSlideChange)="onSlideChange($event)" class="main-swiper">
+      [modules]="swiperModules" [loop]="loop && images.length > 1" [autoplay]="autoPlay"
+      [autoplay-delay]="autoPlayDelay" (swiperSlideChange)="onSlideChange($event)" class="main-swiper">
 
       <swiper-slide *ngFor="let image of images; let i = index" class="slide">
         <div class="image-container">
@@ -22,13 +22,13 @@
 
     <!-- Навигационные кнопки -->
     <div *ngIf="showNavigation && images.length > 1" class="navigation-buttons">
-      <button class="nav-btn prev-btn" (click)="prevSlide()" [disabled]="currentSlideIndex === 0"
+      <button class="nav-btn prev-btn" (click)="prevSlide()" [disabled]="!loop && currentSlideIndex === 0"
         aria-label="Предыдущее изображение">
         <ion-icon name="chevron-back"></ion-icon>
       </button>
 
-      <button class="nav-btn next-btn" (click)="nextSlide()" [disabled]="currentSlideIndex === images.length - 1"
-        aria-label="Следующее изображение">
+      <button class="nav-btn next-btn" (click)="nextSlide()"
+        [disabled]="!loop && currentSlideIndex === images.length - 1" aria-label="Следующее изображение">
         <ion-icon name="chevron-forward"></ion-icon>
       </button>
     </div>

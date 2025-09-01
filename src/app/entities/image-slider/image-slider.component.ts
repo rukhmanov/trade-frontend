@@ -31,6 +31,7 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showNavigation: boolean = true;
   @Input() autoPlay: boolean = false;
   @Input() autoPlayDelay: number = 3000;
+  @Input() loop: boolean = true;
 
   @ViewChild('swiperContainer') swiperContainer!: ElementRef;
 
@@ -55,7 +56,9 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSlideChange(event: any): void {
-    this.currentSlideIndex = event.detail[0].activeIndex;
+    if (event && event.detail && event.detail[0]) {
+      this.currentSlideIndex = event.detail[0].activeIndex;
+    }
   }
 
   goToSlide(index: number): void {
@@ -70,7 +73,7 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
   nextSlide(): void {
     if (this.swiperContainer?.nativeElement) {
       const swiper = this.swiperContainer.nativeElement.swiper;
-      if (swiper) {
+      if (swiper && this.images.length > 1) {
         swiper.slideNext();
       }
     }
@@ -79,7 +82,7 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
   prevSlide(): void {
     if (this.swiperContainer?.nativeElement) {
       const swiper = this.swiperContainer.nativeElement.swiper;
-      if (swiper) {
+      if (swiper && this.images.length > 1) {
         swiper.slidePrev();
       }
     }

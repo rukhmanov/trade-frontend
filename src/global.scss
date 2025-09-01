@@ -38,15 +38,25 @@
 
 @media only screen and (min-width: 1080px) {
   .ion-page {
-    // padding-left: 10vw !important;
-    // padding-right: 10vw !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
 }
 
 @media only screen and (min-width: 1500px) {
   .ion-page {
-    // padding-left: 20vw !important;
-    // padding-right: 20vw !important;
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  .ion-page {
+    max-width: 1600px !important;
+    margin: 0 auto !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   }
 }
 
