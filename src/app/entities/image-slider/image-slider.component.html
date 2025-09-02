@@ -8,10 +8,9 @@
   <!-- Слайдер если есть изображения -->
   <div *ngIf="images?.length" class="slider-wrapper">
     <!-- Основной слайдер -->
-    <swiper-container #swiperContainer [centeredSlidesBounds]="true" [pagination]="showPagination"
-      [modules]="swiperModules" [loop]="false" [autoplay]="autoPlay" [autoplay-delay]="autoPlayDelay"
-      (ionSlideDidChange)="onSlideChange($event)" (swiperSlideChange)="onSlideChange($event)"
-      (ionSlideTransitionEnd)="onSlideChange($event)" class="main-swiper">
+    <swiper-container #swiperContainer [centeredSlidesBounds]="true" [modules]="swiperModules" [loop]="false"
+      [autoplay]="autoPlay" [autoplay-delay]="autoPlayDelay" (ionSlideDidChange)="onSlideChange($event)"
+      (swiperSlideChange)="onSlideChange($event)" (ionSlideTransitionEnd)="onSlideChange($event)" class="main-swiper">
 
       <swiper-slide *ngFor="let image of images; let i = index" class="slide">
         <div class="image-container">
@@ -42,7 +41,7 @@
     <!-- Миниатюры (если больше одного изображения) -->
     <div *ngIf="images.length > 1" class="thumbnails">
       <div *ngFor="let image of images; let i = index" class="thumbnail" [class.active]="i === currentSlideIndex"
-        (click)="goToSlide(i)">
+        (click)="goToSlide(i, $event)">
         <img [src]="s3 + image" [alt]="'Thumbnail ' + (i + 1)" (error)="onImageError($event)" />
       </div>
     </div>

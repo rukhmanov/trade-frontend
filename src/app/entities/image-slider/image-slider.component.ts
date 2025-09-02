@@ -161,8 +161,13 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
       this.mutationObserver = null;
     }
   }
-
-  goToSlide(index: number): void {
+  goToSlide(index: number, event?: Event): void {
+    // Предотвращаем всплытие события, чтобы не сработал переход по роуту
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+    
     if (this.swiperContainer?.nativeElement) {
       const swiper = this.swiperContainer.nativeElement.swiper;
       if (swiper) {

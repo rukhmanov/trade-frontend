@@ -22,6 +22,7 @@ import { ProductsApiService } from './services/cards-api.service';
 import { DataStateService } from 'src/app/state/data-state.service';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { ConfirmationModalComponent } from '../../confirmation-modal';
+import { ImageSliderComponent } from '../../image-slider/image-slider.component';
 
 @Component({
   selector: 'app-compact-card',
@@ -37,6 +38,7 @@ import { ConfirmationModalComponent } from '../../confirmation-modal';
     IonCardSubtitle,
     IonCardTitle,
     PriceFormatPipe,
+    ImageSliderComponent,
   ],
 })
 export class CompactCardComponent implements OnInit {
@@ -45,10 +47,16 @@ export class CompactCardComponent implements OnInit {
   cartQuantity = 0;
   isLiked = false;
   isOwnProduct = false;
+  images: string[] = [];
 
   @Input() data: IProduct | null = null;
   @Input() hideButtons = false; // Новый input для скрытия кнопок
   @Input() showDeleteButton = false; // Новый input для показа кнопки удаления
+
+  // Геттер для отслеживания изменений в data
+  get currentData(): IProduct | null {
+    return this.data;
+  }
   
   constructor(
     private router: Router,
@@ -70,6 +78,7 @@ export class CompactCardComponent implements OnInit {
     this.checkCartStatus();
     this.checkLikeStatus();
     this.checkOwnership();
+    this.prepareImages();
     
     // Подписываемся на изменения в корзине
     this.dataStateService.cardsInMyCart$.subscribe(() => {
@@ -80,6 +89,11 @@ export class CompactCardComponent implements OnInit {
     this.dataStateService.likedProducts$.subscribe(() => {
       this.checkLikeStatus();
     });
+  }
+
+  ngOnChanges() {
+    // Вызываем prepareImages при изменении данных
+    this.prepareImages();
   }
 
   private checkCartStatus() {
@@ -239,6 +253,14 @@ export class CompactCardComponent implements OnInit {
     );
     this.dataStateService.cardsInMyCart$.next(updatedCart);
     this.checkCartStatus();
+  }
+
+  private prepareImages() {
+    if (this.data?.photos) {
+      this.images = this.data.photos;
+    } else {
+      this.images = [];
+    }
   }
 
   private checkOwnership() {

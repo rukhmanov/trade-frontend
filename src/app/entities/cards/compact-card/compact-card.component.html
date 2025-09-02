@@ -4,8 +4,10 @@
       <ion-icon class="heart-icon" [class.liked]="isLiked" name="heart"></ion-icon>
     </ion-button>
   </div>
-  <img class="image" [src]="data?.photos?.length ? s3 + data?.photos?.[0] : 'assets/images/card-image.png'"
-    alt="Image" />
+  <!-- Слайдер изображений -->
+  <app-image-slider [images]="images" [maxHeight]="'200px'" [showPagination]="false" [showNavigation]="false"
+    [autoPlay]="false" [loop]="false">
+  </app-image-slider>
   <ion-card-header>
     <div class="price" color="danger">{{ data?.price | priceFormat }}₽</div>
   </ion-card-header>
