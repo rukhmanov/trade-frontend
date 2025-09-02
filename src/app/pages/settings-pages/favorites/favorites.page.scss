@@ -1,6 +1,53 @@
 ion-grid {
   padding: 16px;
+  --ion-grid-column-padding: 8px;
+  
+  @media (min-width: 768px) {
+    --ion-grid-column-padding: 10px;
+  }
+  
+  @media (min-width: 1024px) {
+    --ion-grid-column-padding: 12px;
+  }
+  
+  @media (min-width: 1200px) {
+    --ion-grid-column-padding: 14px;
+  }
 }
+
+ion-col {
+  padding: 4px;
+  
+  @media (min-width: 768px) {
+    padding: 6px;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 8px;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 10px;
+  }
+}
+
+ion-content {
+  @media (min-width: 768px) {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  @media (min-width: 1024px) {
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  
+  @media (min-width: 1200px) {
+    --padding-start: 24px;
+    --padding-end: 24px;
+  }
+}
+
 .favorites-empty {
   text-align: center;
   color: #bbb;

@@ -13,39 +13,40 @@
 
   <div class="setting-wrap">
     <app-auth></app-auth>
+    <div class="setting-list-wrap">
+      <ion-list class="setting-list">
+        <!-- Переключатель темы -->
+        <ion-item>
+          <ion-icon slot="start" name="moon-outline"></ion-icon>
+          <ion-label>Темная тема</ion-label>
+          <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="onThemeChange($event)">
+          </ion-toggle>
+        </ion-item>
 
-    <ion-list class="setting-list">
-      <!-- Переключатель темы -->
-      <ion-item>
-        <ion-icon slot="start" name="moon-outline"></ion-icon>
-        <ion-label>Темная тема</ion-label>
-        <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="onThemeChange($event)">
-        </ion-toggle>
-      </ion-item>
+        <!-- Мои данные -->
+        <ion-item button [routerLink]="['my-data']" *ngIf="isLoggedIn">
+          <ion-icon slot="start" name="person-circle-outline"></ion-icon>
+          <ion-label>Мои данные</ion-label>
+        </ion-item>
 
-      <!-- Мои данные -->
-      <ion-item button [routerLink]="['my-data']" *ngIf="isLoggedIn">
-        <ion-icon slot="start" name="person-circle-outline"></ion-icon>
-        <ion-label>Мои данные</ion-label>
-      </ion-item>
+        <!-- Админ панель -->
+        <ion-item button [routerLink]="['admin']" *ngIf="isLoggedIn">
+          <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
+          <ion-label>Админ панель</ion-label>
+        </ion-item>
 
-      <!-- Админ панель -->
-      <ion-item button [routerLink]="['admin']" *ngIf="isLoggedIn">
-        <ion-icon slot="start" name="shield-checkmark-outline"></ion-icon>
-        <ion-label>Админ панель</ion-label>
-      </ion-item>
+        <!-- Мне нравится -->
+        <ion-item button [routerLink]="['favorites']" *ngIf="isLoggedIn">
+          <ion-icon slot="start" name="heart-outline"></ion-icon>
+          <ion-label>Мне нравится</ion-label>
+        </ion-item>
 
-      <!-- Мне нравится -->
-      <ion-item button [routerLink]="['favorites']" *ngIf="isLoggedIn">
-        <ion-icon slot="start" name="heart-outline"></ion-icon>
-        <ion-label>Мне нравится</ion-label>
-      </ion-item>
-
-      <!-- Информация -->
-      <ion-item button [routerLink]="['info']">
-        <ion-icon slot="start" name="information-circle-outline"></ion-icon>
-        <ion-label>Информация</ion-label>
-      </ion-item>
-    </ion-list>
+        <!-- Информация -->
+        <ion-item button [routerLink]="['info']">
+          <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+          <ion-label>Информация</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
   </div>
 </ion-content>

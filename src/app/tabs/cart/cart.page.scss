@@ -16,6 +16,7 @@
   border-radius: 12px;
   --background: var(--ion-color-primary);
   --color: white;
+  max-width: 350px;
   
   ion-icon {
     font-size: 1.2rem;
@@ -26,7 +27,54 @@
   }
 }
 
-// Добавляем отступ снизу для контента, чтобы кнопка не перекрывала карточки
+// Настраиваем расстояние между карточками на разных экранах
+ion-grid {
+  --ion-grid-column-padding: 8px;
+  
+  @media (min-width: 768px) {
+    --ion-grid-column-padding: 10px;
+  }
+  
+  @media (min-width: 1024px) {
+    --ion-grid-column-padding: 12px;
+  }
+  
+  @media (min-width: 1200px) {
+    --ion-grid-column-padding: 14px;
+  }
+}
+
+// Настраиваем отступы самих карточек на разных экранах
+ion-col {
+  padding: 4px;
+  
+  @media (min-width: 768px) {
+    padding: 6px;
+  }
+  
+  @media (min-width: 1024px) {
+    padding: 8px;
+  }
+  
+  @media (min-width: 1200px) {
+    padding: 10px;
+  }
+}
+
+// Настраиваем отступы контента на разных экранах
 ion-content {
-  padding-bottom: 100px;
+  @media (min-width: 768px) {
+    --padding-start: 16px;
+    --padding-end: 16px;
+  }
+  
+  @media (min-width: 1024px) {
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  
+  @media (min-width: 1200px) {
+    --padding-start: 24px;
+    --padding-end: 24px;
+  }
 }
