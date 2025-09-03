@@ -1,7 +1,82 @@
-.button-container {
-  display: flex; // Используем flexbox
-  z-index: 1000;
-  padding: 30px;
-  justify-content: space-between; // Кнопки на одном уровне, разделены равным пространством
-  max-width: 350px;
+// Стили для карточек
+ion-card {
+  margin: 16px 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+ion-card-header {
+  padding-bottom: 8px;
+}
+
+ion-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+ion-card-content {
+  padding-top: 0;
+}
+
+// Стили для иконок в заголовках
+ion-icon {
+  font-size: 20px;
+}
+
+// Стили для секции загрузки изображений
+.image-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.image-preview-container {
+  min-height: 120px;
+  border: 2px dashed var(--ion-color-medium);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload-button {
+  margin-top: 8px;
+}
+
+// Стили для кнопок действий
+.action-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  padding: 20px 0;
+  max-width: 100%;
+}
+
+.save-button {
+  flex: 1;
+}
+
+.cancel-button {
+  flex: 1;
+}
+
+// Стили для валидационных сообщений
+ion-note {
+  font-size: 12px;
+  margin-top: 4px;
+  margin-left: 16px;
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 576px) {
+  .action-buttons {
+    padding: 16px 0;
+  }
+  
+  ion-card {
+    margin: 12px 0;
+  }
 }

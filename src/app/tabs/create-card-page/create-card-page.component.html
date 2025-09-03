@@ -1,73 +1,163 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/my-cards"></ion-back-button>
+    </ion-buttons>
     <ion-title>Создать карточку</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
   <form [formGroup]="productForm">
-    <ion-item>
-      <ion-label position="stacked">Название товара</ion-label>
-      <ion-input formControlName="name" type="text" placeholder="Введите название товара"></ion-input>
-    </ion-item>
+    <!-- Основная информация о товаре -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="information-circle-outline"></ion-icon>
+          Основная информация
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="pricetag-outline"></ion-icon>
+            Название товара *
+          </ion-label>
+          <ion-input formControlName="name" type="text" placeholder="Введите название товара"
+            [class.ion-invalid]="productForm.get('name')?.invalid && productForm.get('name')?.touched">
+          </ion-input>
+        </ion-item>
+        <ion-note *ngIf="productForm.get('name')?.invalid && productForm.get('name')?.touched" color="danger">
+          Название товара обязательно
+        </ion-note>
 
-    <ion-item>
-      <ion-label position="stacked">Описание товара</ion-label>
-      <ion-textarea formControlName="description" placeholder="Введите описание товара"></ion-textarea>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="document-text-outline"></ion-icon>
+            Описание товара *
+          </ion-label>
+          <ion-textarea formControlName="description" placeholder="Введите описание товара" rows="3"
+            [class.ion-invalid]="productForm.get('description')?.invalid && productForm.get('description')?.touched">
+          </ion-textarea>
+        </ion-item>
+        <ion-note *ngIf="productForm.get('description')?.invalid && productForm.get('description')?.touched"
+          color="danger">
+          Описание товара обязательно
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-item>
-      <ion-label position="stacked">Валюта</ion-label>
-      <ion-select formControlName="currency" placeholder="Выберите валюту" required>
-        <ion-select-option *ngFor="let currency of currencies" [value]="currency">
-          {{ currency }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
+    <!-- Цена и валюта -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="card-outline"></ion-icon>
+          Цена и валюта
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="cash-outline"></ion-icon>
+            Валюта *
+          </ion-label>
+          <ion-select formControlName="currency" placeholder="Выберите валюту" required
+            [class.ion-invalid]="productForm.get('currency')?.invalid && productForm.get('currency')?.touched">
+            <ion-select-option *ngFor="let currency of currencies" [value]="currency">
+              {{ currency }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
 
-    <ion-item>
-      <ion-label position="stacked">Цена</ion-label>
-      <ion-input appMoneyFormat formControlName="price" placeholder="Введите цену"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="calculator-outline"></ion-icon>
+            Цена *
+          </ion-label>
+          <ion-input appMoneyFormat formControlName="price" placeholder="Введите цену"
+            [class.ion-invalid]="productForm.get('price')?.invalid && productForm.get('price')?.touched">
+          </ion-input>
+        </ion-item>
+        <ion-note *ngIf="productForm.get('price')?.invalid && productForm.get('price')?.touched" color="danger">
+          Цена должна быть больше 0
+        </ion-note>
+      </ion-card-content>
+    </ion-card>
 
-    <ion-item>
-      <ion-label position="stacked">Количество</ion-label>
-      <ion-input formControlName="quantity" type="number" placeholder="Введите количество"></ion-input>
-    </ion-item>
+    <!-- Характеристики товара -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="settings-outline"></ion-icon>
+          Характеристики
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="cube-outline"></ion-icon>
+            Количество *
+          </ion-label>
+          <ion-input formControlName="quantity" type="number" placeholder="Введите количество"
+            [class.ion-invalid]="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched">
+          </ion-input>
+        </ion-item>
+        <ion-note *ngIf="productForm.get('quantity')?.invalid && productForm.get('quantity')?.touched" color="danger">
+          Количество должно быть больше 0
+        </ion-note>
 
-    <ion-item>
-      <ion-label position="stacked">Вес одной штуки (кг)</ion-label>
-      <ion-input formControlName="weight" type="number" placeholder="Введите вес"></ion-input>
-    </ion-item>
+        <ion-item>
+          <ion-label position="stacked">
+            <ion-icon name="scale-outline"></ion-icon>
+            Вес одной штуки (кг)
+          </ion-label>
+          <ion-input formControlName="weight" type="number" placeholder="Введите вес" step="0.1">
+          </ion-input>
+        </ion-item>
+      </ion-card-content>
+    </ion-card>
 
-
-    <ion-item>
-      <div>
-        <ion-label position="stacked">Изображения</ion-label>
-        <div class="load_photo-button">
-          <div class="image-preview">
+    <!-- Изображения товара -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="images-outline"></ion-icon>
+          Изображения товара
+        </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="image-upload-section">
+          <div class="image-preview-container">
             <app-image-gallery [imageFiles]="imageFiles$ | async"></app-image-gallery>
           </div>
-          <ion-button (click)="fileInput.click()">
-            <ion-label>Загрузить фото</ion-label>
+
+          <ion-button expand="block" fill="outline" (click)="fileInput.click()" class="upload-button">
+            Загрузить фото
           </ion-button>
+
           <input formControlName="photos" class="ion-hide" (change)="changePhotos($event)" #fileInput type="file"
-            id="file-input" accept="image/png, image/jpeg">
+            id="file-input" accept="image/png, image/jpeg" multiple>
         </div>
-      </div>
+      </ion-card-content>
+    </ion-card>
 
-    </ion-item>
+    <!-- Кнопки действий -->
+    <div class="action-buttons">
+      <ion-button expand="block" type="submit" [disabled]="productForm.invalid" color="primary" class="save-button">
+        Сохранить
+      </ion-button>
 
-    <div class="button-container"> <!-- Новый контейнер для кнопок -->
-      <ion-button id="open-action-sheet-save" type="submit" [disabled]="productForm.invalid">Сохранить</ion-button>
-      <ion-button (click)="setOpenCancel(true)" id="open-action-sheet-cancel">Отмена</ion-button>
+      <ion-button expand="block" fill="outline" (click)="setOpenCancel(true)" color="medium" class="cancel-button">
+        Отмена
+      </ion-button>
     </div>
   </form>
 </ion-content>
 
 <ion-action-sheet [isOpen]="isActionSheetCancelOpen" (didDismiss)="setOpenCancel(false)"
-  (ionActionSheetDidDismiss)="action($event)" header="Отменить изменения?"
-  [buttons]="actionSheetButtonsCancel"></ion-action-sheet>
+  (ionActionSheetDidDismiss)="action($event)" header="Отменить изменения?" [buttons]="actionSheetButtonsCancel">
+</ion-action-sheet>
 
 <ion-action-sheet (ionActionSheetDidDismiss)="action($event)" [isOpen]="isActionSheetSaveOpen"
-  trigger="open-action-sheet-save" header="Сохранить?" [buttons]="actionSheetButtonsSave"></ion-action-sheet>
+  trigger="open-action-sheet-save" header="Сохранить?" [buttons]="actionSheetButtonsSave">
+</ion-action-sheet>
