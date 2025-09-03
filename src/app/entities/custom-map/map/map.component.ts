@@ -41,7 +41,6 @@ export class MapComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe((coordinates) => {
         if (coordinates) {
-          console.log(coordinates);
           if (this.marker) this.map.removeLayer(this.marker);
           this.marker = L.marker([coordinates[0], coordinates[1]], {
             title: 'Вы здесь',

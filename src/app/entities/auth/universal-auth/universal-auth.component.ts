@@ -72,8 +72,7 @@ export class UniversalAuthComponent implements OnInit, OnDestroy {
                const callbackUrl = this.getCallbackUrl();
                const authUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${environment.yandexClientId}&redirect_uri=${encodeURIComponent(callbackUrl)}`;
 
-               console.log('🔍 iOS Yandex auth URL:', authUrl);
-               console.log('🔍 Callback URL:', callbackUrl);
+
 
                await Browser.open({
                  url: authUrl,

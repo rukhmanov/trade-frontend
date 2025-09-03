@@ -86,7 +86,6 @@ export class CardPageComponent implements OnInit {
     if (id) {
       this.productsApiService.getProductById(id).subscribe({
         next: (response) => {
-          console.log('Product data ==> ', response);
           this.data = response.data;
           this.images = this.data?.photos || [];
           this.checkLikeStatus();

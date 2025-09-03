@@ -64,10 +64,6 @@ export class AppComponent implements OnDestroy {
     }
     
     App.addListener('appUrlOpen', (event: URLOpenListenerEvent) => {
-      if (environment.production === false) {
-        console.log('Deep link event:', event);
-      }
-      
       this.zone.run(() => {
         const domain = 'parsifal.com';
         const pathArray = event.url.split(domain);

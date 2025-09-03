@@ -76,7 +76,6 @@ export class AdminPage implements OnInit {
           text: 'Отмена',
           role: 'cancel',
           handler: () => {
-            console.log('Удаление пользователя отменено');
           },
         },
         {
@@ -104,7 +103,6 @@ export class AdminPage implements OnInit {
 
   editRoles(user: IUserAdmin) {
     // Здесь можно открыть модальное окно для редактирования ролей
-    console.log('Редактирование ролей для:', user.fullName || user.email);
   }
 
   handleRefresh(event: any) {

@@ -44,8 +44,6 @@ export class AuthService {
   }
 
   async yandexSignIn() {
-    console.log('yandexLogin ==> ', Capacitor.isNativePlatform());
-    
     // Создаем callback URL
     const callbackUrl = this.getCallbackUrl();
     const authUrl = `https://oauth.yandex.ru/authorize?response_type=token&client_id=${environment.yandexClientId}&redirect_uri=${encodeURIComponent(callbackUrl)}`;
@@ -76,16 +74,12 @@ export class AuthService {
 
   // Метод для обработки токена от Яндекса и отправки на сервер
   processYandexToken(accessToken: string): Observable<any> {
-    console.log('🔍 Processing Yandex token:', accessToken);
-    console.log('🔍 API endpoint:', environment.base + 'users/auth/');
-    
     return this.http
       .post<{ status: string; data: string }>(environment.base + 'users/auth/', {
         accessToken: accessToken,
       })
       .pipe(
         tap((response) => {
-          console.log('🔍 Yandex auth response:', response);
           const jwt = response.data;
           // Очищаем данные предыдущего пользователя
           this.clearUserData();
@@ -149,12 +143,10 @@ export class AuthService {
       if (isPlatform('capacitor')) {
         // Для мобильных платформ
         this.platform.ready().then(() => {
-          console.log('Initializing Google Auth for Capacitor');
           GoogleAuth.initialize();
         });
       } else {
         // Для веб-платформы
-        console.log('Initializing Google Auth for Web');
         // Добавляем небольшую задержку для веб-платформы
         setTimeout(() => {
           try {
@@ -191,11 +183,10 @@ export class AuthService {
       try {
         GoogleAuth.initialize();
       } catch (initError) {
-        console.log('Google Auth already initialized or initialization failed:', initError);
+        // Google Auth already initialized or initialization failed
       }
       
       const googleUser = await GoogleAuth.signIn();
-      console.log("🔍 ~ googleSignIn ~ parsifal/src/app/entities/auth/auth.service.ts:106 ~ googleUser:", googleUser);
       const googleAccessToken = googleUser?.authentication?.accessToken;
       
       if (!googleAccessToken) {
@@ -232,7 +223,6 @@ export class AuthService {
       (userCredential) => {
         // You can handle user information here if needed
         const user = userCredential.user;
-        console.log('User logged in:', user);
         
         // Очищаем данные предыдущего пользователя
         this.clearUserData();

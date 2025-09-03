@@ -36,7 +36,6 @@ export class RemoteLoginBackComponent {
       // Отправляем токен на сервер и получаем JWT
       this.authService.processYandexToken(fragment.access_token).subscribe({
         next: (response) => {
-          console.log('Authentication successful:', response);
         },
         error: (error) => {
           console.error('Authentication failed:', error);

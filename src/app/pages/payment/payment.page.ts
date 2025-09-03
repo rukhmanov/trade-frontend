@@ -66,7 +66,6 @@ export class PaymentPage {
 
   processPayment() {
     // Здесь будет логика обработки платежа
-    console.log('Обработка платежа...');
     // После успешной оплаты можно перенаправить на другую страницу
     // this.router.navigate(['/tabs/all']);
   }

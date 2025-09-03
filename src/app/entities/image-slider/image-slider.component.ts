@@ -64,8 +64,6 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSlideChange(event: any): void {
-    console.log('Slide change event:', event);
-    
     // Попробуем разные способы получения activeIndex
     if (event && event.detail && event.detail[0]) {
       this.currentSlideIndex = event.detail[0].activeIndex;
@@ -81,8 +79,6 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.currentSlideIndex === undefined || this.currentSlideIndex === null) {
       this.updateCurrentSlideIndex();
     }
-    
-    console.log('Current slide index updated to:', this.currentSlideIndex);
   }
 
   private updateCurrentSlideIndex(): void {
@@ -101,12 +97,10 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
         // Добавляем слушатели событий напрямую к swiper
         swiper.on('slideChange', () => {
           this.currentSlideIndex = swiper.activeIndex;
-          console.log('Swiper slideChange event, index:', this.currentSlideIndex);
         });
         
         swiper.on('slideChangeTransitionEnd', () => {
           this.currentSlideIndex = swiper.activeIndex;
-          console.log('Swiper slideChangeTransitionEnd event, index:', this.currentSlideIndex);
         });
 
         // Добавляем MutationObserver для отслеживания изменений класса active
@@ -128,7 +122,6 @@ export class ImageSliderComponent implements OnInit, AfterViewInit, OnDestroy {
                 for (let i = 0; i < slides.length; i++) {
                   if (slides[i].classList.contains('swiper-slide-active')) {
                     this.currentSlideIndex = i;
-                    console.log('MutationObserver detected active slide:', this.currentSlideIndex);
                     break;
                   }
                 }

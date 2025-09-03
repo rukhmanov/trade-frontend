@@ -34,7 +34,6 @@ export class AuthenticationService {
   async loadToken() {
     const token = await Preferences.get({ key: TOKEN_KEY });
     if (token && token.value) {
-      console.log('setting token: ', token.value, ' in auth service');
       this.isAuthenticated.next(true);
       this.token = token.value;
     } else {
@@ -92,7 +91,6 @@ export class AuthenticationService {
   register(credentials: any): Observable<any> {
     delete credentials.confirmPassword;
     credentials.phone = credentials.phone.code + credentials.phone.phone;
-    console.log('credentials ==> ', credentials);
     return this.http
       .post(this.baseUrl + `users/email-register`, credentials)
       .pipe(

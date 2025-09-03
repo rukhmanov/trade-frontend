@@ -27,8 +27,6 @@ export class CustomUrlSchemeService {
   }
 
   private handleUrl(url: string) {
-    console.log('App opened with URL:', url);
-    
     try {
       const urlObj = new URL(url);
       
@@ -53,7 +51,6 @@ export class CustomUrlSchemeService {
 
     if (accessToken) {
       // Успешная авторизация - обрабатываем токен
-      console.log('Token received:', accessToken);
       // Перенаправляем на главную страницу
       this.router.navigate(['/tabs/all']);
     } else if (error) {
@@ -70,13 +67,10 @@ export class CustomUrlSchemeService {
         const hashMatch = url.match(/access_token=([^&]+)/);
         if (hashMatch) {
           const token = hashMatch[1];
-          console.log('Token found in hash:', token);
           this.router.navigate(['/tabs/all']);
           return;
         }
       }
-      
-      console.log('No token or error found in callback');
     }
   }
 

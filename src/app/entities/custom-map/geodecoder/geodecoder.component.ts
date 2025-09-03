@@ -81,7 +81,6 @@ export class GeodecoderComponent implements ControlValueAccessor {
         if (response && response.display_name) {
           address = response.display_name; // Сохраняем наименование
           this.mapService.coordinatesTitle$.next(response.display_name);
-          console.log(response.display_name);
         } else {
           console.error('Адрес не найден');
         }
@@ -96,7 +95,6 @@ export class GeodecoderComponent implements ControlValueAccessor {
     this.searchQuery = suggestion.display_name;
     this.suggestions = [];
     this.value = suggestion;
-    console.log('Выбран адрес:', suggestion);
     this.onCoordinate.emit([+suggestion.lat, +suggestion.lon]);
     this.mapService.coordinates$.next([+suggestion.lat, +suggestion.lon]);
     // Здесь можно обработать координаты:

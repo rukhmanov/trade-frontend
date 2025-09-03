@@ -12,7 +12,6 @@ export class ThemeInitializerService {
       const isDarkMode = value === 'dark';
       this.applyTheme(isDarkMode);
     } catch (error) {
-      console.log('No theme preference found, using light theme');
       this.applyTheme(false);
     }
   }

@@ -76,7 +76,6 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
   private processAuthResult(accessToken: string | null, error: string | null, errorDescription: string | null) {
     if (accessToken) {
       // Успешная авторизация - обрабатываем токен
-      console.log('Получен токен:', accessToken);
       this.subscription.add(
         this.authService.processYandexToken(accessToken).subscribe({
           next: () => {
@@ -124,7 +123,6 @@ export class AuthCallbackComponent implements OnInit, OnDestroy {
     
     // Показываем инструкции для iOS пользователей
     // Они должны скопировать токен и вернуться в приложение
-    console.log('🔍 iOS platform detected, showing instructions');
     
     // Автоматически обрабатываем токен из хэша
     this.processHashParams();

@@ -34,7 +34,6 @@ export class CommonStateService {
       this.isDarkMode$.next(isDarkMode);
       this.applyTheme(isDarkMode);
     } catch (error) {
-      console.log('No theme preference found, using light theme');
       this.isDarkMode$.next(false);
       this.applyTheme(false);
     }
