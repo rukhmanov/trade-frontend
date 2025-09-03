@@ -29,9 +29,11 @@
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 
   .image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+    max-width: 50vw; // Ограничиваем ширину до 50% ширины экрана
+    max-height: 50vh; // Ограничиваем высоту до 50% высоты экрана
+    width: auto;
+    height: auto;
+    object-fit: contain; // Изменяем на contain для сохранения пропорций
     opacity: 0.8;
   }
 }
@@ -89,9 +91,11 @@
 
 // Изображение
 .image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 50vw; // Ограничиваем ширину до 50% ширины экрана
+  max-height: 50vh; // Ограничиваем высоту до 50% высоты экрана
+  width: auto;
+  height: auto;
+  object-fit: contain; // Изменяем на contain для сохранения пропорций
   object-position: center;
   transition: opacity 0.3s ease;
   opacity: 0;
@@ -224,7 +228,7 @@
     img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover; // Для миниатюр оставляем cover, так как они должны заполнять контейнер
     }
   }
 
