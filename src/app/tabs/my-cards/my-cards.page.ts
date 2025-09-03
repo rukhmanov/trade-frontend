@@ -4,8 +4,6 @@ import {
   IonToolbar,
   IonTitle,
   IonContent,
-  IonSelect,
-  IonSelectOption,
   IonButton,
   IonText,
   IonGrid,
@@ -38,8 +36,6 @@ import { addIcons } from 'ionicons';
     IonTitle,
     IonContent,
     CommonModule,
-    IonSelect,
-    IonSelectOption,
     CompactCardComponent,
   ],
 })
