@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
   IonModal,
   IonContent,
@@ -16,10 +16,23 @@ import {
 })
 export class ImageGalleryComponent {
   images: string[] = [];
+  private _imageFiles: File[] = [];
+  
   @Input() set imageFiles(files: File[]) {
-    if (!files?.length) return;
-    this.changePhotos(structuredClone(files));
+    if (!files?.length) {
+      this.images = [];
+      this._imageFiles = [];
+      return;
+    }
+    this._imageFiles = [...files];
+    this.changePhotos([...files]);
   }
+  
+  get imageFiles(): File[] {
+    return this._imageFiles;
+  }
+
+  @Output() imageDeleted = new EventEmitter<number>();
 
   isModalOpen = false;
   currentIndex = 0;
@@ -36,9 +49,23 @@ export class ImageGalleryComponent {
   }
 
   deleteImage(index: number): void {
+    // Удаляем изображение из локального массива
     this.images.splice(index, 1);
+    
+    // Удаляем соответствующий файл из массива файлов
+    this._imageFiles.splice(index, 1);
+    
+    // Уведомляем родительский компонент об удалении
+    this.imageDeleted.emit(index);
+    
+    // Обновляем индекс текущего изображения в модальном окне
     if (this.currentIndex >= this.images.length) {
-      this.currentIndex = this.images.length - 1; // Обновить индекс, если изображение было удалено
+      this.currentIndex = this.images.length - 1;
+    }
+    
+    // Закрываем модальное окно, если больше нет изображений
+    if (this.images.length === 0) {
+      this.closeModal();
     }
   }
 
@@ -53,6 +80,8 @@ export class ImageGalleryComponent {
 
   changePhotos(files: File[]) {
     this.images = [];
+    if (!files.length) return;
+    
     const reader = new FileReader();
     reader.onloadend = () => {
       this.images.push(reader.result as string);

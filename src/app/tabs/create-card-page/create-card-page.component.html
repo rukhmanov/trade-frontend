@@ -128,7 +128,8 @@
       <ion-card-content>
         <div class="image-upload-section">
           <div class="image-preview-container">
-            <app-image-gallery [imageFiles]="imageFiles$ | async"></app-image-gallery>
+            <app-image-gallery [imageFiles]="imageFiles$ | async"
+              (imageDeleted)="onImageDeleted($event)"></app-image-gallery>
           </div>
 
           <ion-button expand="block" fill="outline" (click)="fileInput.click()" class="upload-button">

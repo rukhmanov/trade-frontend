@@ -14,7 +14,7 @@
         <button class="close-btn" aria-label="Close modal" (click)="closeModal()">×</button>
         <img [src]="images[currentIndex]" alt="Image {{ currentIndex + 1 }}" class="full-image" />
 
-        <div class="button-container">
+        <div class="button-container" *ngIf="images.length > 1">
           <button class="nav-btn" (click)="swipeRight()" [disabled]="currentIndex === 0">
             <ion-icon class="arrow reverse-image" src="assets/icons/arrow.svg"></ion-icon>
           </button>

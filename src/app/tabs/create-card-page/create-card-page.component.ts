@@ -128,8 +128,19 @@ export class CreateCardPageComponent implements OnInit {
   }
 
   changePhotos(event: any) {
-    const file: File = event.target.files[0];
-    this.imageFiles$.next([...this.imageFiles$.value, file]);
+    const files: FileList = event.target.files;
+    if (files && files.length > 0) {
+      const newFiles = Array.from(files);
+      this.imageFiles$.next([...this.imageFiles$.value, ...newFiles]);
+    }
+    // Сбрасываем значение input для возможности повторного выбора тех же файлов
+    event.target.value = '';
+  }
+
+  onImageDeleted(index: number) {
+    const currentFiles = this.imageFiles$.value;
+    const updatedFiles = currentFiles.filter((_: File, i: number) => i !== index);
+    this.imageFiles$.next(updatedFiles);
   }
 
   setOpenCancel(isOpen: boolean) {
