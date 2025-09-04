@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, AlertController, IonAvatar } from '@ionic/angular/standalone';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, AlertController, IonAvatar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { AdminService, IUserAdmin } from 'src/app/services/admin.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -21,7 +20,7 @@ import { AuthImagePipe } from 'src/app/entities/auth/auth-image.pipe';
   templateUrl: './admin.page.html',
   styleUrls: ['./admin.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, IonAvatar, AuthImagePipe]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton, IonButton, IonIcon, IonSpinner, IonRefresher, IonRefresherContent, IonAvatar, AuthImagePipe]
 })
 export class AdminPage implements OnInit {
   users: IUserAdmin[] = [];

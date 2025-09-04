@@ -16,12 +16,11 @@ import { AlertController, LoadingController } from '@ionic/angular';
 import { SignupPageRoutingModule } from './signup-routing.module';
 import { AuthenticationService } from '../services/authentication.service';
 import { IonicModule } from '@ionic/angular';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { PhoneInputComponent } from 'src/app/entities/phone-input/phone-input.component';
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { map, Observable } from 'rxjs';
-import { IonTitle } from '@ionic/angular/standalone';
+import { IonTitle, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-signup',
@@ -34,9 +33,10 @@ import { IonTitle } from '@ionic/angular/standalone';
     SignupPageRoutingModule,
     ReactiveFormsModule,
     IonicModule,
-    BackButtonComponent,
     PhoneInputComponent,
     IonTitle,
+    IonButtons,
+    IonBackButton,
   ],
 })
 export class SignupPage implements OnInit {

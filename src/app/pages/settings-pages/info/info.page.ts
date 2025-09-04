@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar } from '@ionic/angular/standalone';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 
 interface ILegalDoc {
   title: string;
@@ -25,7 +24,7 @@ const CONTACTS = [
   templateUrl: './info.page.html',
   styleUrls: ['./info.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, BackButtonComponent]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, IonButtons, IonBackButton]
 })
 export class InfoPage implements OnInit {
   docs = MOCK_DOCS;

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonIcon, IonAvatar } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonIcon, IonAvatar, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { AuthImagePipe } from 'src/app/entities/auth/auth-image.pipe';
 import { addIcons } from 'ionicons';
 import { personCircleOutline } from 'ionicons/icons';
@@ -14,7 +13,7 @@ import { personCircleOutline } from 'ionicons/icons';
   templateUrl: './my-data.page.html',
   styleUrls: ['./my-data.page.scss'],
   standalone: true,
-  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,  IonIcon, BackButtonComponent, AuthImagePipe, IonAvatar]
+  imports: [IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule,  IonIcon, IonButtons, IonBackButton, AuthImagePipe, IonAvatar]
 })
 export class MyDataPage implements OnInit {
   public user$ = this.userState.me$;

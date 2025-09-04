@@ -3,15 +3,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserStateService } from 'src/app/state/user-state.service';
 import { AuthService } from '../auth.service';
 import { IYandexResponse, Platform } from '../types';
-import { IonHeader, IonToolbar, IonContent } from '@ionic/angular/standalone';
-import { BackButtonComponent } from '../../back-button/back-button.component';
+import { IonHeader, IonToolbar, IonContent, IonButtons, IonBackButton } from '@ionic/angular/standalone';
 import { Preferences } from '@capacitor/preferences';
 
 @Component({
   selector: 'app-remote-login-back',
   templateUrl: './remote-login-back.component.html',
   styleUrls: ['./remote-login-back.component.scss'],
-  imports: [IonContent, IonToolbar, IonHeader, BackButtonComponent],
+  imports: [IonContent, IonToolbar, IonHeader, IonButtons, IonBackButton],
 })
 export class RemoteLoginBackComponent {
   constructor(

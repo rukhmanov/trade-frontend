@@ -9,8 +9,9 @@ import {
   IonIcon,
   IonContent,
   ModalController,
+  IonButtons,
+  IonBackButton,
 } from '@ionic/angular/standalone';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { ProductsApiService } from 'src/app/entities/cards/compact-card/services/cards-api.service';
 import { ImageSliderComponent } from 'src/app/entities/image-slider/image-slider.component';
 import { DataStateService } from 'src/app/state/data-state.service';
@@ -40,7 +41,8 @@ import { PriceFormatPipe } from '../../pipes/price-format.pipe';
     IonButton,
     IonHeader,
     IonToolbar,
-    BackButtonComponent,
+    IonButtons,
+    IonBackButton,
     ImageSliderComponent,
     IonContent,
     PriceFormatPipe,
@@ -317,6 +319,17 @@ export class CardPageComponent implements OnInit {
       (item.product?.id || item.id) !== this.data?.id
     );
     this.dataStateService.cardsInMyCart$.next(updatedCartItems);
+  }
+
+  getBackUrl(): string {
+    const currentUrl = this.router.url;
+    if (currentUrl.includes('/tabs/cart/')) {
+      return '/tabs/cart';
+    } else if (currentUrl.includes('/tabs/all/')) {
+      return '/tabs/all';
+    } else {
+      return '/tabs/all'; // По умолчанию
+    }
   }
 
   async deleteProduct(event: Event) {

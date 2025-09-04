@@ -10,11 +10,12 @@ import {
   IonRow, 
   IonCol,
   IonRefresher,
-  IonRefresherContent
+  IonRefresherContent,
+  IonButtons,
+  IonBackButton
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { chevronDownCircleOutline } from 'ionicons/icons';
-import { BackButtonComponent } from 'src/app/entities/back-button/back-button.component';
 import { CompactCardComponent } from 'src/app/entities/cards/compact-card/compact-card.component';
 import { IProduct, ILikeItem } from 'src/app/entities/cards/types';
 import { DataStateService } from 'src/app/state/data-state.service';
@@ -64,7 +65,8 @@ const MOCK_FAVORITES: IProduct[] = [
     IonRefresherContent,
     CommonModule, 
     FormsModule, 
-    BackButtonComponent, 
+    IonButtons,
+    IonBackButton,
     CompactCardComponent
   ],
 })

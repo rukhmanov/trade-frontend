@@ -1,5 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { addIcons } from 'ionicons';
+import {
+  informationCircleOutline,
+  pricetagOutline,
+  documentTextOutline,
+  cardOutline,
+  cashOutline,
+  calculatorOutline,
+  settingsOutline,
+  cubeOutline,
+  scaleOutline,
+  imagesOutline,
+} from 'ionicons/icons';
 import {
   FormBuilder,
   FormGroup,
@@ -112,7 +125,20 @@ export class CreateCardPageComponent implements OnInit {
     private createCardPageApiService: CreateCardPageApiService,
     private productsApiService: ProductsApiService,
     public commonStateService: CommonStateService
-  ) {}
+  ) {
+    addIcons({
+      informationCircleOutline,
+      pricetagOutline,
+      documentTextOutline,
+      cardOutline,
+      cashOutline,
+      calculatorOutline,
+      settingsOutline,
+      cubeOutline,
+      scaleOutline,
+      imagesOutline,
+    });
+  }
 
   ngOnInit(): void {
     // Инициализация формы с необходимыми валидаторами
