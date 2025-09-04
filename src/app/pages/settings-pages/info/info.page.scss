@@ -1,21 +1,209 @@
-.info-block {
-  padding: 20px;
+.container {
+  padding: 16px;
   max-width: 600px;
   margin: 0 auto;
 }
-.site-info {
-  margin-bottom: 24px;
-  font-size: 1.1rem;
+
+ion-card {
+  margin-bottom: 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
-.docs-block h3, .contacts-block h3 {
-  margin-top: 24px;
+
+ion-card-header {
+  padding: 16px 16px 8px;
+}
+
+ion-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+}
+
+ion-card-content {
+  padding: 8px 16px 16px;
+}
+
+ion-card-content p {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--ion-color-medium);
+}
+
+ion-list {
+  padding: 0;
+}
+
+ion-item {
+  --padding-start: 0;
+  --padding-end: 0;
+  --inner-padding-end: 0;
   margin-bottom: 8px;
-  font-size: 1.1rem;
+  border-radius: 8px;
 }
-.docs-block ul, .contacts-block ul {
-  padding-left: 18px;
+
+ion-item:last-child {
+  margin-bottom: 0;
 }
-.docs-block a {
-  color: #0077cc;
-  text-decoration: underline;
+
+ion-item ion-icon[slot="start"] {
+  margin-right: 12px;
+  color: var(--ion-color-primary);
+}
+
+ion-item ion-icon[slot="end"] {
+  color: var(--ion-color-medium);
+}
+
+ion-item h3 {
+  font-weight: 500;
+  margin: 0 0 4px 0;
+}
+
+ion-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--ion-color-medium);
+}
+
+.clickable-item {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    --background: var(--ion-color-light);
+  }
+  
+  &:active {
+    --background: var(--ion-color-light-shade);
+  }
+}
+
+.social-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.social-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  --background: var(--ion-color-light);
+  --background-hover: var(--ion-color-light-shade);
+  --color: var(--ion-color-dark);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.social-icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: var(--ion-color);
+}
+
+.social-name {
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+// Цвета для каждой социальной сети
+.social-button[style*="--ion-color: #1877f2"] .social-icon {
+  color: #1877f2;
+}
+
+.social-button[style*="--ion-color: #e4405f"] .social-icon {
+  color: #e4405f;
+}
+
+.social-button[style*="--ion-color: #1da1f2"] .social-icon {
+  color: #1da1f2;
+}
+
+.social-button[style*="--ion-color: #0088cc"] .social-icon {
+  color: #0088cc;
+}
+
+.social-button[style*="--ion-color: #4a76a8"] .social-icon {
+  color: #4a76a8;
+}
+
+.social-button[style*="--ion-color: #ff0000"] .social-icon {
+  color: #ff0000;
+}
+
+.social-button[style*="--ion-color: #25d366"] .social-icon {
+  color: #25d366;
+}
+
+.social-button[style*="--ion-color: #0077b5"] .social-icon {
+  color: #0077b5;
+}
+
+.social-button[style*="--ion-color: #000000"] .social-icon {
+  color: #000000;
+}
+
+.social-button[style*="--ion-color: #5865f2"] .social-icon {
+  color: #5865f2;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--ion-color-medium);
+  font-size: 0.9rem;
+}
+
+.footer p {
+  margin: 4px 0;
+}
+
+.footer p:last-child {
+  font-style: italic;
+}
+
+// Адаптивность для мобильных устройств
+@media (max-width: 480px) {
+  .container {
+    padding: 12px;
+  }
+  
+  ion-card {
+    margin-bottom: 12px;
+  }
+  
+  .social-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  
+  .social-button {
+    height: 70px;
+  }
+  
+  .social-icon {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  
+  .social-name {
+    font-size: 0.7rem;
+  }
 }
