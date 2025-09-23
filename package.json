@@ -12,7 +12,8 @@
     "deploygit": "ng build --base-href /trade-frontend/ && npx angular-cli-ghpages --dir=www",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "pg": "brew services start postgresql@17"
   },
   "private": true,
   "dependencies": {

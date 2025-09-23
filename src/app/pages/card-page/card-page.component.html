@@ -67,6 +67,9 @@
     </ion-button>
 
     <!-- Кнопки количества если товар в корзине и не свой -->
+    <div *ngIf="isInCart && !isOwnProduct" class="cart-info hide-on-mobile">
+      <p>Товаров в корзине:</p>
+    </div>
     <div *ngIf="isInCart && !isOwnProduct" class="quantity-controls">
       <ion-button size="small" fill="clear" (click)="decreaseQuantity($event)">
         <ion-icon name="remove"></ion-icon>

@@ -121,7 +121,6 @@
     justify-content: center;
     gap: 16px;
     padding: 12px;
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     border-radius: 25px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     
@@ -221,4 +220,23 @@
 
 .content {
   padding-bottom: 4px;
+}
+
+// Стили для скрытия элементов на мобильных устройствах
+.hide-on-mobile {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+// Стили для информации о корзине
+.cart-info {
+  margin-bottom: 8px;
+  
+  p {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b7280;
+  }
 }
