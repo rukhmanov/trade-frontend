@@ -205,6 +205,7 @@ export class AuthService {
             
             this.userState.token$.next(jwt);
             this.userState.me$.next(jwtDecode(jwt));
+            console.log(jwtDecode(jwt));
             // Принудительно обновляем данные пользователя при входе
             this.userDataService.forceRefreshUserData().subscribe(() => {
               this.router.navigate(['tabs', 'all']);

@@ -33,10 +33,13 @@ export class MyDataPage implements OnInit {
 
   onImageError(event: any) {
     console.warn('Ошибка загрузки аватара:', event);
+    console.warn('URL изображения:', event.target?.src);
+    console.warn('Данные пользователя:', this.userState.me$.value);
     this.avatarLoadError = true;
   }
 
   onImageLoad(event: any) {
+    console.log('Аватар успешно загружен:', event.target?.src);
     this.avatarLoadError = false;
   }
 }
