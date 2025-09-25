@@ -9,7 +9,7 @@
     [autoPlay]="false" [loop]="false">
   </app-image-slider>
   <ion-card-header>
-    <div class="price" color="danger">{{ data?.price | priceFormat }}₽</div>
+    <div class="price" color="danger">{{ data?.price | priceFormat }}{{ data?.currency | currencySymbol }}</div>
   </ion-card-header>
   <ion-card-content class="content">
     <ion-card-title>

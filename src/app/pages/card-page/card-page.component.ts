@@ -30,6 +30,7 @@ import {
 } from 'ionicons/icons';
 import { ConfirmationModalComponent } from '../../entities/confirmation-modal';
 import { PriceFormatPipe } from '../../pipes/price-format.pipe';
+import { CurrencySymbolPipe } from '../../pipes/currency-symbol.pipe';
 
 @Component({
   selector: 'app-card-page',
@@ -46,6 +47,7 @@ import { PriceFormatPipe } from '../../pipes/price-format.pipe';
     ImageSliderComponent,
     IonContent,
     PriceFormatPipe,
+    CurrencySymbolPipe,
   ],
 })
 export class CardPageComponent implements OnInit {

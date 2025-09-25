@@ -11,6 +11,7 @@ import {
   ModalController,
 } from '@ionic/angular/standalone';
 import { PriceFormatPipe } from '../../../pipes/price-format.pipe';
+import { CurrencySymbolPipe } from '../../../pipes/currency-symbol.pipe';
 import { heart, add, remove, trash } from 'ionicons/icons';
 import { IProduct, ICartItem, ILikeItem, ILikeActionResponse } from '../types';
 import { IUser } from '../../auth/types';
@@ -38,6 +39,7 @@ import { ImageSliderComponent } from '../../image-slider/image-slider.component'
     IonCardSubtitle,
     IonCardTitle,
     PriceFormatPipe,
+    CurrencySymbolPipe,
     ImageSliderComponent,
   ],
 })
